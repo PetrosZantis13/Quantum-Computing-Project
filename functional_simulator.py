@@ -5,7 +5,6 @@ Author: Petros Zantis
 Just a test of the simulator using functions only (not OOP)
 '''
 import numpy as np
-from matplotlib.pyplot import axis
 
 def state(dim, idx):
     
