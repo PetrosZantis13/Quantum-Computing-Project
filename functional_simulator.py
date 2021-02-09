@@ -73,7 +73,7 @@ def main():
     tensor = tensor_product([test,test.T])
     print(f"Qubit tensor product: \n{tensor}")
     print("4 total states as expected")
-    print(f"Another tensor product: \n{np.kron(tensor, tensor.T)}")
+    print(f"Another tensor product: \n{tensor_product([tensor, tensor.T])}")
     print("16 total states as expected\n")
     print("Now testing the Hadamard gate:")
     print(hadamard_gate())
