@@ -22,6 +22,14 @@ def qubit(a, b, basis0, basis1):
     qubit = a*basis0 + b*basis1
     return qubit
 
+def tensor_product(inputs):
+    
+    product = inputs[-1]
+    for i in range(len(inputs)-2,-1,-1):
+        product = np.kron(inputs[i], product)
+    
+    return product  
+
 def hadamard_gate():
     
     gate = np.ones((2,2))
@@ -63,7 +71,7 @@ def main():
     test = (qubit(0.8, 0.6, basis0, basis1))
     
     print(f"Test qubit: \n{test}")
-    tensor = np.kron(test, test.T)  # qubit tensor product
+    tensor = tensor_product([test,test.T])
     print(f"Qubit tensor product: \n{tensor}")
     print("4 total states as expected")
     print(f"Another tensor product: \n{np.kron(tensor, tensor.T)}")
@@ -73,11 +81,14 @@ def main():
     print("and the CNOT gate:")
     print(cnot_gate())
     
-    input = np.kron(basis1, basis0)
+    input = tensor_product([basis1,basis0])
     print(f"\nInput state: \n{input}")
     print(f"CNOT flip: \n{cnot_gate().dot(input)}")
     
-    Bell_state()
-
+    print("\nFrom page 25 of the slides (testing the tensor product):") 
+    print( tensor_product([hadamard_gate(), np.identity(2), hadamard_gate()]) )
+    
+    Bell_state()    
+    
 main()
 
