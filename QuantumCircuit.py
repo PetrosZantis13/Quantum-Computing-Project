@@ -6,6 +6,7 @@ Created on Sat Feb  6 15:35:20 2021
 """
 import QuantumRegister
 import numpy as np
+import SquareMatrix as sm
 
 class QuantumCircuit:
     def __init__(self, size):
@@ -73,6 +74,8 @@ class QuantumCircuit:
     
     def y(self, bits):
         self.addGate('y', bits)
+    
+    #Pls someone else do the rest
         
     def r(self, bits, theta):
         self.addGate(('r', theta), bits)
@@ -94,18 +97,18 @@ class QuantumCircuit:
         
         bigmats = []
         for i, slot in enumerate(gates):
-            bigmat = np.array([1])
+            bigmat = sm.SparseMatrix(1, [(0,0,1)])
             for j in slot:
                 if type(j)==tuple:
                     r = self.Rt(j[1])
-                    bigmat = np.kron(r, bigmat)
-                else: bigmat = np.kron(self.singlegates[j], bigmat)
+                    bigmat = r.outer(bigmat)
+                else: bigmat = sm.toSparse(self.singlegates[j]).tensorProd(bigmat)
             bigmats.append(bigmat)
         
         return np.array(bigmats)
     
     def Rt(self, theta):
-        return np.array([[1, 0], [0, np.exp(1j*theta)]])
+        return sm.toSparse(np.array([[1, 0], [0, np.exp(1j*theta)]]))
         
     def simulate(self):
         """
@@ -119,9 +122,10 @@ class QuantumCircuit:
         """
         operations = self.makeMatrices()
         for operation in operations:
-            self.register.statevec = np.dot(operation, self.register.statevec)
+            self.register.Statevec = operation.Apply(self.register.Statevec)
+            print(self.register)
         
-        print(self.register)
+        
     
 if __name__ == '__main__':
     pass

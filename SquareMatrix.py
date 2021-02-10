@@ -5,18 +5,22 @@ Created on Fri Feb  5 16:15:18 2021
 @author: mikva
 """
 import numpy as np
-#from enum import Enum
 
-"""
-class Matrix_Element(Enum):
-    def __init__(self, row, col, value):
-        self.Row = row
-        self.Col = col
-        self.Val = value
-"""
+def toSparse(matrix):
+    assert type(matrix)==np.ndarray, 'Matrix not of type np.ndarray'
+    assert matrix[0].size**2 == matrix.size, 'Matrix is not square'
+    elements = []
+    dimension = matrix[0].size
+    for i in range(dimension):
+        for j in range(dimension):
+            if matrix[i][j] != 0:
+                elements.append((int(i),int(j),matrix[i][j]))
+    return SparseMatrix(dimension, elements)
+    
 
 class SparseMatrix():
     def __init__(self, dimension, elements):
+        #Attention! must ensure row and column values are given as int!
         """
         Initializes the sparse matrix
 
@@ -35,9 +39,9 @@ class SparseMatrix():
         self.Dimension = dimension
         self.Elements = np.array(elements)
         
-    def outer(self, other_matrix):
+    def tensorProd(self, other_matrix):
         """
-        Outer (Kronecker) product of two sparse matrices.
+        Tensor product product of two sparse matrices.
 
         Parameters
         ----------
@@ -47,8 +51,7 @@ class SparseMatrix():
         Returns
         -------
         Sparse_Matrix
-            The outer product of the two matrices.
-
+            The tensor product of the two matrices in the form of self (x) other_matrix
         """
         assert (type(other_matrix) == SparseMatrix), 'Incompatible Matrices'
         elements = []
@@ -58,7 +61,7 @@ class SparseMatrix():
                 row = i[0]*other_matrix.Dimension + j[0]
                 col = i[1]*other_matrix.Dimension + j[1]
                 value = i[2] * j[2]
-                elements.append((row, col, value))
+                elements.append((int(row), int(col), value))
         return SparseMatrix(dimension, elements)
     
     def Apply(self, vector):
@@ -76,40 +79,44 @@ class SparseMatrix():
             The new statevector after the matrix is applied
         """
         assert (self.Dimension == vector.Dimension), 'Incompatible dimensions'
-        u = np.zeros(self.Dimension)
-        for me in self.Elements: u[me[0]] += me[2] * vector.Elements[me[1]]
+        u = np.zeros(self.Dimension, dtype=complex)
+        for me in self.Elements: 
+            u[int(me[0])] += me[2] * vector.Elements[int(me[1])]
         return Vector(u)
+    
+    def show(self):
+        """
+        Prints the entire matrix onto the console for visualisation purposes.
+        Only advised up to 16x16 matrices
 
-"""
-class SquareMatrix():
-    def __init__(self, dimension, elements): 
-        self.Dimension = dimension
-        self.Elements = np.array(elements)
-    # implement enumerator thingys
-    def Complex(self, row, col): pass
-    
-    def Multiply(self, m): pass
-    def Apply(self, v):
-        assert (self.Dimension == v.size), 'Incopatible dimensions'
-        u = np.zeros(self.Dimension)
-        for me in self.Elements: u[me.row] += me.val * v[me.col]
-        return u
-    
-class SparseMatrix(SquareMatrix):
-    def __init__(self, dimension, elements):
-        super(dimension, elements)
-        self.columns = []
-        for i in range(self.Dimension): self.columns.append([])
+        Returns
+        -------
+        None.
+        """
+        matrix = np.zeros((self.Dimension, self.Dimension))
+        for element in self.Elements:
+            matrix[element[0]][element[1]] = element[2]
+        print(matrix)
         
+    def toDense(self):
+        """
+        Dense representation of the matrix.
+
+        Returns
+        -------
+        matrix : nd.array
+            Dense representation of the matrix.
+        """
+        matrix = np.zeros((self.Dimension, self.Dimension))
+        for element in self.Elements:
+            matrix[element[0]][element[1]] = element[2]
+        return matrix
     
-    def Multiply(self, m):
-        assert (self.Dimension == m.size), 'Incopatible dimensions'
-        p = SquareMatrix()
-        for me in m.elements:
-            column = self.columns[me[0]]
-            for ce in column: p[ce[0], me[1]] += ce[2] * me[2]
-        return p
-"""
+    def __str__(self):
+        toPrint = ''
+        for element in self.Elements:
+            toPrint += f'({element[0]}, {element[1]}, {element[2]})\n'
+        return toPrint
 
 class Vector():
     def __init__(self, elements):
@@ -131,9 +138,9 @@ class Vector():
             The final vector product
 
         """
-        assert type(other_vec == Vector), 'Incompatible vector'
+        assert type(other_vec) == Vector, 'Incompatible vector'
         dimension = self.Dimension * other_vec.Dimension
-        elements = np.zeros(dimension)
+        elements = np.zeros(dimension, dtype=complex)
         for i, element in enumerate(self.Elements):
             for j, other_element in enumerate(other_vec.Elements):
                 elements[i*other_vec.Dimension+j] = element * other_element
@@ -146,13 +153,27 @@ class Vector():
         return toPrint
 
 if __name__ == '__main__':
-    #sp = SparseMatrix(4, [(0,0,1), (1,1,1), (2,2,1), (3,3,1)])
-    mat1 = SparseMatrix(4, [(0,3,1), (1,2,1), (2,1,1), (3,0,1)])
+    """
+    #mat2 = SparseMatrix(4, [(0,0,1), (1,1,1), (2,2,1), (3,3,1)])
+    #mat1 = SparseMatrix(4, [(0,3,1), (1,2,1), (2,1,1), (3,0,1)])
+    mat1 = SparseMatrix(2, [(0,1,1), (1,0,1)])
+    mat2 = SparseMatrix(2, [(0,0,1), (1,1,1)])
+    bigmat = mat1.tensorProd(mat2)
+    evenbiggermat = bigmat.tensorProd(mat1)
+    
     vec1 = Vector(np.array([0,1]))
     vec2 = Vector(np.array([1,0]))
     vec3 = vec1.outer(vec2)
-    vec4 = mat1.Apply(vec3)
+    #vec4 = mat1.Apply(vec3)
     print(vec1)
     print(vec2)
     print(vec3)
     print(vec4)
+    
+    print(mat1)
+    mat1.show()
+    print(bigmat)
+    bigmat.show()
+    print(evenbiggermat)
+    evenbiggermat.show()
+    """

@@ -5,6 +5,7 @@ Created on Thu Feb  4 15:54:14 2021
 @author: mikva
 """
 import numpy as np
+import SquareMatrix as sm
 
 
 class QuantumRegister:
@@ -30,25 +31,12 @@ class QuantumRegister:
         self.Qbits = np.array(Qbits)
         self.initialize()        
 
-    def __str__(self):
-        """
-        Overwritten __str__ function
-
-        Returns
-        -------
-        toPrint : string representation of register
-
-        """
-        
+    def __str__(self):        
         toPrint = ''
-        """
-        for i in self.Qbits:
-            toPrint += f'|0> = {i.vals[0]**2} \n'
-            toPrint += f'|1> = {i.vals[1]**2} \n'
-        """
+
         toPrint += '\n'
-        for i in range(self.statevec.size):
-            toPrint += f'|{i}> = {self.statevec[i]**2} \n'
+        for i in range(self.Statevec.Elements.size):
+            toPrint += f'|{i}> = {self.Statevec.Elements[i]**2} \n'
         
         return toPrint
     
@@ -61,9 +49,9 @@ class QuantumRegister:
         None.
 
         """
-        self.statevec = np.array([1])
+        self.Statevec = sm.Vector(np.array([1]))
         for qbit in self.Qbits:
-            self.statevec = np.kron(self.statevec, qbit.vals)
+            self.Statevec = self.Statevec.outer(qbit.vals)
         
     def setQbits(self, qbits, vals):
         """
@@ -85,13 +73,13 @@ class QuantumRegister:
         """
         
         for qbit in qbits:
-            self.Qbits[qbit].vals = np.array(vals[qbit]) / np.linalg.norm(vals[qbit])
+            self.Qbits[qbit].vals.Elements = np.array(vals[qbit]) / np.linalg.norm(vals[qbit])
         self.initialize()
         
     
 class Qbit:
     def __init__(self):
-        self.vals = np.array([1.+0.j, 0.+0.j])
+        self.vals = sm.Vector(np.array([1.+0.j, 0.+0.j]))
     
     def get0(self):
         return self.vals[0]
