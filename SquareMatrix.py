@@ -82,6 +82,7 @@ class SparseMatrix():
         u = np.zeros(self.Dimension, dtype=complex)
         for me in self.Elements: 
             u[int(me[0])] += me[2] * vector.Elements[int(me[1])]
+        print(u)
         return Vector(u)
     
     def show(self):
@@ -109,7 +110,7 @@ class SparseMatrix():
         """
         matrix = np.zeros((self.Dimension, self.Dimension))
         for element in self.Elements:
-            matrix[element[0]][element[1]] = element[2]
+            matrix[int(element[0])][int(element[1])] = element[2]
         return matrix
     
     def __str__(self):
