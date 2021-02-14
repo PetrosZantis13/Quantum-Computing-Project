@@ -5,6 +5,13 @@ Created on Fri Feb  5 16:15:18 2021
 @author: mikva
 """
 import numpy as np
+from enum import Enum
+
+class Matrix_Element(Enum):
+    def __init__(self, row, col, value):
+        self.Row = int(row)
+        self.Col = int(col)
+        self.Value = complex(value)
 
 def toSparse(matrix):
     assert type(matrix)==np.ndarray, 'Matrix not of type np.ndarray'
@@ -14,7 +21,7 @@ def toSparse(matrix):
     for i in range(dimension):
         for j in range(dimension):
             if matrix[i][j] != 0:
-                elements.append((int(i),int(j),matrix[i][j]))
+                elements.append((int(i),int(j),complex(matrix[i][j])))
     return SparseMatrix(dimension, elements)
     
 
@@ -60,8 +67,8 @@ class SparseMatrix():
             for j in other_matrix.Elements:
                 row = i[0]*other_matrix.Dimension + j[0]
                 col = i[1]*other_matrix.Dimension + j[1]
-                value = i[2] * j[2]
-                elements.append((int(row), int(col), value))
+                value = complex(i[2] * j[2])
+                elements.append((int(row), int(col), complex(value)))
         return SparseMatrix(dimension, elements)
     
     def Apply(self, vector):
@@ -81,9 +88,23 @@ class SparseMatrix():
         assert (self.Dimension == vector.Dimension), 'Incompatible dimensions'
         u = np.zeros(self.Dimension, dtype=complex)
         for me in self.Elements: 
-            u[int(me[0])] += me[2] * vector.Elements[int(me[1])]
+            u[int(me[0])] += complex(me[2]) * complex(vector.Elements[int(me[1])])
         print(u)
         return Vector(u)
+    
+    def toDense(self):
+        """
+        Dense representation of the matrix.
+
+        Returns
+        -------
+        matrix : nd.array
+            Dense representation of the matrix.
+        """
+        matrix = np.zeros((self.Dimension, self.Dimension), dtype=complex)
+        for element in self.Elements:
+            matrix[int(element[0])][int(element[1])] = element[2]
+        return matrix
     
     def show(self):
         """
@@ -98,20 +119,6 @@ class SparseMatrix():
         for element in self.Elements:
             matrix[element[0]][element[1]] = element[2]
         print(matrix)
-        
-    def toDense(self):
-        """
-        Dense representation of the matrix.
-
-        Returns
-        -------
-        matrix : nd.array
-            Dense representation of the matrix.
-        """
-        matrix = np.zeros((self.Dimension, self.Dimension))
-        for element in self.Elements:
-            matrix[int(element[0])][int(element[1])] = element[2]
-        return matrix
     
     def __str__(self):
         toPrint = ''
@@ -122,7 +129,7 @@ class SparseMatrix():
 class Vector():
     def __init__(self, elements):
         self.Dimension = elements.size
-        self.Elements = np.array(elements)
+        self.Elements = np.array(elements, dtype=complex)
     
     def outer(self, other_vec):
         """
@@ -146,6 +153,7 @@ class Vector():
             for j, other_element in enumerate(other_vec.Elements):
                 elements[i*other_vec.Dimension+j] = element * other_element
         return Vector(elements)
+        
     
     def __str__(self):
         toPrint = ''
@@ -166,15 +174,15 @@ if __name__ == '__main__':
     vec2 = Vector(np.array([1,0]))
     vec3 = vec1.outer(vec2)
     #vec4 = mat1.Apply(vec3)
-    print(vec1)
+    print(ve
+    print(mat1c1)
     print(vec2)
     print(vec3)
     print(vec4)
-    
-    print(mat1)
     mat1.show()
     print(bigmat)
     bigmat.show()
     print(evenbiggermat)
     evenbiggermat.show()
     """
+    

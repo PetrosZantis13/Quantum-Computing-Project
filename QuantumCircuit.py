@@ -31,6 +31,7 @@ class QuantumCircuit:
                       'i' : np.eye(2)
                       }
         self.register = QuantumRegister.QuantumRegister(size)
+        #self.classical_register = QuantumRegister.ClassicalRegister(size)
         self.gates = []
         for i in range(self.register.Qbits.size):
             self.gates.append(['i'])
@@ -69,6 +70,7 @@ class QuantumCircuit:
                     self.gates[i].append('i')
             self.gateindex += 1
         
+    """
     def x(self, bits):
         self.addGate('x', bits)
     
@@ -76,7 +78,38 @@ class QuantumCircuit:
         self.addGate('y', bits)
     
     #Pls someone else do the rest
+    """
+    def addBigGate(self, gate_info):
+        """
+        Adds the representation of a gate into self.gates.
+        The gate will be iplemented later on when the circuit is simulated.
+
+        Parameters
+        ----------
+        gate_info : tuple(str, int, int...)
+            The gate info for the large gate in the form of string(type of gate), 
+            and ints for control bits, then the controlled bit for the last int
+
+        Returns
+        -------
+        None.
+
+        """
         
+        available = True
+        for i in range(min(gate_info[1:]), max(gate_info[1:])): 
+            if self.gates[i][self.gateindex]!='i':
+                available = False
+        if available:
+            self.gates[min(gate_info[1:])][self.gateindex] = gate_info
+            for i in range(min(gate_info[1:])+1, max(gate_info[1:])+1):
+                self.gates[i][self.gateindex] = 's'
+        else:
+            for i in range(len(self.gates)):
+                self.gates[i].append('i')
+            self.gateindex += 1
+            self.addBigGate(gate_info)
+    
     def r(self, bits, theta):
         self.addGate(('r', theta), bits)
     
@@ -103,19 +136,7 @@ class QuantumCircuit:
         None.
 
         """
-        available = True
-        for i in range(min(qbit1, qbit2), max(qbit1,qbit2)): 
-            if self.gates[i][self.gateindex]!='i':
-                available = False
-        if available:
-            self.gates[min(qbit1, qbit2)][self.gateindex] = ('cn', qbit1, qbit2)
-            for i in range(min(qbit1, qbit2)+1, max(qbit1,qbit2)+1):
-                self.gates[i][self.gateindex] = 's'
-        else:
-            for i in range(len(self.gates)):
-                self.gates[i].append('i')
-            self.gateindex += 1
-            self.cnot(qbit1, qbit2)
+        self.addBigGate(('cn', qbit1, qbit2))
             
     def ccnot(self, control1, control2, qubit):
         """
@@ -132,21 +153,8 @@ class QuantumCircuit:
         Returns
         -------
         None.
-
         """
-        available = True
-        for i in range(min(control1, control2, qubit), max(control1, control2, qubit)): 
-            if self.gates[i][self.gateindex]!='i':
-                available = False
-        if available:
-            self.gates[min(control1, control2, qubit)][self.gateindex] = ('ccn', control1, control2, qubit)
-            for i in range(min(control1, control2, qubit)+1, max(control1, control2, qubit)+1):
-                self.gates[i][self.gateindex] = 's'
-        else:
-            for i in range(len(self.gates)):
-                self.gates[i].append('i')
-            self.gateindex += 1
-            self.ccnot(control1, control2, qubit)
+        self.addBigGate(('ccn', control1, control2, qubit))
     
     def cNot(self, gate_info):
         """
@@ -223,6 +231,46 @@ class QuantumCircuit:
             else: elements.append((i,i,1))
         return sm.SparseMatrix(dimension, elements)
     
+    def cZ(self, gate_info):
+        """
+        Creates a controlled z gate given 2 qubits
+
+        Parameters
+        ----------
+        gate_info : tuple(int, int)
+            The two gates to control the z
+
+        Returns
+        -------
+        SparseMatrix
+            Representation of the cz gate
+        """
+        qbit1, qbit2 = gate_info
+        
+        elements = [(0,0,1)]
+        dimension = 2**(np.abs(qbit2-qbit1)+1)
+        for i in range(1, dimension):
+            if self.bitactive(i, qbit1) and self.bitactive(i, qbit2):
+                elements.append((i, i, -1))
+            else: elements.append((i,i,1))
+        return sm.SparseMatrix(dimension, elements)
+    
+    def swap(self, qbit1, qbit2):
+        self.addBigGate(('swap', qbit1, qbit2))
+    
+    def Swap(self, gate_info):
+        qbit1, qbit2 = gate_info
+        qbit1 = qbit1 - min(qbit1, qbit2)
+        qbit2 = qbit2 - min(qbit1, qbit2)
+        elements = []
+        dimension = 2**(np.abs(qbit2-qbit1)+1)
+        for i in range(0, dimension):
+            col = i
+            if (self.bitactive(i, qbit1) and not self.bitactive(i, qbit2)) or (not self.bitactive(i, qbit1) and self.bitactive(i, qbit2)):
+                col = self.toggle(self.toggle(i, qbit1), qbit2)
+            elements.append((i, col, 1))
+        return sm.SparseMatrix(dimension, elements)
+    
     def addLargeGate(self, gate_info):
         """
         Helper function for makeMatrices(). Calls the creators for the larger gates based
@@ -245,6 +293,8 @@ class QuantumCircuit:
             operation = self.cNot(gate_info[1:])
         elif gate_info[0]=='ccn':
             operation = self.ccNot(gate_info[1:])
+        elif gate_info[0]=='swap':
+            operation = self.Swap(gate_info[1:])
         return operation
     
     def makeMatrices(self):
@@ -258,7 +308,7 @@ class QuantumCircuit:
 
         """
         gates = np.array(self.gates, dtype = object).T
-        
+        #print(gates)
         #debug
         #print(gates)
         
@@ -307,22 +357,29 @@ class QuantumCircuit:
         
     def show(self):
         print(self.register)
+        self.register.measure()
         print(np.array(self.gates, dtype = object))
         self.simulate()
         print(self.register)
+        self.register.measure()
         
     
 if __name__ == '__main__':
-    circuit = QuantumCircuit(4)
+    circuit = QuantumCircuit(3)
     #print(circuit.ccNot(2,0,1).toDense())
+    circuit.addGate('x', [0])
+    circuit.swap(0,2)
     
-    #print(circuit.cNot(0,2).toDense())
-    circuit.addGate('h', [0,1])
-    circuit.x([3])
-    circuit.y([2])
-    circuit.ccnot(0,1,3)
+    #circuit.addGate('x', [3])
+    #circuit.addGate('y', [2])
+    #circuit.cnot(0,1)
+    #circuit.register.measure()
+    for i, bit in enumerate(circuit.register.Qbits):
+        print(i, bit)
     circuit.show()
-    
+    for i, bit in enumerate(circuit.register.Qbits):
+        print(i, bit)
+    #circuit.register.measure()
     
     #print('\n')
     #print(circuit.cnot(1,2).toDense())
