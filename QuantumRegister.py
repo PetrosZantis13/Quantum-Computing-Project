@@ -50,7 +50,7 @@ class QuantumRegister:
 
         """
         self.Statevec = sm.Vector(np.array([1]))
-        for qbit in self.Qbits:
+        for qbit in self.Qbits[::-1]:
             self.Statevec = self.Statevec.outer(qbit.vals)
         
     def setQbits(self, qbits, vals):
@@ -73,28 +73,66 @@ class QuantumRegister:
         """
         
         for qbit in qbits:
-            self.Qbits[qbit].vals.Elements = np.array(vals[qbit]) / np.linalg.norm(vals[qbit])
+            self.Qbits[qbit].vals = sm.Vector(np.array(vals[qbit]) / np.linalg.norm(vals[qbit]))
         self.initialize()
+
+    def measure(self):
+        """
+        Attempts to measure the current statevector in terms of individual qubits
+        Pretty sure it's impossible. Not because it's difficult, but because of entanglement
+        and stupid imaginary numbers.
+
+        Returns
+        -------
+        None.
+
+        """
+        for qbit in self.Qbits:
+            qbit.vals.Elements[1] = 0+0j
+        for i, value in enumerate(self.Statevec.Elements):
+            for j, qbit in enumerate(self.Qbits):
+                if ((i>>(j)) & 1) == 1:
+                    #print(i,j,value)
+                    qbit.vals.Elements[1] += value
+        for qbit in self.Qbits:
+            qbit.vals.Elements[0] = complex(1 - qbit.vals.Elements[1])
+            qbit.normalize()
+
+class ClassicalRegister():
+    def __init__(self, n):
+        self.bits = np.zeros(n, dtype=float)
+
+    
         
     
 class Qbit:
     def __init__(self):
         self.vals = sm.Vector(np.array([1.+0.j, 0.+0.j]))
     
+    def normalize(self):
+        print(self.vals.Elements)
+        self.vals.Elements = self.vals.Elements / np.linalg.norm(self.vals.Elements)
+    
     def get0(self):
-        return self.vals[0]
+        return self.vals.Elements[0]
     
     def get1(self):
-        return self.vals[1]
+        return self.vals.Elements[1]
     
     def __str__(self):
         toPrint = ''
-        toPrint += f'|0> = {self.vals[0]} \n'
-        toPrint += f'|1> = {self.vals[1]} \n'
+        toPrint += f'|0> = {self.vals.Elements[0]} \n'
+        toPrint += f'|1> = {self.vals.Elements[1]} \n'
         
         return toPrint
         
 
 if __name__ == '__main__':
-    pass
+    qr = QuantumRegister(3)
+    qr.setQbits([0], [[0,1]])
+    print(qr.Qbits[0])
+    print(qr.Statevec)
+    qr.measure()
+    
+    #cr = ClassicalRegister(3)
     
