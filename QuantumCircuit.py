@@ -88,21 +88,25 @@ class QuantumCircuit:
         ----------
         gate_info : tuple(str, int, int...)
             The gate info for the large gate in the form of string(type of gate), 
-            and ints for control bits, then the controlled bit for the last int
+            and ints for control bits, then the controlled bit for the last int if needed
 
         Returns
         -------
         None.
 
         """
+        low_lim, high_lim = min(gate_info[1:]), max(gate_info[1:])
+        if gate_info[0] == 'cp':
+            low_lim, high_lim = min(gate_info[1:-1]), max(gate_info[1:-1])
+            print(low_lim, high_lim)
         
         available = True
-        for i in range(min(gate_info[1:]), max(gate_info[1:])): 
+        for i in range(low_lim, high_lim+1): 
             if self.gates[i][self.gateindex]!='i':
                 available = False
         if available:
-            self.gates[min(gate_info[1:])][self.gateindex] = gate_info
-            for i in range(min(gate_info[1:])+1, max(gate_info[1:])+1):
+            self.gates[low_lim][self.gateindex] = gate_info
+            for i in range(low_lim+1, high_lim+1):
                 self.gates[i][self.gateindex] = 's'
         else:
             for i in range(len(self.gates)):
@@ -255,6 +259,34 @@ class QuantumCircuit:
             else: elements.append((i,i,1))
         return sm.SparseMatrix(dimension, elements)
     
+    def cP(self, gate_info):
+        """
+        Creates a controlled phase gate for the given qubits
+
+        Parameters
+        ----------
+        gate_info : tuple(int, int, float)
+            The information supplied to the gate. Control qubits as ints, float as the phase.
+
+        Returns
+        -------
+        SparseMatrix
+            Representation of the cp gate
+
+        """
+        qbit1, qbit2, phi = gate_info
+        
+        elements = [(0,0,1)]
+        dimension = 2**(np.abs(qbit2-qbit1)+1)
+        for i in range(1, dimension):
+            if self.bitactive(i, qbit1) and self.bitactive(i, qbit2):
+                elements.append((i, i, np.exp(1j*phi)))
+            else: elements.append((i,i,1))
+        return sm.SparseMatrix(dimension, elements)
+    
+    def cp(self, qbit1, qbit2, phi):
+        self.addBigGate(('cp', qbit1, qbit2, phi))
+    
     def swap(self, qbit1, qbit2):
         self.addBigGate(('swap', qbit1, qbit2))
     
@@ -288,16 +320,22 @@ class QuantumCircuit:
 
         """
         if gate_info[0]=='r':
-            operation = self.Rt(gate_info[1:])
+            operation = self.Rt(complex(gate_info[1]))
         elif gate_info[0]=='cn':
             operation = self.cNot(gate_info[1:])
         elif gate_info[0]=='ccn':
             operation = self.ccNot(gate_info[1:])
         elif gate_info[0]=='swap':
             operation = self.Swap(gate_info[1:])
+        elif gate_info[0]=='cz':
+            operation = self.cZ(gate_info[1:])
+        elif gate_info[0]=='cp':
+            operation = self.cP(gate_info[1:])
+        
         return operation
     
     def makeMatrices(self):
+        # We should make sparse matrix representations of single gates from the beginning.
         """
         Creates the matrices that will be applied to the wavevector
 
@@ -308,9 +346,9 @@ class QuantumCircuit:
 
         """
         gates = np.array(self.gates, dtype = object).T
-        #print(gates)
         #debug
-        #print(gates)
+        print('Gates are:')
+        print(gates)
         
         bigmats = []
         for i, slot in enumerate(gates):
@@ -321,6 +359,7 @@ class QuantumCircuit:
                 elif j == 's': continue
                 else: bigmat = sm.toSparse(self.singlegates[j]).tensorProd(bigmat)
             bigmats.append(bigmat)
+        
         
         return np.array(bigmats)
     
@@ -339,7 +378,7 @@ class QuantumCircuit:
             Matrix representation of the r gate.
 
         """
-        return sm.toSparse(np.array([[1, 0], [0, np.exp(1j*theta)]]))
+        return sm.toSparse(np.array([[1, 0], [0, np.exp(1j*theta)]], dtype=complex))
         
     def simulate(self):
         """
@@ -354,34 +393,39 @@ class QuantumCircuit:
         operations = self.makeMatrices()
         for operation in operations:
             self.register.Statevec = operation.Apply(self.register.Statevec)
+            print('Current operation:')
+            print(operation.toDense())
+            
+            print('Current statevector is:')
+            print(self.register)
+            print('With statevector')
+            print(self.register.Statevec)
         
     def show(self):
+        print('Register defined as:')
         print(self.register)
-        self.register.measure()
-        print(np.array(self.gates, dtype = object))
+        #self.register.measure()
+        print('Gates are:')
+        print(np.array(self.gates, dtype = object), '\n')
+        
         self.simulate()
+        print('Final state of the register is:')
         print(self.register)
-        self.register.measure()
+        print('With statevector')
+        print(self.register.Statevec)
+        #self.register.measure()
         
     
 if __name__ == '__main__':
     circuit = QuantumCircuit(3)
     #print(circuit.ccNot(2,0,1).toDense())
-    circuit.addGate('x', [0])
+    circuit.r([0], 5*np.pi/2)
+    circuit.show()
     circuit.swap(0,2)
-    
-    #circuit.addGate('x', [3])
-    #circuit.addGate('y', [2])
-    #circuit.cnot(0,1)
-    #circuit.register.measure()
+    """
     for i, bit in enumerate(circuit.register.Qbits):
         print(i, bit)
     circuit.show()
     for i, bit in enumerate(circuit.register.Qbits):
         print(i, bit)
-    #circuit.register.measure()
-    
-    #print('\n')
-    #print(circuit.cnot(1,2).toDense())
-
-    #circuit.simulate()
+    """

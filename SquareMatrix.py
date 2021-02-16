@@ -17,11 +17,11 @@ def toSparse(matrix):
     assert type(matrix)==np.ndarray, 'Matrix not of type np.ndarray'
     assert matrix[0].size**2 == matrix.size, 'Matrix is not square'
     elements = []
-    dimension = matrix[0].size
+    dimension = (matrix[0].size)
     for i in range(dimension):
         for j in range(dimension):
             if matrix[i][j] != 0:
-                elements.append((int(i),int(j),complex(matrix[i][j])))
+                elements.append((int(i), int(j), complex(matrix[i][j])))
     return SparseMatrix(dimension, elements)
     
 
@@ -88,8 +88,7 @@ class SparseMatrix():
         assert (self.Dimension == vector.Dimension), 'Incompatible dimensions'
         u = np.zeros(self.Dimension, dtype=complex)
         for me in self.Elements: 
-            u[int(me[0])] += complex(me[2]) * complex(vector.Elements[int(me[1])])
-        print(u)
+            u[int(me[0])] = complex(u[int(me[0])]) + complex(me[2]) * complex(vector.Elements[int(me[1])])
         return Vector(u)
     
     def toDense(self):
@@ -103,7 +102,7 @@ class SparseMatrix():
         """
         matrix = np.zeros((self.Dimension, self.Dimension), dtype=complex)
         for element in self.Elements:
-            matrix[int(element[0])][int(element[1])] = element[2]
+            matrix[int(element[0])][int(element[1])] = complex(element[2])
         return matrix
     
     def show(self):
@@ -162,27 +161,8 @@ class Vector():
         return toPrint
 
 if __name__ == '__main__':
-    """
-    #mat2 = SparseMatrix(4, [(0,0,1), (1,1,1), (2,2,1), (3,3,1)])
-    #mat1 = SparseMatrix(4, [(0,3,1), (1,2,1), (2,1,1), (3,0,1)])
-    mat1 = SparseMatrix(2, [(0,1,1), (1,0,1)])
-    mat2 = SparseMatrix(2, [(0,0,1), (1,1,1)])
-    bigmat = mat1.tensorProd(mat2)
-    evenbiggermat = bigmat.tensorProd(mat1)
-    
-    vec1 = Vector(np.array([0,1]))
-    vec2 = Vector(np.array([1,0]))
-    vec3 = vec1.outer(vec2)
-    #vec4 = mat1.Apply(vec3)
-    print(ve
-    print(mat1c1)
-    print(vec2)
-    print(vec3)
-    print(vec4)
-    mat1.show()
-    print(bigmat)
-    bigmat.show()
-    print(evenbiggermat)
-    evenbiggermat.show()
-    """
+    mat = toSparse(np.array([[1,0], [0, np.exp(1j*np.pi/4)]]))
+    print(mat)
+    mat2 = toSparse(np.array([[1,0], [0, 2]]))
+    print(mat2)
     
