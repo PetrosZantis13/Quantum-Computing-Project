@@ -9,21 +9,47 @@ import QuantumRegister
 import SquareMatrix as sm
 import numpy as np
 
-def Grover_Circuit():
-    grover_circuit = QuantumCircuit.QuantumCircuit(2)
-    grover_circuit.addGate('h', [0,1]) # Create equal probabilities for all states
-    grover_circuit.addBigGate(('cz', 0, 1)) # Add oracle
+def diffuser(circuit):
+    n_qubits = len(circuit.register.Qbits)
     
-    # Add diffuser
-    grover_circuit.addGate('h', [0,1]) 
+    # Apply h gates to all qubits
+    for qbit in range(n_qubits):
+        circuit.addGate('h', [qbit])
+    # Apply x gates to all qubits
+    for qbit in range(n_qubits):
+        circuit.addGate('x', [qbit])
     
-    # Reflection
-    grover_circuit.addGate('z', [0,1])
-    grover_circuit.addBigGate(('cz', 0, 1))
+    circuit.ncp([i for i in range(n_qubits)], np.pi)
     
-    grover_circuit.addGate('h', [0,1]) # End of diffuser
+    # Apply x gates to all qubits
+    for qbit in range(n_qubits):
+        circuit.addGate('x', [qbit])
+    
+    # Apply h gates to all qubits
+    for qbit in range(n_qubits):
+        circuit.addGate('h', [qbit])
+    
+
+def Grover_Circuit(n_qubits):
+    grover_circuit = QuantumCircuit.QuantumCircuit(n_qubits)
+    grover_circuit.addGate('h', [i for i in range(n_qubits)])
+    #grover_circuit.addGate('x', [0,1])
+    
+    #Add oracle
+    grover_circuit.ncp([i for i in range(n_qubits)], np.pi)
+    #grover_circuit.addBigGate(('cz', 0, 2))
+    #grover_circuit.addBigGate(('cz', 1, 2))
+    
+    #Add diffuser
+    diffuser(grover_circuit)
+    #diffuser(grover_circuit)
+    
+    grover_circuit.ncp([i for i in range(n_qubits)], np.pi)
+    diffuser(grover_circuit)
     #show results
     grover_circuit.show()
+    
+    
     
 def QFT(circuit):
     """
@@ -99,31 +125,22 @@ def Shor():
     qc.addGate('x', [3+n_count])
 
 if __name__ == '__main__':
-    #Grover_Circuit()
+    Grover_Circuit(3)
+    
+    """
     circuit = QuantumCircuit.QuantumCircuit(3)
-    #circuit.addGate('x', [0,2])
-    #circuit.cp(0,2,np.exp(np.pi/4))
-    
     circuit.addGate('x', [0,2])
-    circuit.addGate('h', [0,1,2])
+    #circuit.cp(0,2,np.pi/4)
+    
     QFT(circuit)
+    qft_dagger(circuit)
     
-    
-    circuit.show()
-    
-    """
-    n = 5
-    QFT(circuit)
     circuit.show()
     """
     """
-    circuit.r([0], n*np.pi/4)
-    circuit.r([1], n*np.pi/2)
-    circuit.r([2], n*np.pi)
-    circuit.addGate('h', [0,1,2])
+    inverse for circuit.gates
     newgates = []
     for row in circuit.gates:
         newgates.append(row[::-1])
     circuit.gates = newgates
-    circuit.show()
     """
