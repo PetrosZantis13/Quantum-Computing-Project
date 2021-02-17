@@ -5,7 +5,6 @@ Author: Petros Zantis
 The following class, ...
 '''
 import numpy as np
-import numpy.linalg as LA
 
 class BasisStates(object):
     

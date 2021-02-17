@@ -17,7 +17,6 @@ class TensorProduct(object):
         self.inputs = inputs 
         
         bases = BasisStates(2**len(inputs)).states
-        #print(bases[:])
         
         product = inputs[-1]
         for i in range(len(self.inputs)-2,-1,-1):

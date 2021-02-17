@@ -5,7 +5,6 @@ Author: Petros Zantis
 The following class, Entangled, ...
 '''
 import numpy as np
-from BasisStates import BasisStates
 
 class Entangled(object):
     
@@ -25,7 +24,17 @@ class Entangled(object):
         
     def apply_gate(self, gate):    
         
-        assert(gate.qbitdim == 2)   # ensure that its a double qubit gate
+        #assert(gate.qbitdim == 2)   # ensure that its a double qubit gate
         print(f"\nApplying the {gate.name} gate to state\n{self.vector}:\n")
         new = gate.operator.dot(self.vector)
         self.vector = new
+    
+    def probabilities(self):
+        
+        amps = []
+        for state in self.vector:
+            amplitude = state[0]
+            amps.append(amplitude.conj() * amplitude)
+        
+        x = np.arange(0,len(self.vector),1)
+        return x, amps
