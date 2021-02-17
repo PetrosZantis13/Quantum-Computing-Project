@@ -5,6 +5,7 @@ Author: Petros Zantis
 The following class, Register, 
 '''
 import numpy as np
+from BasisStates import BasisStates
 
 class TensorProduct(object):
     
@@ -14,6 +15,9 @@ class TensorProduct(object):
     def __init__(self, inputs) :
         
         self.inputs = inputs 
+        
+        bases = BasisStates(2**len(inputs)).states
+        #print(bases[:])
         
         product = inputs[-1]
         for i in range(len(self.inputs)-2,-1,-1):

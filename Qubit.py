@@ -34,7 +34,8 @@ class Qubit(object):
     '''
         
     def apply_gate(self, gate):    
-         
+        
+        assert(gate.qbitdim == 1)   # ensure that its a single qubit gate
         print(f"\nApplying the {gate.name} gate to qubit\n{self.vector}:\n")
         new = gate.operator.dot(self.vector)
         self.vector = new

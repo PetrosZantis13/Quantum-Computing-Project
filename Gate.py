@@ -7,6 +7,7 @@ The following class, Gate, is used to describe
 import numpy as np
 from Qubit import Qubit
 from TensorProduct import TensorProduct
+from Entangled import Entangled
 
 class Gate(object):
     
@@ -17,6 +18,7 @@ class Gate(object):
         
         self.name = name
         gate = np.identity(2)  #in case the input name is wrong, return identity
+        self.qbitdim = 1
         
         if(self.name=='Hadamard'):
             gate = np.ones((2,2))
@@ -43,10 +45,12 @@ class Gate(object):
             gate[1,1] = 1
             gate[2,3] = 1
             gate[3,2] = 1
+            self.qbitdim = 2
             
         elif(self.name=='CZ'):
             gate = np.identity(4)
             gate[3,3] = -1
+            self.qbitdim = 2
         
         elif(self.name=='SWAP'):
             gate = np.zeros((4,4))
@@ -54,6 +58,7 @@ class Gate(object):
             gate[1,2] = 1
             gate[2,1] = 1
             gate[3,3] = 1
+            self.qbitdim = 2
             
         self.operator = gate
     
@@ -66,28 +71,3 @@ class Gate(object):
 #         print(f"\nApplying the {self.name} gate to qubit\n{qubit.vector}:\n")
 #         new = self.operator.dot(qubit.vector)
 #         qubit.update_qubit(new)
-    
-
-gate = Gate("X")
-print(gate.operator)
-
-qubit = Qubit(0,1)
-qubit.apply_gate(gate)
-print(qubit.vector) 
-
-print("\nFrom page 25 of the slides (testing the tensor product):")
-Hgate =  Gate("Hadamard").operator
-print( TensorProduct([Hgate, np.identity(2), Hgate]).product )
-
-zerozero = TensorProduct([Qubit(1,0).vector, Qubit(1,0).vector]).product
-oneone = TensorProduct([Qubit(0,1).vector, Qubit(0,1).vector]).product
-
-phi_plus = (zerozero + oneone)/(np.sqrt(2))
-print(f"\nPhi+ Bell state (Theoretical): \n{phi_plus}")
-
-qubit.apply_gate(Gate("Hadamard"))
-control = TensorProduct([qubit.vector, Qubit(1,0).vector]).product
-print(control)
-# en dulefki epidi to tensor product eshi array gia output,
-# prepi na kamo register class je na ta kamni jina manipulate
-control.apply(Gate("CNOT"))
