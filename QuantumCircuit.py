@@ -31,12 +31,14 @@ class QuantumCircuit:
                       't' : np.array([[1,0],[0,np.exp(1j*np.pi/4)]]),
                       'i' : np.eye(2)
                       }
+        self.customgates = {}
         self.register = QuantumRegister.QuantumRegister(size)
         #self.classical_register = QuantumRegister.ClassicalRegister(size)
         self.gates = []
         for i in range(self.register.Qbits.size):
             self.gates.append(['i'])
         self.gateindex = 0
+        self.measurements = []
         
     def addGate(self, gate, bits):
         """
@@ -96,9 +98,10 @@ class QuantumCircuit:
         None.
 
         """
-        low_lim, high_lim = min(gate_info[1:]), max(gate_info[1:])
-        if gate_info[0] == 'cp' or gate_info[0]=='ncp':
+        
+        if gate_info[0] == 'cp' or gate_info[0]=='ncp' or gate_info[0]=='custom':
             low_lim, high_lim = min(gate_info[1:-1]), max(gate_info[1:-1])
+        else: low_lim, high_lim = min(gate_info[1:]), max(gate_info[1:])
         
         available = True
         for i in range(low_lim, high_lim+1): 
@@ -180,6 +183,19 @@ class QuantumCircuit:
         gate_info = ['ncp']
         gate_info += bits
         gate_info.append(phi)
+        #print(gate_info)
+        self.addBigGate(tuple(gate_info))
+        
+    def ncz(self, bits):
+        gate_info = ['ncz']
+        gate_info += bits
+        self.addBigGate(tuple(gate_info))
+        
+    def addCustom(self, qbit1, qbit2, gate, name):
+        assert max(qbit1, qbit2) <= len(self.gates), 'Gate too large to be added'
+        assert 2**np.abs((qbit2 - qbit1)+1) == gate.Dimension, f'Dimensions of gate do not match the given qubits {2**np.abs(qbit2-qbit1)}'
+        gate_info = ['custom', qbit1, qbit2, name]
+        self.customgates.update({str(name) : gate})
         self.addBigGate(tuple(gate_info))
     
     def cp(self, qbit1, qbit2, phi):
@@ -188,7 +204,7 @@ class QuantumCircuit:
     def swap(self, qbit1, qbit2):
         self.addBigGate(('swap', qbit1, qbit2))
         
-    def simulate(self):
+    def simulate(self, return_full=False):
         """
         Applies the circuit to the initialized statevector
 
@@ -198,7 +214,13 @@ class QuantumCircuit:
         Planned: any measurements throughout the experiment
         
         """
-        self.register = Simulator.Simulator(self.gates, self.register).simulate()
+        if return_full: 
+            self.register, operations, measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
+            return self.register, operations, measurements
+        else: self.register = Simulator.Simulator(self.gates, self.register, self.customgates).simulate()
+
+    def addmeasure(self):
+        self.measurements.append(self.gateindex)
 
     def show(self):
         print('Register defined as:')

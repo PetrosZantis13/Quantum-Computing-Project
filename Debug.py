@@ -5,9 +5,9 @@ Created on Sun Feb  7 17:44:25 2021
 @author: mikva
 """
 import QuantumCircuit
-import QuantumRegister
 import SquareMatrix as sm
 import numpy as np
+import matplotlib.pyplot as plt
 
 def diffuser(circuit):
     n_qubits = len(circuit.register.Qbits)
@@ -19,7 +19,7 @@ def diffuser(circuit):
     for qbit in range(n_qubits):
         circuit.addGate('x', [qbit])
     
-    circuit.ncp([i for i in range(n_qubits)], np.pi)
+    circuit.ncz([i for i in range(n_qubits)])
     
     # Apply x gates to all qubits
     for qbit in range(n_qubits):
@@ -30,25 +30,45 @@ def diffuser(circuit):
         circuit.addGate('h', [qbit])
     
 
-def Grover_Circuit(n_qubits):
+def Grover_Circuit(n_qubits, measured_bits):
     grover_circuit = QuantumCircuit.QuantumCircuit(n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    #grover_circuit.addGate('x', [0,1])
+    repetitions = n_qubits - len(measured_bits) - 1
     
-    #Add oracle
-    grover_circuit.ncp([i for i in range(n_qubits)], np.pi)
-    #grover_circuit.addBigGate(('cz', 0, 2))
-    #grover_circuit.addBigGate(('cz', 1, 2))
+    grover_circuit.addmeasure()
+    # calculate oracle
+    elements = []
+    for i in range(2**n_qubits):
+        if i in measured_bits:
+            elements.append((i,i,-1))
+        else: elements.append((i,i,1))
+    oracle_gate = sm.SparseMatrix(2**n_qubits, elements)
+    
+    #Add Oracle
+    grover_circuit.addCustom(0, n_qubits-1, oracle_gate, 'oracle')
     
     #Add diffuser
     diffuser(grover_circuit)
-    #diffuser(grover_circuit)
-    
-    grover_circuit.ncp([i for i in range(n_qubits)], np.pi)
-    diffuser(grover_circuit)
+
+    grover_circuit.addmeasure()
+    # Repeat if necessary
+    for i in range(repetitions):
+        # Add Oracle
+        grover_circuit.addCustom(0, n_qubits-1, oracle_gate, 'oracle')
+        #Add diffuser
+        diffuser(grover_circuit)
+        grover_circuit.addmeasure()
+
     #show results
-    grover_circuit.show()
+    results = grover_circuit.simulate(return_full=True)
+    print(results[0])
     
+    figure, axis = plt.subplots(1, len(results[2][1]))
+    for j in range(len(results[2][1])):
+        axis[j].bar([i for i in range(results[2][1][j].size)], results[2][1][j])
+        axis[j].set_ylim([-1,1])
+    
+    plt.show()
     
     
 def QFT(circuit):
@@ -125,7 +145,8 @@ def Shor():
     qc.addGate('x', [3+n_count])
 
 if __name__ == '__main__':
-    Grover_Circuit(3)
+    Grover_Circuit(4, [4])
+    
     
     """
     circuit = QuantumCircuit.QuantumCircuit(3)

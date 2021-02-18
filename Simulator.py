@@ -8,7 +8,7 @@ import SquareMatrix as sm
 import numpy as np
 
 class Simulator():
-    def __init__(self, gates, register):
+    def __init__(self, gates, register, custom, measurements):
         self.gates = gates
         self.register = register
         self.singlegates = {'x' : np.array([[0,1], [1,0]]),
@@ -19,6 +19,8 @@ class Simulator():
                       't' : np.array([[1,0],[0,np.exp(1j*np.pi/4)]]),
                       'i' : np.eye(2)
                       }
+        self.customgates = custom
+        self.measurements = [measurements, []]
 
     def bitactive(self, n, bit):
         return ((n>>(bit)) & 1) == 1
@@ -182,6 +184,22 @@ class Simulator():
             else: elements.append((i, i, 1))
         return sm.SparseMatrix(dimension, elements)
     
+    def NCZ(self, gate_info):
+        bits = np.array(gate_info)
+        bits = bits - min(bits)
+        
+        elements = [(0,0,1)]
+        dimension = 2**(max(bits)-min(bits)+1)
+        for i in range(1, dimension):
+            active = True
+            for bit in bits:
+                if not self.bitactive(i, bit):
+                    active = False
+                    break
+            if active: elements.append((i, i, -1))
+            else: elements.append((i, i, 1))
+        return sm.SparseMatrix(dimension, elements)
+    
     def Swap(self, gate_info):
         """
         Creates the matrix representing the swap operation between two qubits.
@@ -208,7 +226,7 @@ class Simulator():
                 col = self.toggle(self.toggle(i, qbit1), qbit2)
             elements.append((i, col, 1))
         return sm.SparseMatrix(dimension, elements)
-        
+    
     def addLargeGate(self, gate_info):
         """
         Helper function for makeMatrices(). Calls the creators for the larger gates based
@@ -239,6 +257,11 @@ class Simulator():
             operation = self.cP(gate_info[1:])
         elif gate_info[0]=='ncp':
             operation = self.NCP(gate_info[1:])
+        elif gate_info[0]=='ncz':
+            operation = self.NCZ(gate_info[1:])
+        elif gate_info[0]=='custom':
+            operation = self.customgates[gate_info[-1]]
+        
             
         return operation
         
@@ -298,16 +321,10 @@ class Simulator():
             
         """
         operations = self.makeMatrices()
-        for operation in operations:
+        for i, operation in enumerate(operations):
             self.register.Statevec = operation.Apply(self.register.Statevec)
-            """
-            print('Current operation:')
-            print(operation.toDense())
+            if i in self.measurements[0]:
+                self.measurements[1].append(self.register.Statevec.Elements)
             
-            print('Current statevector is:')
-            print(self.register)
-            print('With statevector')
-            print(self.register.Statevec)
-            """
-        if return_full: return self.register, operations
+        if return_full: return self.register, operations, self.measurements
         return self.register

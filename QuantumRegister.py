@@ -36,7 +36,7 @@ class QuantumRegister:
 
         toPrint += '\n'
         for i in range(self.Statevec.Elements.size):
-            toPrint += f'|{i}> = {(self.Statevec.Elements[i]*np.conj(self.Statevec.Elements[i])).real} \n'
+            toPrint += f'|{i}> = {(self.Statevec.Elements[i]*np.conj(self.Statevec.Elements[i])).real}\n'
         
         return toPrint
     
