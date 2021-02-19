@@ -36,7 +36,7 @@ class QuantumRegister:
 
         toPrint += '\n'
         for i in range(self.Statevec.Elements.size):
-            toPrint += f'|{i}> = {(self.Statevec.Elements[i]*np.conj(self.Statevec.Elements[i])).real} \n'
+            toPrint += f'|{i}> = {((self.Statevec.Elements[i])*np.conj(self.Statevec.Elements[i])).real}\n'
         
         return toPrint
     
@@ -52,6 +52,10 @@ class QuantumRegister:
         self.Statevec = sm.Vector(np.array([1]))
         for qbit in self.Qbits[::-1]:
             self.Statevec = self.Statevec.outer(qbit.vals)
+            
+    def setStateVec(self, newVec):
+        normal_const = np.sqrt((newVec*newVec.conj()).sum())
+        self.Statevec = sm.Vector(newVec/normal_const)
         
     def setQbits(self, qbits, vals):
         """
@@ -93,10 +97,11 @@ class QuantumRegister:
             for j, qbit in enumerate(self.Qbits):
                 if ((i>>(j)) & 1) == 1:
                     #print(i,j,value)
-                    qbit.vals.Elements[1] += value
+                    qbit.vals.Elements[1] += value*value.conj()
         for qbit in self.Qbits:
             qbit.vals.Elements[0] = complex(1 - qbit.vals.Elements[1])
             qbit.normalize()
+            #print(qbit)
 
 class ClassicalRegister():
     def __init__(self, n):
@@ -110,8 +115,8 @@ class Qbit:
         self.vals = sm.Vector(np.array([1.+0.j, 0.+0.j]))
     
     def normalize(self):
-        print(self.vals.Elements)
-        self.vals.Elements = self.vals.Elements / np.linalg.norm(self.vals.Elements)
+        #print(self.vals.Elements)
+        self.vals.Elements = self.vals.Elements / np.sqrt((self.vals.Elements*self.vals.Elements.conj()).sum())
     
     def get0(self):
         return self.vals.Elements[0]
