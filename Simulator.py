@@ -118,8 +118,9 @@ class Simulator():
             Representation of the cz gate
         """
         qbit1, qbit2 = gate_info
-        qbit1 = qbit1 - min(gate_info)
-        qbit2 = qbit2 - min(gate_info)
+        shift = min(qbit1, qbit2)
+        qbit1 = qbit1 - shift
+        qbit2 = qbit2 - shift
             
         elements = [(0,0,1)]
         dimension = 2**(np.abs(qbit2-qbit1)+1)
@@ -185,6 +186,19 @@ class Simulator():
         return sm.SparseMatrix(dimension, elements)
     
     def NCZ(self, gate_info):
+        """
+        Adds a z gate controlled by an arbitrary number of bits
+    
+        Parameters
+        ----------
+        gate_info : tuple(int, int, int...,)
+            Control qubits as ints, arbitrary number
+    
+        Returns
+        -------
+        SparseMatrix
+            Matrix representatin of the gate
+        """
         bits = np.array(gate_info)
         bits = bits - min(bits)
         
@@ -216,8 +230,9 @@ class Simulator():
     
         """
         qbit1, qbit2 = gate_info
-        qbit1 = qbit1 - min(qbit1, qbit2)
-        qbit2 = qbit2 - min(qbit1, qbit2)
+        shift = min(qbit1, qbit2)
+        qbit1 = qbit1 - shift
+        qbit2 = qbit2 - shift
         elements = []
         dimension = 2**(np.abs(qbit2-qbit1)+1)
         for i in range(0, dimension):
@@ -225,6 +240,7 @@ class Simulator():
             if (self.bitactive(i, qbit1) and not self.bitactive(i, qbit2)) or (not self.bitactive(i, qbit1) and self.bitactive(i, qbit2)):
                 col = self.toggle(self.toggle(i, qbit1), qbit2)
             elements.append((i, col, 1))
+            
         return sm.SparseMatrix(dimension, elements)
     
     def addLargeGate(self, gate_info):
@@ -322,6 +338,8 @@ class Simulator():
         """
         operations = self.makeMatrices()
         for i, operation in enumerate(operations):
+            #print(i)
+            #print(operation)
             self.register.Statevec = operation.Apply(self.register.Statevec)
             if i in self.measurements[0]:
                 self.measurements[1].append(self.register.Statevec.Elements)

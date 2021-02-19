@@ -40,6 +40,10 @@ class QuantumCircuit:
         self.gateindex = 0
         self.measurements = []
         
+    def setStateVector(self, newVector):
+        assert self.register.Statevec.Elements.size == len(newVector), 'Wrong dimension for new vector'
+        self.register.setStateVec(newVector)
+        
     def addGate(self, gate, bits):
         """
         Adds an arbitrary gate to the set of gates stored in the circuit
@@ -217,10 +221,21 @@ class QuantumCircuit:
         if return_full: 
             self.register, operations, measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
             return self.register, operations, measurements
-        else: self.register = Simulator.Simulator(self.gates, self.register, self.customgates).simulate()
+        else: self.register = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate()
 
     def addmeasure(self):
+        """
+        Adds a space where a measurement should be made. Mesurements are only made when simulating the circuit.
+
+        Returns
+        -------
+        None.
+
+        """
         self.measurements.append(self.gateindex)
+        for i in range(len(self.gates)):
+            self.gates[i].append('i')
+        self.gateindex += 1
 
     def show(self):
         print('Register defined as:')
@@ -237,15 +252,4 @@ class QuantumCircuit:
         self.register.measure()
     
 if __name__ == '__main__':
-    circuit = QuantumCircuit(3)
-    #print(circuit.ccNot(2,0,1).toDense())
-    circuit.r([0], 5*np.pi/2)
-    circuit.show()
-    circuit.swap(0,2)
-    """
-    for i, bit in enumerate(circuit.register.Qbits):
-        print(i, bit)
-    circuit.show()
-    for i, bit in enumerate(circuit.register.Qbits):
-        print(i, bit)
-    """
+    pass
