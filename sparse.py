@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
-from classtest import Matrix, MatrixElement #Vector
 from MatrixInterface import MatrixElement, Matrix, Vector
 import numpy as np
-
-
 
 def makesparse(matrix):
     """
@@ -35,12 +32,12 @@ class SparseMatrix(Matrix):
         elements:     list or np array of MatrixElement() objects
         the requisite elements of the matrix
         """
-        self.dimension = n
-        self.elements = np.asarray(elements)
+        self.Dimension = n
+        self.Elements = np.asarray(elements)
        
     
     def enumerator(self):
-        for i in range(len(self.elements)):
+        for i in range(len(self.Elements)):
                 yield i
 
     def multiply(self, b):
@@ -56,10 +53,10 @@ class SparseMatrix(Matrix):
         p   :     SparseMatrix()
             the product of the two matrices  
         """
-        assert(self.dimension == b.dimension)
+        assert(self.Dimension == b.Dimension)
         p = []
-        for meb in b.elements:
-            for mea in self.elements:
+        for meb in b.Elements:
+            for mea in self.Elements:
                 if mea.j == meb.i:
                     temp = mea.val * meb.val
                     temp = MatrixElement(mea.i, meb.j, temp)
@@ -81,17 +78,17 @@ class SparseMatrix(Matrix):
             The resultant vector from applying the matrix to v
 
         """
-        u = np.zeros(self.dimension, dtype=complex)
-        for me in self.elements:
-            for index in range(v.elements.size):
+        u = np.zeros(self.Dimension, dtype=complex)
+        for me in self.Elements:
+            for index in range(v.Elements.size):
                 if index == me.j:
-                    u[me.i] += me.val * v.elements[index]
+                    u[me.i] += me.val * v.Elements[index]
         u = Vector(u)    
         return u
 
     def makedense(self):
-        M = np.zeros((self.dimension, self.dimension), dtype= complex)
-        for me in self.elements:
+        M = np.zeros((self.Dimension, self.Dimension), dtype= complex)
+        for me in self.Elements:
             M[me.i][me.j] = me.val
         return M
 
@@ -113,18 +110,18 @@ class SparseMatrix(Matrix):
         
         assert (type(a) == SparseMatrix), 'Incompatible Matrices'
         elements = []
-        dimension = self.dimension * a.dimension
-        for me1 in self.elements:
-            for mea in a.elements:
-                row = me1.i*a.dimension + mea.i
-                col = me1.j*a.dimension + mea.j
+        dimension = self.Dimension * a.Dimension
+        for me1 in self.Elements:
+            for mea in a.Elements:
+                row = me1.i*a.Dimension + mea.i
+                col = me1.j*a.Dimension + mea.j
                 value = complex(me1.val * mea.val)
-                elements.append((int(row), int(col), complex(value)))
+                elements.append(MatrixElement(int(row), int(col), complex(value)))
         return SparseMatrix(dimension, elements)
 
     def __str__(self):
         temp = ''
-        for element in self.elements:
+        for element in self.Elements:
             temp += f'{element}\n'
         return temp
 

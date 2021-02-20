@@ -43,8 +43,8 @@ class Matrix(ABC): #Matrix interface, will implement this better
 
 class Vector(): #copied from mihaly
     def __init__(self, elements):
-        self.dimension = np.array(elements).size
-        self.elements = np.array(elements, dtype=complex)
+        self.Dimension = np.array(elements).size
+        self.Elements = np.array(elements, dtype=complex)
     
     def outer(self, other_vec):
         """
@@ -61,15 +61,15 @@ class Vector(): #copied from mihaly
         assert type(other_vec) == Vector, 'Incompatible vector'
         dimension = self.Dimension * other_vec.Dimension
         elements = np.zeros(dimension, dtype=complex)
-        for i, element in enumerate(self.elements):
-            for j, other_element in enumerate(other_vec.elements):
+        for i, element in enumerate(self.Elements):
+            for j, other_element in enumerate(other_vec.Elements):
                 elements[i*other_vec.Dimension+j] = element * other_element
         return Vector(elements)
         
     
     def __str__(self):
         toPrint = ''
-        for i in self.elements:
+        for i in self.Elements:
             toPrint += f'{i} '
         return toPrint
 

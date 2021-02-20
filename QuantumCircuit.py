@@ -6,7 +6,6 @@ Created on Sat Feb  6 15:35:20 2021
 """
 import QuantumRegister
 import numpy as np
-import SquareMatrix as sm
 import Simulator
 
 class QuantumCircuit:

@@ -5,10 +5,10 @@ Created on Fri Feb 19 13:47:29 2021
 @author: mikva
 """
 import QuantumCircuit
-import SquareMatrix as sm
 import numpy as np
 import matplotlib.pyplot as plt
 import QuantumRegister
+import sparse
 
 def diffuser(circuit):
     n_qubits = len(circuit.register.Qbits)
@@ -56,9 +56,9 @@ def Grover_Circuit(n_qubits, measured_bits):
     elements = []
     for i in range(2**n_qubits):
         if i in measured_bits:
-            elements.append((i,i,-1))
-        else: elements.append((i,i,1))
-    oracle_gate = sm.SparseMatrix(2**n_qubits, elements)
+            elements.append(sparse.MatrixElement(i,i,-1))
+        else: elements.append(sparse.MatrixElement(i,i,1))
+    oracle_gate = sparse.SparseMatrix(2**n_qubits, elements)
     
     #Add Oracle
     grover_circuit.addCustom(0, n_qubits-1, oracle_gate, 'oracle')
@@ -182,6 +182,25 @@ def qft_example():
     circuit.addGate('x', [2,1])
     circuit.addGate('h', [0,3])
     circuit.addBigGate(('cn', 0, 2))
+    circuit.addmeasure()
+    QFT(circuit)
+    circuit.addmeasure()
+    qft_dagger(circuit)
+    circuit.addmeasure()
+    results = circuit.simulate(return_full=True)
+    
+    for i, measurement in enumerate(results[2][1]):
+        print(f'Measurement {i}')
+        print(measurement)
+        
+    figure, axis = plt.subplots(1, len(results[2][1]))
+    for j in range(len(results[2][1])):
+        axis[j].bar([i for i in range(results[2][1][j].size)], results[2][1][j])
+        axis[j].set_ylim([-1,1])
+        print((results[2][1][j]*np.conj(results[2][1][j])).sum())
+    
+    circuit = QuantumCircuit.QuantumCircuit(4)
+    circuit.addGate('x', [2,1])
     circuit.addmeasure()
     QFT(circuit)
     circuit.addmeasure()

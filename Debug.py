@@ -5,11 +5,10 @@ Created on Sun Feb  7 17:44:25 2021
 @author: mikva
 """
 import QuantumCircuit
-import SquareMatrix as sm
 import numpy as np
-import matplotlib.pyplot as plt
 import QuantumRegister
 import Presentation
+import sparse
     
 
 def QFT(circuit):
@@ -86,13 +85,25 @@ def Shor():
     qc.addGate('x', [3+n_count])
     
 
+
 if __name__ == '__main__':
+    #qbit1 = Qubit()
+    #print(qbit1)
+    """
+    qc = QuantumCircuit.QuantumCircuit(3)
+    
+    qc.addGate('x', [0,1])
+    qc.addBigGate(('cn', 0, 2))
+    qc.show()
+    """
+    
     print('Grover Circuit example:')
     Presentation.Grover_Circuit(3, [4])
     print('Bernstein-Vazirani Algorithm Example:')
     Presentation.Ber_Vaz(3, '011')
     print('QFT example:')
     Presentation.qft_example()
+    
     """
     circuit = QuantumCircuit.QuantumCircuit(3)
     circuit.setStateVector(np.array([2,2,4,4,4,4,2,2]))
