@@ -4,7 +4,6 @@ Created on Wed Feb 17 14:59:09 2021
 
 @author: mikva
 """
-import SquareMatrix as sm
 import numpy as np
 import sparse
 

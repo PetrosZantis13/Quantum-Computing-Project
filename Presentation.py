@@ -49,7 +49,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     """
     grover_circuit = QuantumCircuit.QuantumCircuit(n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    repetitions = n_qubits - len(measured_bits) + 2
+    repetitions = n_qubits - 1
     
     grover_circuit.addmeasure()
     # calculate oracle
@@ -78,6 +78,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     #show results
     results = grover_circuit.simulate(return_full=True)
     #print(results[0])
+    
     
     figure, axis = plt.subplots(1, len(results[2][1]))
     for j in range(len(results[2][1])):
@@ -138,7 +139,8 @@ def qft_dagger(circuit):
         circuit.addGate('h', [j])
     return circuit
 
-def Ber_Vaz(n, s):
+def Ber_Vaz(s):
+    n=len(s)
     bv_circ = QuantumCircuit.QuantumCircuit(n+1)
     
     # Put ancilla in state |->

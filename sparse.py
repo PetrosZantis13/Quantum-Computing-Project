@@ -138,4 +138,4 @@ if __name__ == "__main__":
     A = makesparse(mat)
     B = makesparse(mat+1)
     
-    print(B.apply(V))
+    print(B.multiply(A))

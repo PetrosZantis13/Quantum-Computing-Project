@@ -9,6 +9,8 @@ import numpy as np
 import QuantumRegister
 import Presentation
 import sparse
+import time
+import matplotlib.pyplot as plt
     
 
 def QFT(circuit):
@@ -98,9 +100,18 @@ if __name__ == '__main__':
     """
     
     print('Grover Circuit example:')
-    Presentation.Grover_Circuit(3, [4])
+    Presentation.Grover_Circuit(3, [3])
+    """
+    times = []
+    for i in range(2,9):
+        t1 = time.time()
+        Presentation.Grover_Circuit(i, [3])
+        t2 = time.time()
+        times.append(t2-t1)
+    plt.plot([i for i in range(2,9)], times)
+    """
     print('Bernstein-Vazirani Algorithm Example:')
-    Presentation.Ber_Vaz(3, '011')
+    Presentation.Ber_Vaz('1011')
     print('QFT example:')
     Presentation.qft_example()
     
