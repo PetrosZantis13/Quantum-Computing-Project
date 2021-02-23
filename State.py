@@ -4,6 +4,9 @@ Author: Petros Zantis
 '''
 import numpy as np
 
+from Gate import *
+from Tensor import *
+
 class BasisStates():
     
     def __init__(self, dimension) :
@@ -26,6 +29,8 @@ class BasisStates():
 
 class State():
     
+    # PETRO CHECK THAT ALWAYS NORMALISED LIKE QUBIT
+    
     def __init__(self, matrix) :
         '''
         The constructor of the State class, which takes as argument
@@ -39,7 +44,7 @@ class State():
         '''  
         # ensure that the dimensions match
         assert(len(self.vector) == 2**(gate.qbitdim))   
-        print(f"\nApplying the {gate.name} gate to state\n{self.vector}:\n")
+        #print(f"\nApplying the {gate.name} gate to state\n{self.vector}:\n")
         new_vector = gate.operator.dot(self.vector)
         self.vector = new_vector
     
@@ -47,13 +52,34 @@ class State():
         '''
         Calculates the amplitude of each basis state in an entangled state
         '''        
-        basis_states = np.arange(0,len(self.vector),1)
+        basis_states = []
         amps = []
-        for basis in self.vector:
-            amplitude = basis[0]
-            amps.append(amplitude.conj() * amplitude)
+        for basis, amplitude in enumerate(self.vector):
+            basis_states.append(basis)
+            amp = amplitude[0]
+            amps.append(amp.conj() * amp)
+        
+        print(f"The amplitudes sum up to : {np.sum(amps):.2f}")
         
         return basis_states, amps
+    
+    def measure(self):
+        '''
+        Measures the quantum state and collapses it to one of its basis states.
+        '''        
+        basis_states, amps = self.probabilities()
+        r = np.random.random()     
+        
+        for basis, value in enumerate(amps):
+            if(r < (value)):
+                collapsed = basis
+                print(f"Collapsed to {collapsed}")
+                break
+            else:
+                r -= value
+                
+        self.vector = BasisStates(len(basis_states)).states[collapsed]
+        return collapsed
             
 class Qubit(State):
     
@@ -62,6 +88,8 @@ class Qubit(State):
         The constructor of the Qubit class takes as argument the
         amplitudes a and b of basis states |0> and |1> respectively.
         '''  
+        self.a = a
+        self.b = b
         
         if(abs(a)**2 + abs(b)**2 != 1):
             print("wrong modulus")  # maybe use assert
@@ -70,8 +98,5 @@ class Qubit(State):
         basis0 = bases[0]
         basis1 = bases[1]
         
-        self.vector = a*basis0 + b*basis1   # equation for state of a qubit
-
-print("An example of Basis States:")
-print(BasisStates(4).vector)      
-print(Qubit(0.8,0.6).probabilities())
+        self.vector = self.a*basis0 + self.b*basis1   # equation for state of a qubit
+        

@@ -12,10 +12,10 @@ class Gate(object):
         of the desired gate and building it accordingly.
         '''
         self.name = name
-        gate = np.identity(2)  # in case the input name is wrong, return identity
+        gate = np.identity(2)  # defaults to the 2x2 identity
         self.qbitdim = 1    # defaults to a single-qubit gate
         
-        if(self.name=='Hadamard'):
+        if(self.name=='Hadamard' or self.name=='H'):
             gate = np.ones((2,2))
             gate[1,1] = -1
             gate *= 1/np.sqrt(2)
@@ -34,7 +34,7 @@ class Gate(object):
             gate = np.identity(2)
             gate[1,1] = -1
         
-        elif(self.name=='CNOT'):
+        elif(self.name=='CNOT' or self.name=='CX'):
             gate = np.zeros((4,4))
             gate[0,0] = 1
             gate[1,1] = 1
@@ -55,7 +55,7 @@ class Gate(object):
             gate[3,3] = 1
             self.qbitdim = 2   # double-qubit gate
          
-#         elif(self.name=='Phase Kickback'):   
+#         elif(self.name=='Phase Shift' or Rphi):   
                 
         self.operator = gate
     
