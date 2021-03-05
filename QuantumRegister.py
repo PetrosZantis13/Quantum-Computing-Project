@@ -5,7 +5,6 @@ Created on Thu Feb  4 15:54:14 2021
 @author: mikva
 """
 import numpy as np
-import SquareMatrix as sm
 import sparse
 
 
@@ -55,6 +54,19 @@ class QuantumRegister:
             self.Statevec = self.Statevec.outer(qbit.vals)
             
     def setStateVec(self, newVec):
+        """
+        Allows the user to set the state vector to a new vector. Automatically normalises the vector.
+        
+        Parameters
+        ----------
+        newVec : list or array
+            The new vector to become the state vector.
+
+        Returns
+        -------
+        None.
+
+        """
         newVec = np.array(newVec, dtype=complex)
         assert self.Statevec.Dimension == newVec.size, 'Wrong dimensions for new statevector'
         normal_const = np.sqrt((newVec*newVec.conj()).sum())

@@ -10,8 +10,7 @@ class MatrixElement(object):
     def __str__(self):
         return f'{self.i}, {self.j}, {self.val}'
 
-class Matrix(ABC): #Matrix interface, will implement this better
-
+class Matrix(ABC):
     
     def __init__(self, n, elements):
         self.dimension = n
@@ -25,10 +24,10 @@ class Matrix(ABC): #Matrix interface, will implement this better
     def set_value(self):
         pass
 
-    def enumerator(self):
-        for i in range(0, self.dimension):
-            for j in range(0, self.dimension):
-                yield MatrixElement(i,j, self.get_value(i,j))
+    #def enumerator(self):
+    #    for i in range(0, self.dimension):
+    #        for j in range(0, self.dimension):
+    #            yield MatrixElement(i,j, self.get_value(i,j))
     
     @abstractmethod
     def multiply(self, m):
@@ -97,10 +96,11 @@ class explicit(Matrix):
         M = np.dot(a, b)
         return M
 
-A = explicit(2,[0,1,1,1])
-
-B = explicit(2, [1,1,0,1])
-
-x = 1 + 2j
-y = 2 + 1j
+if __name__=='__main__':
+    A = explicit(2,[0,1,1,1])
+    
+    B = explicit(2, [1,1,0,1])
+    
+    x = 1 + 2j
+    y = 2 + 1j
 

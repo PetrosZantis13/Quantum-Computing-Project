@@ -37,7 +37,7 @@ class SparseMatrix(Matrix):
        
     
     def enumerator(self):
-        for i in range(len(self.Elements)):
+        for i in self.Elements:
                 yield i
 
     def multiply(self, b):

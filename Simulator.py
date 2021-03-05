@@ -23,9 +23,41 @@ class Simulator():
         self.measurements = [measurements, []]
 
     def bitactive(self, n, bit):
+        """
+        Checks whether a given integer has a particular bit active
+
+        Parameters
+        ----------
+        n : int
+            Integer to check
+        bit : int
+            The position of the bit to check
+
+        Returns
+        -------
+        boolean
+            True of bit is active, false if not
+
+        """
         return ((n>>(bit)) & 1) == 1
         
     def toggle(self, n, bit):
+        """
+        Toggles a specific bit in an integer
+
+        Parameters
+        ----------
+        n : int
+            Integer to toggle
+        bit : int
+            The position of the bit to toggle
+
+        Returns
+        -------
+        int
+            The new integer created by toggling the bit
+
+        """
         return n ^ (1 << bit)
     
     def cNot(self, gate_info):
@@ -334,8 +366,9 @@ class Simulator():
     
         Returns
         -------
-        None
-        Planned: any measurements throughout the experiment
+        The register
+        if return_full:
+            the register, operations and any measurements.
             
         """
         operations = self.makeMatrices()
@@ -348,3 +381,31 @@ class Simulator():
             
         if return_full: return self.register, operations, self.measurements
         return self.register
+    
+    def simulate2(self):
+        """
+        Applies the circuit to the initialized statevector without storing the operations
+    
+        Returns
+        -------
+        The register and any measurements made
+            
+        """
+        gates = np.array(self.gates, dtype = object).T
+        #debug
+        #print('Gates are:')
+        #print(gates)
+        
+        for i, slot in enumerate(gates):
+            bigmat = sparse.SparseMatrix(1, [sparse.MatrixElement(0,0,1)])
+            for j in slot:
+                if type(j)==tuple:
+                    bigmat = self.addLargeGate(j).tensorProduct(bigmat)
+                elif j == 's': continue
+                else: 
+                    bigmat = sparse.makesparse(self.singlegates[j]).tensorProduct(bigmat)
+            self.register.Statevec = bigmat.apply(self.register.Statevec)
+            if i in self.measurements[0]:
+                self.measurements[1].append(self.register.Statevec.Elements)
+        
+        return self.register, self.measurements

@@ -9,8 +9,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import QuantumRegister
 import sparse
+import math
+import array_to_latex as a2l
 
 def diffuser(circuit):
+    """
+    Creates the diffuser for a given circuit for a Grover's algorithm.
+
+    Parameters
+    ----------
+    circuit : QuantumCircuit
+        The quantum circuit that Grover's algorithm should be applied to.
+
+    Returns
+    -------
+    None.
+
+    """
     n_qubits = len(circuit.register.Qbits)
     
     # Apply h gates to all qubits
@@ -33,8 +48,8 @@ def diffuser(circuit):
 
 def Grover_Circuit(n_qubits, measured_bits):
     """
-    Returns a circuit representing Grover's algorithm for a given number of qubits and
-    bits that we are interested in
+    Constructs a circuit representing Grover's algorithm for a given number of qubits and
+    bits that we are interested in. Plots measurements after each iteration of the algorithm.
 
     Parameters
     ----------
@@ -49,7 +64,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     """
     grover_circuit = QuantumCircuit.QuantumCircuit(n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    repetitions = n_qubits - 1
+    repetitions = math.ceil(np.sqrt(n_qubits/len(measured_bits))) - 1
     
     grover_circuit.addmeasure()
     # calculate oracle
@@ -58,11 +73,13 @@ def Grover_Circuit(n_qubits, measured_bits):
         if i in measured_bits:
             elements.append(sparse.MatrixElement(i,i,-1))
         else: elements.append(sparse.MatrixElement(i,i,1))
-    oracle_gate = sparse.SparseMatrix(2**n_qubits, elements)
+    oracle_gate = sparse.SparseMatrix(2**n_qubits, elements) # Creates a sparseMatrix representation of the oracle
+    #print(oracle_gate.makedense())
     
     #Add Oracle
     grover_circuit.addCustom(0, n_qubits-1, oracle_gate, 'oracle')
     
+    #grover_circuit.addmeasure()
     #Add diffuser
     diffuser(grover_circuit)
 
@@ -75,39 +92,63 @@ def Grover_Circuit(n_qubits, measured_bits):
         diffuser(grover_circuit)
         grover_circuit.addmeasure()
 
+    #a2l.to_ltx(np.array(grover_circuit.gates, dtype=object))
+    print(np.array(grover_circuit.gates, dtype=object)[:,:6])
+
     #show results
-    results = grover_circuit.simulate(return_full=True)
-    #print(results[0])
+    final_statevec, measurements = grover_circuit.simulate2()
+    #for m in measurements[1]:
+    #   print(m)
     
+    # plots the results in a snazzy way
+    figure, axis = plt.subplots(1, len(measurements[1]))
+    for j, measurement in enumerate(measurements[1]):
+        axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
+        axis[j].set_ylim([0,1])
+        axis[j].set_xlabel("State |N>")
+        if j>0:
+            axis[j].set_yticklabels("")
+        #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
+    axis[0].set_ylabel("Probability")
     
-    figure, axis = plt.subplots(1, len(results[2][1]))
-    for j in range(len(results[2][1])):
-        axis[j].bar([i for i in range(results[2][1][j].size)], results[2][1][j]*np.conj(results[2][1][j]))
-        axis[j].set_ylim([-1,1])
-        print((results[2][1][j]*np.conj(results[2][1][j])).sum())
-    
+    #figure.set_ylabel("Probability of Measuring State")
+    figure.suptitle("Probability of measuring state N")
     plt.show()
     
     
 def QFT(circuit):
     """
-    Works, don't know why
     Applies quantum fourier transform to a circuit.
 
     Parameters
     ----------
     circuit : QuantumCircuit
-        The quantum circuit to apply the QFT to
+        The quantum circuit to apply the QFT to.
 
     Returns
     -------
     circuit : QuantumCircuit
-        The same quantum circuit with the QFT applied to it
+        The same quantum circuit with the QFT applied to it.
 
     """
     n = len(circuit.register.Qbits)
     
     def qft_rotations(circuit, n):
+        """
+        Calculates the roatation gates and hadamards that must be added to the circuit.
+
+        Parameters
+        ----------
+        circuit : QuantumCircuit
+            The circuit that the gft will be applied to.
+        n : int
+            Number of qubits in the circuit.
+
+        Returns
+        -------
+        None.
+
+        """
         if n==0: return circuit
         n -= 1
         circuit.addGate('h', [n])
@@ -128,6 +169,20 @@ def QFT(circuit):
     qft(circuit, n)
     
 def qft_dagger(circuit):
+    """
+    Applies an inverse quantum fourier transform to a given circuit.
+
+    Parameters
+    ----------
+    circuit : QuantumCircuit
+        A quantum circuit that the inverse qft should be applied to.
+
+    Returns
+    -------
+    circuit : QuantumCircuit
+        The same circuit, but with an inverse qft applied to it.
+
+    """
     n = len(circuit.register.Qbits)
     
     #swap qbits
@@ -140,6 +195,19 @@ def qft_dagger(circuit):
     return circuit
 
 def Ber_Vaz(s):
+    """
+    Creates an example of the Bernstein-Vazirani algorithm.
+
+    Parameters
+    ----------
+    s : string
+        String representation of the state that the algorithm should work for.
+
+    Returns
+    -------
+    None.
+
+    """
     n=len(s)
     bv_circ = QuantumCircuit.QuantumCircuit(n+1)
     
@@ -180,8 +248,16 @@ def Ber_Vaz(s):
     
     
 def qft_example():
-    circuit = QuantumCircuit.QuantumCircuit(4)
-    circuit.addGate('x', [2,1])
+    """
+    Create an example demonstrating quantum fourier transform.
+
+    Returns
+    -------
+    None.
+
+    """
+    circuit = QuantumCircuit.QuantumCircuit(4) # Create circuit
+    circuit.addGate('x', [2,1]) # Set the state vector to a specific superposition
     circuit.addGate('h', [0,3])
     circuit.addBigGate(('cn', 0, 2))
     circuit.addmeasure()
