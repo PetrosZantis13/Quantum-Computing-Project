@@ -4,8 +4,8 @@ Created on Wed Feb 17 14:59:09 2021
 
 @author: mikva
 """
-import SquareMatrix as sm
 import numpy as np
+import sparse
 
 class Simulator():
     def __init__(self, gates, register, custom, measurements):
@@ -23,9 +23,41 @@ class Simulator():
         self.measurements = [measurements, []]
 
     def bitactive(self, n, bit):
+        """
+        Checks whether a given integer has a particular bit active
+
+        Parameters
+        ----------
+        n : int
+            Integer to check
+        bit : int
+            The position of the bit to check
+
+        Returns
+        -------
+        boolean
+            True of bit is active, false if not
+
+        """
         return ((n>>(bit)) & 1) == 1
         
     def toggle(self, n, bit):
+        """
+        Toggles a specific bit in an integer
+
+        Parameters
+        ----------
+        n : int
+            Integer to toggle
+        bit : int
+            The position of the bit to toggle
+
+        Returns
+        -------
+        int
+            The new integer created by toggling the bit
+
+        """
         return n ^ (1 << bit)
     
     def cNot(self, gate_info):
@@ -53,14 +85,14 @@ class Simulator():
             control_bit = 0
             controlled_bit = qbit2 - qbit1
             
-        elements = [(0,0,1)]
+        elements = [sparse.MatrixElement(0,0,1)]
         dimension = 2**(np.abs(qbit2-qbit1)+1)
         for i in range(1, dimension):
             if self.bitactive(i, control_bit):
                 col = self.toggle(i, controlled_bit)
-                elements.append((i, col, 1))
-            else: elements.append((i,i,1))
-        return sm.SparseMatrix(dimension, elements)
+                elements.append(sparse.MatrixElement(i, col, 1))
+            else: elements.append(sparse.MatrixElement(i,i,1))
+        return sparse.SparseMatrix(dimension, elements)
     
     def ccNot(self, gate_info):
         """
@@ -91,7 +123,7 @@ class Simulator():
         qbit3 = qbit3 - minval
             
         # Create elements and calculate dimensions
-        elements = [(0,0,1)]
+        elements = [sparse.MatrixElement(0,0,1)]
         dimension = 2**(maxval+1)
             
         # For each possible bit check whether the control qubits are active
@@ -99,9 +131,9 @@ class Simulator():
             if self.bitactive(i, control1) and self.bitactive(i, control2):
                 # if control qubits are active, calculate the new value and insert into matrix
                 col = self.toggle(i, qbit3)
-                elements.append((i, col, 1))
-            else: elements.append((i,i,1))
-        return sm.SparseMatrix(dimension, elements)
+                elements.append(sparse.MatrixElement(i, col, 1))
+            else: elements.append(sparse.MatrixElement(i,i,1))
+        return sparse.SparseMatrix(dimension, elements)
     
     def cZ(self, gate_info):
         """
@@ -122,13 +154,13 @@ class Simulator():
         qbit1 = qbit1 - shift
         qbit2 = qbit2 - shift
             
-        elements = [(0,0,1)]
+        elements = [sparse.MatrixElement(0,0,1)]
         dimension = 2**(np.abs(qbit2-qbit1)+1)
         for i in range(1, dimension):
             if self.bitactive(i, qbit1) and self.bitactive(i, qbit2):
-                elements.append((i, i, -1))
-            else: elements.append((i,i,1))
-        return sm.SparseMatrix(dimension, elements)
+                elements.append(sparse.MatrixElement(i, i, -1))
+            else: elements.append(sparse.MatrixElement(i,i,1))
+        return sparse.SparseMatrix(dimension, elements)
     
     def cP(self, gate_info):
         """
@@ -147,13 +179,13 @@ class Simulator():
         """
         qbit1, qbit2, phi = gate_info
         
-        elements = [(0,0,1)]
+        elements = [sparse.MatrixElement(0,0,1)]
         dimension = 2**(np.abs(qbit2-qbit1)+1)
         for i in range(1, dimension):
             if self.bitactive(i, qbit1) and self.bitactive(i, qbit2):
-                elements.append((i, i, np.exp(1j*phi)))
-            else: elements.append((i,i,1))
-        return sm.SparseMatrix(dimension, elements)
+                elements.append(sparse.MatrixElement(i, i, np.exp(1j*phi)))
+            else: elements.append(sparse.MatrixElement(i,i,1))
+        return sparse.SparseMatrix(dimension, elements)
         
     def NCP(self, gate_info):
         """
@@ -173,7 +205,7 @@ class Simulator():
         bits = bits - min(bits)
         phi = gate_info[-1]
         
-        elements = [(0,0,1)]
+        elements = [sparse.MatrixElement(0,0,1)]
         dimension = 2**(max(bits)-min(bits)+1)
         for i in range(1, dimension):
             active = True
@@ -181,9 +213,9 @@ class Simulator():
                 if not self.bitactive(i, bit):
                     active = False
                     break
-            if active: elements.append((i, i, np.exp(1j*phi)))
-            else: elements.append((i, i, 1))
-        return sm.SparseMatrix(dimension, elements)
+            if active: elements.append(sparse.MatrixElement(i, i, np.exp(1j*phi)))
+            else: elements.append(sparse.MatrixElement(i, i, 1))
+        return sparse.SparseMatrix(dimension, elements)
     
     def NCZ(self, gate_info):
         """
@@ -202,7 +234,7 @@ class Simulator():
         bits = np.array(gate_info)
         bits = bits - min(bits)
         
-        elements = [(0,0,1)]
+        elements = [sparse.MatrixElement(0,0,1)]
         dimension = 2**(max(bits)-min(bits)+1)
         for i in range(1, dimension):
             active = True
@@ -210,9 +242,9 @@ class Simulator():
                 if not self.bitactive(i, bit):
                     active = False
                     break
-            if active: elements.append((i, i, -1))
-            else: elements.append((i, i, 1))
-        return sm.SparseMatrix(dimension, elements)
+            if active: elements.append(sparse.MatrixElement(i, i, -1))
+            else: elements.append(sparse.MatrixElement(i, i, 1))
+        return sparse.SparseMatrix(dimension, elements)
     
     def Swap(self, gate_info):
         """
@@ -239,9 +271,9 @@ class Simulator():
             col = i
             if (self.bitactive(i, qbit1) and not self.bitactive(i, qbit2)) or (not self.bitactive(i, qbit1) and self.bitactive(i, qbit2)):
                 col = self.toggle(self.toggle(i, qbit1), qbit2)
-            elements.append((i, col, 1))
+            elements.append(sparse.MatrixElement(i, col, 1))
             
-        return sm.SparseMatrix(dimension, elements)
+        return sparse.SparseMatrix(dimension, elements)
     
     def addLargeGate(self, gate_info):
         """
@@ -259,6 +291,7 @@ class Simulator():
             MAtrix representation of the operation for the gates given.
     
         """
+        #print(gate_info)
         if gate_info[0]=='r':
             operation = self.Rt(complex(gate_info[1]))
         elif gate_info[0]=='cn':
@@ -299,12 +332,13 @@ class Simulator():
             
         bigmats = []
         for i, slot in enumerate(gates):
-            bigmat = sm.SparseMatrix(1, [(0,0,1)])
+            bigmat = sparse.SparseMatrix(1, [sparse.MatrixElement(0,0,1)])
             for j in slot:
                 if type(j)==tuple:
-                    bigmat = self.addLargeGate(j).tensorProd(bigmat)
+                    bigmat = self.addLargeGate(j).tensorProduct(bigmat)
                 elif j == 's': continue
-                else: bigmat = sm.toSparse(self.singlegates[j]).tensorProd(bigmat)
+                else: 
+                    bigmat = sparse.makesparse(self.singlegates[j]).tensorProduct(bigmat)
             bigmats.append(bigmat)
             
         return np.array(bigmats)
@@ -324,7 +358,7 @@ class Simulator():
             Matrix representation of the r gate.
     
         """
-        return sm.toSparse(np.array([[1, 0], [0, np.exp(1j*theta)]], dtype=complex))
+        return sparse.makesparse(np.array([[1, 0], [0, np.exp(1j*theta)]], dtype=complex))
     
     def simulate(self, return_full = False):
         """
@@ -332,17 +366,46 @@ class Simulator():
     
         Returns
         -------
-        None
-        Planned: any measurements throughout the experiment
+        The register
+        if return_full:
+            the register, operations and any measurements.
             
         """
         operations = self.makeMatrices()
         for i, operation in enumerate(operations):
             #print(i)
             #print(operation)
-            self.register.Statevec = operation.Apply(self.register.Statevec)
+            self.register.Statevec = operation.apply(self.register.Statevec)
             if i in self.measurements[0]:
                 self.measurements[1].append(self.register.Statevec.Elements)
             
         if return_full: return self.register, operations, self.measurements
         return self.register
+    
+    def simulate2(self):
+        """
+        Applies the circuit to the initialized statevector without storing the operations
+    
+        Returns
+        -------
+        The register and any measurements made
+            
+        """
+        gates = np.array(self.gates, dtype = object).T
+        #debug
+        #print('Gates are:')
+        #print(gates)
+        
+        for i, slot in enumerate(gates):
+            bigmat = sparse.SparseMatrix(1, [sparse.MatrixElement(0,0,1)])
+            for j in slot:
+                if type(j)==tuple:
+                    bigmat = self.addLargeGate(j).tensorProduct(bigmat)
+                elif j == 's': continue
+                else: 
+                    bigmat = sparse.makesparse(self.singlegates[j]).tensorProduct(bigmat)
+            self.register.Statevec = bigmat.apply(self.register.Statevec)
+            if i in self.measurements[0]:
+                self.measurements[1].append(self.register.Statevec.Elements)
+        
+        return self.register, self.measurements

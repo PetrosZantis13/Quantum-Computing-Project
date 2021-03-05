@@ -6,7 +6,6 @@ Created on Sat Feb  6 15:35:20 2021
 """
 import QuantumRegister
 import numpy as np
-import SquareMatrix as sm
 import Simulator
 
 class QuantumCircuit:
@@ -23,14 +22,6 @@ class QuantumCircuit:
         -------
         None.
         """
-        self.singlegates = {'x' : np.array([[0,1], [1,0]]),
-                      'y' : np.array([[0,-1j], [1j,0]]),
-                      'z' : np.array([[1,0], [0,-1]]),
-                      'h' : np.array([[1,1],[1,-1]])/np.sqrt(2),
-                      'p' : np.array([[1,0],[0,1j]]),
-                      't' : np.array([[1,0],[0,np.exp(1j*np.pi/4)]]),
-                      'i' : np.eye(2)
-                      }
         self.customgates = {}
         self.register = QuantumRegister.QuantumRegister(size)
         #self.classical_register = QuantumRegister.ClassicalRegister(size)
@@ -41,7 +32,20 @@ class QuantumCircuit:
         self.measurements = []
         
     def setStateVector(self, newVector):
-        assert self.register.Statevec.Elements.size == len(newVector), 'Wrong dimension for new vector'
+        """
+        Allows the user to define the state vector for the quantum circuit
+
+        Parameters
+        ----------
+        newVector : array_like
+            The vector that the user wants as the new state vector
+
+        Returns
+        -------
+        None.
+
+        """
+        assert self.register.Statevec.Elements.size == np.array(newVector).size, 'Wrong dimension for new vector'
         self.register.setStateVec(newVector)
         
     def addGate(self, gate, bits):
@@ -77,15 +81,6 @@ class QuantumCircuit:
                     self.gates[i].append('i')
             self.gateindex += 1
         
-    """
-    def x(self, bits):
-        self.addGate('x', bits)
-    
-    def y(self, bits):
-        self.addGate('y', bits)
-    
-    #Pls someone else do the rest
-    """
     def addBigGate(self, gate_info):
         """
         Adds the representation of a gate into self.gates.
@@ -122,13 +117,22 @@ class QuantumCircuit:
             self.addBigGate(gate_info)
     
     def r(self, bits, theta):
+        """
+        Adds a rotation matrix to the circuit
+
+        Parameters
+        ----------
+        bits : list
+            The qubits that the matrices will be applied to
+        theta : float
+            Rotation angle
+
+        Returns
+        -------
+        None.
+
+        """
         self.addGate(('r', theta), bits)
-    
-    def bitactive(self, n, bit):
-        return ((n>>(bit)) & 1) == 1
-    
-    def toggle(self, n, bit):
-        return n ^ (1 << bit)
     
     def cnot(self, qbit1, qbit2):
         """
@@ -191,37 +195,115 @@ class QuantumCircuit:
         self.addBigGate(tuple(gate_info))
         
     def ncz(self, bits):
+        """
+        Adds the representation of an n controlled z gate to the circuit
+
+        Parameters
+        ----------
+        bits : list
+            The control bits for the gate
+
+        Returns
+        -------
+        None.
+
+        """
         gate_info = ['ncz']
         gate_info += bits
         self.addBigGate(tuple(gate_info))
         
     def addCustom(self, qbit1, qbit2, gate, name):
-        assert max(qbit1, qbit2) <= len(self.gates), 'Gate too large to be added'
+        """
+        Adds a custom, user defined gate to the circuit. Does not check for unitary matrices, 
+        so have to be careful when using it. The dimension of the gate must match the dimension
+        allowed by the affected qubits.
+
+        Parameters
+        ----------
+        qbit1 : int
+            Position of the qubit with the smaller index.
+        qbit2 : int
+            Position of the qubit with the higher index.
+        gate : SparseMatrix
+            SparseMAtrix representation of the gate to be added to the circuit.
+        name : string
+            The name of the custom gate.
+
+        Returns
+        -------
+        None.
+
+        """
+        assert max(qbit1, qbit2) <= len(self.gates), 'Gates not in the circuit'
         assert 2**np.abs((qbit2 - qbit1)+1) == gate.Dimension, f'Dimensions of gate do not match the given qubits {2**np.abs(qbit2-qbit1)}'
         gate_info = ['custom', qbit1, qbit2, name]
         self.customgates.update({str(name) : gate})
         self.addBigGate(tuple(gate_info))
     
     def cp(self, qbit1, qbit2, phi):
+        """
+        Adds the representation of a controlled phase gate to the circuit.
+
+        Parameters
+        ----------
+        qbit1 : int
+            Control bit 1
+        qbit2 : int
+            Control bit 2
+        phi : float
+            Rotation angle
+
+        Returns
+        -------
+        None.
+
+        """
         self.addBigGate(('cp', qbit1, qbit2, phi))
     
     def swap(self, qbit1, qbit2):
+        """
+        Adds the representation of a swap gate to the circuit.
+
+        Parameters
+        ----------
+        qbit1 : int
+            qubit to be swapped
+        qbit2 : int
+            qubit to be swapped
+
+        Returns
+        -------
+        None.
+
+        """
         self.addBigGate(('swap', qbit1, qbit2))
         
     def simulate(self, return_full=False):
         """
-        Applies the circuit to the initialized statevector
+        Applies the circuit to the initialized state vector
 
         Returns
         -------
         The final state of the state vector
-        Planned: any measurements throughout the experiment
+        if return_full:
+            return all operations along with the statevector and measurements
         
         """
         if return_full: 
             self.register, operations, measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
             return self.register, operations, measurements
         else: self.register = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate()
+
+    def simulate2(self):
+        """
+        Applies the circuit to the initialized state vector using less memory than simulate()
+
+        Returns
+        -------
+        The final state of the state vector
+        
+        """
+        return Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate2()
 
     def addmeasure(self):
         """
@@ -238,13 +320,22 @@ class QuantumCircuit:
         self.gateindex += 1
 
     def show(self):
+        """
+        Prints out the initial definition of the statevector, along with the gates of the circuit.
+        It then simulates the circuit and prints out the new statevector.
+
+        Returns
+        -------
+        None.
+
+        """
         print('Register defined as:')
         print(self.register)
         #self.register.measure()
         print('Gates are:')
         print(np.array(self.gates, dtype = object), '\n')
         
-        self.simulate()
+        self.simulate2()
         print('Final state of the register is:')
         print(self.register)
         print('With statevector')

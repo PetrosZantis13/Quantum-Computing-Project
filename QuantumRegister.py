@@ -5,7 +5,7 @@ Created on Thu Feb  4 15:54:14 2021
 @author: mikva
 """
 import numpy as np
-import SquareMatrix as sm
+import sparse
 
 
 class QuantumRegister:
@@ -27,7 +27,7 @@ class QuantumRegister:
         Qbits = []
 
         for i in range(n): 
-            Qbits.append(Qbit())
+            Qbits.append(Qubit())
         self.Qbits = np.array(Qbits)
         self.initialize()        
 
@@ -49,13 +49,28 @@ class QuantumRegister:
         None.
 
         """
-        self.Statevec = sm.Vector(np.array([1]))
+        self.Statevec = sparse.Vector(np.array([1], dtype=complex))
         for qbit in self.Qbits[::-1]:
             self.Statevec = self.Statevec.outer(qbit.vals)
             
     def setStateVec(self, newVec):
+        """
+        Allows the user to set the state vector to a new vector. Automatically normalises the vector.
+        
+        Parameters
+        ----------
+        newVec : list or array
+            The new vector to become the state vector.
+
+        Returns
+        -------
+        None.
+
+        """
+        newVec = np.array(newVec, dtype=complex)
+        assert self.Statevec.Dimension == newVec.size, 'Wrong dimensions for new statevector'
         normal_const = np.sqrt((newVec*newVec.conj()).sum())
-        self.Statevec = sm.Vector(newVec/normal_const)
+        self.Statevec = sparse.Vector(newVec/normal_const)
         
     def setQbits(self, qbits, vals):
         """
@@ -77,7 +92,7 @@ class QuantumRegister:
         """
         
         for qbit in qbits:
-            self.Qbits[qbit].vals = sm.Vector(np.array(vals[qbit]) / np.linalg.norm(vals[qbit]))
+            self.Qbits[qbit].vals = sparse.Vector(np.array(vals[qbit]) / np.linalg.norm(vals[qbit]))
         self.initialize()
 
     def measure(self):
@@ -102,17 +117,10 @@ class QuantumRegister:
             qbit.vals.Elements[0] = complex(1 - qbit.vals.Elements[1])
             qbit.normalize()
             #print(qbit)
-
-class ClassicalRegister():
-    def __init__(self, n):
-        self.bits = np.zeros(n, dtype=float)
-
-    
-        
-    
-class Qbit:
+            
+class Qubit:
     def __init__(self):
-        self.vals = sm.Vector(np.array([1.+0.j, 0.+0.j]))
+        self.vals = sparse.Vector(np.array([1.+0.j, 0.+0.j]))
     
     def normalize(self):
         #print(self.vals.Elements)
