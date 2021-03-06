@@ -64,7 +64,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     """
     grover_circuit = QuantumCircuit.QuantumCircuit(n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    repetitions = math.ceil(np.sqrt(n_qubits/len(measured_bits))) - 1
+    repetitions = round(np.sqrt(n_qubits/len(measured_bits))) - 1
     
     grover_circuit.addmeasure()
     # calculate oracle
@@ -105,14 +105,14 @@ def Grover_Circuit(n_qubits, measured_bits):
     for j, measurement in enumerate(measurements[1]):
         axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
         axis[j].set_ylim([0,1])
-        axis[j].set_xlabel("State |N>")
+        axis[j].set_xlabel("State |N>", fontsize = '13')
         if j>0:
             axis[j].set_yticklabels("")
         #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
-    axis[0].set_ylabel("Probability")
+    axis[0].set_ylabel("Probability", fontsize = '13')
     
     #figure.set_ylabel("Probability of Measuring State")
-    figure.suptitle("Probability of measuring state N")
+    figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
     plt.show()
     
     
@@ -256,9 +256,9 @@ def qft_example():
     None.
 
     """
-    circuit = QuantumCircuit.QuantumCircuit(4) # Create circuit
+    circuit = QuantumCircuit.QuantumCircuit(3) # Create circuit
     circuit.addGate('x', [2,1]) # Set the state vector to a specific superposition
-    circuit.addGate('h', [0,3])
+    circuit.addGate('h', [0,2])
     circuit.addBigGate(('cn', 0, 2))
     circuit.addmeasure()
     QFT(circuit)
@@ -266,6 +266,8 @@ def qft_example():
     qft_dagger(circuit)
     circuit.addmeasure()
     results = circuit.simulate(return_full=True)
+    
+    print(np.array(circuit.gates)[:, :12])
     
     for i, measurement in enumerate(results[2][1]):
         print(f'Measurement {i}')

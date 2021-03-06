@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     
     print('Grover Circuit example:')
-    Presentation.Grover_Circuit(4, [3])
+    Presentation.Grover_Circuit(4, [3,5])
     
     
     """
