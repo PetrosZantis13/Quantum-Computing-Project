@@ -285,6 +285,7 @@ class Circuit(object):
     
 #c = Circuit("Grover")
 #c.run_circuit()
+
 t = Circuit("Teleportation")
 t.run_circuit()
 
