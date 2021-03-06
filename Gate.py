@@ -22,8 +22,7 @@ class Gate(object):
             
         elif(self.name=='X'):
             gate = np.zeros((2,2))
-            gate[0,1] = 1
-            gate[1,0] = 1
+            gate[0,1] = gate[1,0] = 1            
             
         elif(self.name=='Y'):
             gate = np.zeros((2,2), dtype=complex)
@@ -36,10 +35,8 @@ class Gate(object):
         
         elif(self.name=='CNOT' or self.name=='CX'):
             gate = np.zeros((4,4))
-            gate[0,0] = 1
-            gate[1,1] = 1
-            gate[2,3] = 1
-            gate[3,2] = 1
+            gate[0,0] = gate[1,1] = 1            
+            gate[2,3] = gate[3,2] = 1            
             self.qbitdim = 2    # double-qubit gate
             
         elif(self.name=='CZ'):
@@ -49,10 +46,8 @@ class Gate(object):
         
         elif(self.name=='SWAP'):
             gate = np.zeros((4,4))
-            gate[0,0] = 1
-            gate[1,2] = 1
-            gate[2,1] = 1
-            gate[3,3] = 1
+            gate[0,0] = gate[1,2] = 1            
+            gate[2,1] = gate[3,3] = 1            
             self.qbitdim = 2   # double-qubit gate
          
 #         elif(self.name=='Phase Shift' or Rphi):   

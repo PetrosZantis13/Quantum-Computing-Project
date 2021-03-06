@@ -18,8 +18,7 @@ class Circuit(object):
         The constructor of the Circuit class takes as argument the name
         of the desired circuit.
         ''' 
-        self.name = name
-        
+        self.name = name        
     
     def size_prompt(self):        
         '''
@@ -133,78 +132,98 @@ class Circuit(object):
         
         elif(self.name=='Teleportation'):
             
-            print("Alice's qubit:")
-            a = self.qubit_prompt()
-            print("Bob's qubit:")
-            b = self.qubit_prompt()
-            qbit_alice = Qubit(1-a,a)     
-            qbit_bob = Qubit(1-b,b)    
+            AorM = self.prompt()
             
-            Bell_circuit = Circuit("Bell States")
-            Bell_states = Bell_circuit.run_circuit()            
-            '''
-            Entangle the 2 qubits in one of the 4 Bell states (Quantum Channel)
-            '''
-            qbit_alice.apply_gate(Gate("Hadamard"))            
-            control = Tensor([qbit_alice, qbit_bob])
-            control.calculate()
-            entangled_AB = State(control.product)
-            entangled_AB.apply_gate(Gate("CNOT"))
+            if(AorM=='a'):
             
-            for idx, Bell_state in enumerate(Bell_states):  # use enumerate?
-                if(entangled_AB.vector.T.dot(Bell_state.vector) > 0 ):                        
-                    AB_index = idx   
-                    print(f"\nQuantum Channel is in Bell State {AB_index}:")
-                    print(entangled_AB.vector)
-            '''
-            Alice's measurements in the 4 Bell Bases 
-            (entangles her two qubits and measures 1 of the 4 Bell states)
-            '''
-
-            qbit_unknown = Qubit(0.8,0.6)
-            #print(qbit_unknown.probabilities())
-            #qbit_unknown.apply_gate(Gate("Hadamard"))            
-            control = Tensor([qbit_unknown, qbit_alice])
-            control.calculate()
-            entangled_AC = State(control.product)
-            entangled_AC.apply_gate(Gate("CNOT"))
-            print(f"\nAlice entangles the unknown state with her qubit to:")
-            print(entangled_AC.vector)
-            #print(entangled_AC.probabilities())
-            print(f"\nTransformed to Bell Bases:")
-            #entangled_AC.apply_gate(Gate("CNOT"))
-            reverse = Tensor([Gate('I'), Gate('H')])
-            reverse.calculate()
-            tr_gate = Gate("Transform")
-            tr_gate.build_gate(reverse.product)
-            entangled_AC.apply_gate(tr_gate)
+                print("Alice's qubit:")
+                a = self.qubit_prompt()
+                print("Bob's qubit:")
+                b = self.qubit_prompt()
+                runs = 1
             
-            print(entangled_AC.vector)
-            #PETRO HERE TRANSFORM THIS TO BELL BASIS BEFORE MEASUREMENT
-            print(f"\nAlice measures her entangled state:")
-            AC_index = entangled_AC.measure()            
-            print(f"\nAlice's measurement gave out Bell State {AC_index}:")
-            print(Bell_states[AC_index].vector)
+            else:
+                a=b=zeros=ones=0  # test other scenarios
+                runs = 1000
             
-            diff = AC_index - AB_index
-            
-            if( diff == 0):
-                print("Bob's qubit is already in desired state")
-                corr_gate = Gate("I")
+            for i in range(runs):  
+                 
+                qbit_alice = Qubit(1-a,a)     
+                qbit_bob = Qubit(1-b,b)    
                 
-            elif( diff == 1 or diff == -3):
-                corr_gate = Gate("Z")
-            elif( np.abs(diff) == 2):
-                corr_gate = Gate("X")
-            elif( diff == 3 or diff == -1):
-                correction = (Gate("Z").operator).dot(Gate("X").operator)
-                corr_gate = Gate("ZX")
-                corr_gate.build_gate(correction)
-            
-            print(f"\nThe appropriate correction is:\n{corr_gate.operator}")
-            qbit_bob.apply_gate(corr_gate)
-            print("\nBob's qubit after applying correction:")
-            print(qbit_bob.vector)
+                Bell_circuit = Circuit("Bell States")
+                Bell_states = Bell_circuit.run_circuit()            
+                '''
+                Entangle the 2 qubits in one of the 4 Bell states (Quantum Channel)
+                '''
+                qbit_alice.apply_gate(Gate("Hadamard"))            
+                control = Tensor([qbit_alice, qbit_bob])
+                control.calculate()
+                entangled_AB = State(control.product)
+                entangled_AB.apply_gate(Gate("CNOT"))
+                
+                for idx, Bell_state in enumerate(Bell_states):
+                    if(entangled_AB.vector.T.dot(Bell_state.vector) > 0 ):                        
+                        AB_index = idx   
+                        print(f"\nQuantum Channel is in Bell State {AB_index}:")
+                        print(entangled_AB.vector)
+                        
+                '''
+                Alice's entangles her two qubits and performs a Bell measurement
+                '''    
+                qbit_unknown = Qubit(0.8,0.6)  #Qubit(0.28,0.96)   
+                #print(qbit_unknown.probabilities())
+                #qbit_unknown.apply_gate(Gate("Hadamard"))            
+                control = Tensor([qbit_unknown, qbit_alice])
+                control.calculate()
+                entangled_AC = State(control.product)
+                entangled_AC.apply_gate(Gate("CNOT"))
+                print(f"\nAlice entangles the unknown state with her qubit to:")
+                print(entangled_AC.vector)
+                #print(entangled_AC.probabilities())
+                print(f"\nTransformed to Bell Bases:")
+                #entangled_AC.apply_gate(Gate("CNOT"))
+                reverse = Tensor([Gate('I'), Gate('H')])
+                reverse.calculate()
+                tr_gate = Gate("Transform")
+                tr_gate.build_gate(reverse.product)
+                entangled_AC.apply_gate(tr_gate)
+                
+                print(entangled_AC.vector)
+                #PETRO HERE TRANSFORM THIS TO BELL BASIS BEFORE MEASUREMENT
+                print(f"\nAlice measures her entangled state:")
+                AC_index = entangled_AC.measure()            
+                print(f"\nAlice's measurement gave out Bell State {AC_index}:")
+                print(Bell_states[AC_index].vector)
+                
+                diff = AC_index - AB_index
+                
+                if( diff == 0):
+                    print("\nBob's qubit is already in desired state")
+                    corr_gate = Gate("I")
+                    
+                elif( diff == 1 or diff == -3):
+                    corr_gate = Gate("Z")
+                elif( np.abs(diff) == 2):
+                    corr_gate = Gate("X")
+                elif( diff == 3 or diff == -1):
+                    correction = (Gate("Z").operator).dot(Gate("X").operator)
+                    corr_gate = Gate("ZX")
+                    corr_gate.build_gate(correction)
+                
+                print(f"\nThe appropriate correction is:\n{corr_gate.operator}")
+                qbit_bob.apply_gate(corr_gate)
+                print("\nBob's qubit after applying correction:")
+                print(qbit_bob.vector)
+                
+                if(AorM=='m'):
+                    if(np.all(qbit_bob.vector == Qubit(1,0).vector)):
+                        zeros+=1
+                    elif(np.all(qbit_bob.vector == Qubit(0,1).vector)):
+                        ones+=1
+                    
+                    print(f"\nBob's teleported state ({runs} runs):")
+                    print(f"{np.sqrt(zeros/runs):.4f} |0> + {np.sqrt(ones/runs):.4f} |1>")
             
     # maybe add a draw_circuit function?
         
@@ -246,8 +265,26 @@ class Circuit(object):
         plt.legend()
         plt.show()
         
-c = Circuit("Grover")
-c.run_circuit()
+    def prompt(self):
+        
+        AorM = input("Please type 'a' for Animation or 'm' for Measurements: ")
+    
+        if(AorM=='a'):
+            
+            print("Animation:")
+            
+        elif(AorM=='m'):
+            
+            print("Measurements:")
+            
+        else:
+            print("Invalid entry. Please try again.")
+            self.prompt()
+        
+        return AorM
+    
+#c = Circuit("Grover")
+#c.run_circuit()
 t = Circuit("Teleportation")
 t.run_circuit()
 

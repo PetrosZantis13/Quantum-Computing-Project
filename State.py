@@ -4,9 +4,6 @@ Author: Petros Zantis
 '''
 import numpy as np
 
-from Gate import *
-from Tensor import *
-
 class BasisStates():
     
     def __init__(self, dimension) :
@@ -18,9 +15,7 @@ class BasisStates():
         vector_space = np.identity(dimension)
         self.vector = vector_space
         
-        bases = []
-        # also ensure bases are orthogonal?
-                
+        bases = []                
         for state in vector_space:
             basis = state.reshape(dimension,1)
             bases.append(basis)
@@ -59,7 +54,7 @@ class State():
             amp = amplitude[0]
             amps.append(amp.conj() * amp)
         
-        print(f"The amplitudes sum up to : {np.sum(amps):.2f}")
+        print(f"The amplitudes sum up to : {np.sum(amps):.2f}")  # must be 1 for a normalised state
         
         return basis_states, amps
     
@@ -92,7 +87,7 @@ class Qubit(State):
         self.b = b
         
         if(abs(a)**2 + abs(b)**2 != 1):
-            print("wrong modulus")  # maybe use assert
+            print("Unnormalised modulus")  # maybe use assert
         
         bases = BasisStates(2).states   # qubit is 2 dimensional
         basis0 = bases[0]

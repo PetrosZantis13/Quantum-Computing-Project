@@ -36,3 +36,16 @@ class Tensor(object):
             print("Incompatible inputs!")
             
         self.product = product
+    
+    def to_gate(self, gate_name):
+        
+        self.calculate()        
+        gate = Gate.Gate(gate_name)
+        gate.build_gate(self.product)
+        return gate
+    
+    def to_state(self):
+        
+        self.calculate()        
+        state = State.State(self.product)
+        return state
