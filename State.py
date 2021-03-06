@@ -1,16 +1,16 @@
 '''
-Quantum Computing Project
-Author: Petros Zantis
+The State module is used to create objects representing quantum states. 
 '''
 import numpy as np
 
 class BasisStates():
+    """ creates the pure basis states with the given dimension.
+
+    :param dimension: (int) dimensions of vector space
+
+    """
     
     def __init__(self, dimension) :
-        '''
-        The constructor of the BasisStates class, which creates the 
-        pure basis states with the given dimension.
-        ''' 
         self.dimension = dimension
         vector_space = np.identity(dimension)
         self.vector = vector_space
@@ -23,29 +23,39 @@ class BasisStates():
         self.states = bases
 
 class State():
-    
-    # PETRO CHECK THAT ALWAYS NORMALISED LIKE QUBIT
-    
+    """ General Method of creating objects that represent quantum states
+
+    :param matrix:  (array) Matrix representing Quantum State
+    """
+        
     def __init__(self, matrix) :
-        '''
-        The constructor of the State class, which takes as argument
-        the matrix representing the quantum state.
-        '''   
-        self.vector = matrix   # vector representing the state
+        # vector representing the state
+        self.vector = matrix 
         
     def apply_gate(self, gate):
         '''
         Applies the gate given as argument to the quantum state
+        After asserting that the dimensions of the state and gate match, 
+        calculates the dot product of the gate’s operator and the state’s vector,
+        and saves the result as the new updated state vector.
+
+        :param gate:  (array) gate of the circuit
+
         '''  
         # ensure that the dimensions match
         assert(len(self.vector) == 2**(gate.qbitdim))   
-        #print(f"\nApplying the {gate.name} gate to state\n{self.vector}:\n")
         new_vector = gate.operator.dot(self.vector)
         self.vector = new_vector
     
     def probabilities(self):
         '''
         Calculates the amplitude of each basis state in an entangled state
+        Goes through the amplitudes of each basis, multiplies it by its 
+        conjugate, and outputs a list of the basis states and their 
+        corresponding probabilities inside the state vector. 
+
+        :return: (list) basis states and their probabilities inside the state vector
+        
         '''        
         basis_states = []
         amps = []
@@ -53,14 +63,20 @@ class State():
             basis_states.append(basis)
             amp = amplitude[0]
             amps.append(amp.conj() * amp)
-        
-        print(f"The amplitudes sum up to : {np.sum(amps):.2f}")  # must be 1 for a normalised state
+
+        # must be 1 for a normalised state
+        print(f"The amplitudes sum up to : {np.sum(amps):.2f}")
         
         return basis_states, amps
     
     def measure(self):
         '''
         Measures the quantum state and collapses it to one of its basis states.
+        Collapses the wavefunction to one of its basis states by using the probabilities
+        from the the method of the probabilities function and the numpy 
+        random library.
+
+        :return: (int) index of collapsed state
         '''        
         basis_states, amps = self.probabilities()
         r = np.random.random()     
@@ -77,12 +93,15 @@ class State():
         return collapsed
             
 class Qubit(State):
+    """Subclass of the State class. Qubits are specifically 2 dimensional states. 
+    Builds the state vector. 
+    
+    :param a: (int) amplitude of basis state |0>
+    :param b: (int) amplitude of basis state |1>
+
+    """ 
     
     def __init__(self, a, b) :
-        '''
-        The constructor of the Qubit class takes as argument the
-        amplitudes a and b of basis states |0> and |1> respectively.
-        '''  
         self.a = a
         self.b = b
         
