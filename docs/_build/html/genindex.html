@@ -90,6 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="State.html">State module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gate module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Circuit5.html">Circuit5 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse.html">sparse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
 </ul>
 
             
@@ -162,18 +164,41 @@
  <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.addBigGate">addBigGate() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.addCustom">addCustom() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.addGate">addGate() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.addLargeGate">addLargeGate() (Simulator.Simulator method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.addmeasure">addmeasure() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="MatrixInterface.html#MatrixInterface.Matrix.apply">apply() (MatrixInterface.Matrix method)</a>
+
+      <ul>
+        <li><a href="sparse.html#sparse.SparseMatrix.apply">(sparse.SparseMatrix method)</a>
+</li>
+      </ul></li>
       <li><a href="State.html#State.State.apply_gate">apply_gate() (State.State method)</a>
 </li>
   </ul></td>
@@ -186,6 +211,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Simulator.html#Simulator.Simulator.bitactive">bitactive() (Simulator.Simulator method)</a>
+</li>
       <li><a href="Gate.html#Gate.Gate.build_gate">build_gate() (Gate.Gate method)</a>
 </li>
   </ul></td>
@@ -196,10 +223,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Tensor.html#Tensor.Tensor.calculate">calculate() (Tensor.Tensor method)</a>
 </li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.ccnot">ccnot() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.ccNot">ccNot() (Simulator.Simulator method)</a>
+</li>
       <li><a href="Circuit5.html#Circuit5.Circuit">Circuit (class in Circuit5)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     Circuit5
 
@@ -207,6 +236,30 @@
         <li><a href="Circuit5.html#module-Circuit5">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.cnot">cnot() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.cNot">cNot() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.cp">cp() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.cP">cP() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.cZ">cZ() (Simulator.Simulator method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="MatrixInterface.html#MatrixInterface.explicit.enumerator">enumerator() (MatrixInterface.explicit method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="MatrixInterface.html#MatrixInterface.explicit">explicit (class in MatrixInterface)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -220,11 +273,25 @@
         <li><a href="Gate.html#module-Gate">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Gate.html#Gate.Gate">Gate (class in Gate)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.get0">get0() (QuantumRegister.Qubit method)</a>
+</li>
+      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.get1">get1() (QuantumRegister.Qubit method)</a>
+</li>
+      <li><a href="MatrixInterface.html#MatrixInterface.Matrix.get_value">get_value() (MatrixInterface.Matrix method)</a>
+</li>
       <li><a href="Circuit5.html#Circuit5.Circuit.grover_data">grover_data() (Circuit5.Circuit method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister.initialize">initialize() (QuantumRegister.QuantumRegister method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -232,8 +299,29 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="State.html#State.State.measure">measure() (State.State method)</a>
+      <li><a href="sparse.html#sparse.SparseMatrix.makedense">makedense() (sparse.SparseMatrix method)</a>
 </li>
+      <li><a href="Simulator.html#Simulator.Simulator.makeMatrices">makeMatrices() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="sparse.html#sparse.makesparse">makesparse() (in module sparse)</a>
+</li>
+      <li><a href="MatrixInterface.html#MatrixInterface.Matrix">Matrix (class in MatrixInterface)</a>
+</li>
+      <li><a href="MatrixInterface.html#MatrixInterface.MatrixElement">MatrixElement (class in MatrixInterface)</a>
+</li>
+      <li>
+    MatrixInterface
+
+      <ul>
+        <li><a href="MatrixInterface.html#module-MatrixInterface">module</a>
+</li>
+      </ul></li>
+      <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister.measure">measure() (QuantumRegister.QuantumRegister method)</a>
+
+      <ul>
+        <li><a href="State.html#State.State.measure">(State.State method)</a>
+</li>
+      </ul></li>
       <li>
     module
 
@@ -242,11 +330,57 @@
 </li>
         <li><a href="Gate.html#module-Gate">Gate</a>
 </li>
+        <li><a href="MatrixInterface.html#module-MatrixInterface">MatrixInterface</a>
+</li>
+        <li><a href="QuantumCircuit.html#module-QuantumCircuit">QuantumCircuit</a>
+</li>
+        <li><a href="QuantumRegister.html#module-QuantumRegister">QuantumRegister</a>
+</li>
+        <li><a href="Simulator.html#module-Simulator">Simulator</a>
+</li>
+        <li><a href="sparse.html#module-sparse">sparse</a>
+</li>
         <li><a href="State.html#module-State">State</a>
 </li>
         <li><a href="Tensor.html#module-Tensor">Tensor</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="MatrixInterface.html#MatrixInterface.explicit.multiply">multiply() (MatrixInterface.explicit method)</a>
+
+      <ul>
+        <li><a href="MatrixInterface.html#MatrixInterface.Matrix.multiply">(MatrixInterface.Matrix method)</a>
+</li>
+        <li><a href="sparse.html#sparse.SparseMatrix.multiply">(sparse.SparseMatrix method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.ncp">ncp() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.NCP">NCP() (Simulator.Simulator method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.ncz">ncz() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.NCZ">NCZ() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.normalize">normalize() (QuantumRegister.Qubit method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="MatrixInterface.html#MatrixInterface.Vector.outer">outer() (MatrixInterface.Vector method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -267,10 +401,32 @@
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="State.html#State.Qubit">Qubit (class in State)</a>
+      <li>
+    QuantumCircuit
+
+      <ul>
+        <li><a href="QuantumCircuit.html#module-QuantumCircuit">module</a>
 </li>
+      </ul></li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit">QuantumCircuit (class in QuantumCircuit)</a>
+</li>
+      <li>
+    QuantumRegister
+
+      <ul>
+        <li><a href="QuantumRegister.html#module-QuantumRegister">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister">QuantumRegister (class in QuantumRegister)</a>
+</li>
+      <li><a href="QuantumRegister.html#QuantumRegister.Qubit">Qubit (class in QuantumRegister)</a>
+
+      <ul>
+        <li><a href="State.html#State.Qubit">(class in State)</a>
+</li>
+      </ul></li>
       <li><a href="Circuit5.html#Circuit5.Circuit.qubit_prompt">qubit_prompt() (Circuit5.Circuit method)</a>
 </li>
   </ul></td>
@@ -279,6 +435,12 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.r">r() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Simulator.html#Simulator.Simulator.Rt">Rt() (Simulator.Simulator method)</a>
+</li>
       <li><a href="Circuit5.html#Circuit5.Circuit.run_circuit">run_circuit() (Circuit5.Circuit method)</a>
 </li>
   </ul></td>
@@ -287,7 +449,49 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="MatrixInterface.html#MatrixInterface.Matrix.set_value">set_value() (MatrixInterface.Matrix method)</a>
+</li>
+      <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister.setQbits">setQbits() (QuantumRegister.QuantumRegister method)</a>
+</li>
+      <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister.setStateVec">setStateVec() (QuantumRegister.QuantumRegister method)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.setStateVector">setStateVector() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.show">show() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.simulate">simulate() (QuantumCircuit.QuantumCircuit method)</a>
+
+      <ul>
+        <li><a href="Simulator.html#Simulator.Simulator.simulate">(Simulator.Simulator method)</a>
+</li>
+      </ul></li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.simulate2">simulate2() (QuantumCircuit.QuantumCircuit method)</a>
+
+      <ul>
+        <li><a href="Simulator.html#Simulator.Simulator.simulate2">(Simulator.Simulator method)</a>
+</li>
+      </ul></li>
+      <li>
+    Simulator
+
+      <ul>
+        <li><a href="Simulator.html#module-Simulator">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Simulator.html#Simulator.Simulator">Simulator (class in Simulator)</a>
+</li>
       <li><a href="Circuit5.html#Circuit5.Circuit.size_prompt">size_prompt() (Circuit5.Circuit method)</a>
+</li>
+      <li>
+    sparse
+
+      <ul>
+        <li><a href="sparse.html#module-sparse">module</a>
+</li>
+      </ul></li>
+      <li><a href="sparse.html#sparse.SparseMatrix">SparseMatrix (class in sparse)</a>
 </li>
       <li>
     State
@@ -296,9 +500,11 @@
         <li><a href="State.html#module-State">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="State.html#State.State">State (class in State)</a>
+</li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.swap">swap() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.Swap">Swap() (Simulator.Simulator method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -313,13 +519,25 @@
         <li><a href="Tensor.html#module-Tensor">module</a>
 </li>
       </ul></li>
+      <li><a href="Tensor.html#Tensor.Tensor">Tensor (class in Tensor)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Tensor.html#Tensor.Tensor">Tensor (class in Tensor)</a>
+      <li><a href="sparse.html#sparse.SparseMatrix.tensorProduct">tensorProduct() (sparse.SparseMatrix method)</a>
 </li>
       <li><a href="Tensor.html#Tensor.Tensor.to_gate">to_gate() (Tensor.Tensor method)</a>
 </li>
       <li><a href="Tensor.html#Tensor.Tensor.to_state">to_state() (Tensor.Tensor method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.toggle">toggle() (Simulator.Simulator method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="MatrixInterface.html#MatrixInterface.Vector">Vector (class in MatrixInterface)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>QuantumCircuit module &mdash; Quantum Computing Project  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Quantum Computing Project
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Tensor.html">Tensor module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="State.html">State module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Gate.html">Gate module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Circuit5.html">Circuit5 module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse.html">sparse module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Quantum Computing Project</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>QuantumCircuit module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/QuantumCircuit.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-QuantumCircuit">
+<span id="quantumcircuit-module"></span><h1>QuantumCircuit module<a class="headerlink" href="#module-QuantumCircuit" title="Permalink to this headline">¶</a></h1>
+<p>Created on Sat Feb  6 15:35:20 2021</p>
+<p>&#64;author: mikva</p>
+<dl class="py class">
+<dt id="QuantumCircuit.QuantumCircuit">
+<em class="property">class </em><code class="sig-prename descclassname">QuantumCircuit.</code><code class="sig-name descname">QuantumCircuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.addBigGate">
+<code class="sig-name descname">addBigGate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.addBigGate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the representation of a gate into self.gates.
+The gate will be iplemented later on when the circuit is simulated.</p>
+<dl class="simple">
+<dt>gate_info<span class="classifier">tuple(str, int, int…)</span></dt><dd><p>The gate info for the large gate in the form of string(type of gate), 
+and ints for control bits, then the controlled bit for the last int if needed</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.addCustom">
+<code class="sig-name descname">addCustom</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbit1</span></em>, <em class="sig-param"><span class="n">qbit2</span></em>, <em class="sig-param"><span class="n">gate</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.addCustom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a custom, user defined gate to the circuit. Does not check for unitary matrices, 
+so have to be careful when using it. The dimension of the gate must match the dimension
+allowed by the affected qubits.</p>
+<dl class="simple">
+<dt>qbit1<span class="classifier">int</span></dt><dd><p>Position of the qubit with the smaller index.</p>
+</dd>
+<dt>qbit2<span class="classifier">int</span></dt><dd><p>Position of the qubit with the higher index.</p>
+</dd>
+<dt>gate<span class="classifier">SparseMatrix</span></dt><dd><p>SparseMAtrix representation of the gate to be added to the circuit.</p>
+</dd>
+<dt>name<span class="classifier">string</span></dt><dd><p>The name of the custom gate.</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.addGate">
+<code class="sig-name descname">addGate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate</span></em>, <em class="sig-param"><span class="n">bits</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.addGate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an arbitrary gate to the set of gates stored in the circuit</p>
+<dl class="simple">
+<dt>gate<span class="classifier">char</span></dt><dd><p>The type of gate to be added. Current options are:’x’, ‘y’, ‘z’, ‘h’, ‘p’, ‘t’</p>
+</dd>
+<dt>bits<span class="classifier">array_like</span></dt><dd><p>The position of bits the gate is needed to be added</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.addmeasure">
+<code class="sig-name descname">addmeasure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.addmeasure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a space where a measurement should be made. Mesurements are only made when simulating the circuit.</p>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.ccnot">
+<code class="sig-name descname">ccnot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">control1</span></em>, <em class="sig-param"><span class="n">control2</span></em>, <em class="sig-param"><span class="n">qubit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.ccnot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the representation of a ccnot gate into self.gates.
+The gate will be iplemented later on when the circuit is simulated.</p>
+<dl class="simple">
+<dt>qbit1<span class="classifier">int</span></dt><dd><p>Control Qubit</p>
+</dd>
+<dt>qbit2<span class="classifier">int</span></dt><dd><p>Controlled Qubit</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.cnot">
+<code class="sig-name descname">cnot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbit1</span></em>, <em class="sig-param"><span class="n">qbit2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.cnot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the representation of a cnot gate into self.gates.
+The gate will be iplemented later on when the circuit is simulated.</p>
+<dl class="simple">
+<dt>qbit1<span class="classifier">int</span></dt><dd><p>Control Qubit</p>
+</dd>
+<dt>qbit2<span class="classifier">int</span></dt><dd><p>Controlled Qubit</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.cp">
+<code class="sig-name descname">cp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbit1</span></em>, <em class="sig-param"><span class="n">qbit2</span></em>, <em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.cp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the representation of a controlled phase gate to the circuit.</p>
+<dl class="simple">
+<dt>qbit1<span class="classifier">int</span></dt><dd><p>Control bit 1</p>
+</dd>
+<dt>qbit2<span class="classifier">int</span></dt><dd><p>Control bit 2</p>
+</dd>
+<dt>phi<span class="classifier">float</span></dt><dd><p>Rotation angle</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.ncp">
+<code class="sig-name descname">ncp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bits</span></em>, <em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.ncp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a phase gate controlled by n other qubits</p>
+<dl class="simple">
+<dt>bits<span class="classifier">List if ints</span></dt><dd><p>The control qubits</p>
+</dd>
+<dt>phi<span class="classifier">float</span></dt><dd><p>Rotation parameter</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.ncz">
+<code class="sig-name descname">ncz</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bits</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.ncz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the representation of an n controlled z gate to the circuit</p>
+<dl class="simple">
+<dt>bits<span class="classifier">list</span></dt><dd><p>The control bits for the gate</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.r">
+<code class="sig-name descname">r</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bits</span></em>, <em class="sig-param"><span class="n">theta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a rotation matrix to the circuit</p>
+<dl class="simple">
+<dt>bits<span class="classifier">list</span></dt><dd><p>The qubits that the matrices will be applied to</p>
+</dd>
+<dt>theta<span class="classifier">float</span></dt><dd><p>Rotation angle</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.setStateVector">
+<code class="sig-name descname">setStateVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">newVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.setStateVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allows the user to define the state vector for the quantum circuit</p>
+<dl class="simple">
+<dt>newVector<span class="classifier">array_like</span></dt><dd><p>The vector that the user wants as the new state vector</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints out the initial definition of the statevector, along with the gates of the circuit.
+It then simulates the circuit and prints out the new statevector.</p>
+<p>None.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.simulate">
+<code class="sig-name descname">simulate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">return_full</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the circuit to the initialized state vector</p>
+<p>The final state of the state vector
+if return_full:</p>
+<blockquote>
+<div><p>return all operations along with the statevector and measurements</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.simulate2">
+<code class="sig-name descname">simulate2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.simulate2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the circuit to the initialized state vector using less memory than simulate()</p>
+<p>The final state of the state vector</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.swap">
+<code class="sig-name descname">swap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbit1</span></em>, <em class="sig-param"><span class="n">qbit2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.swap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the representation of a swap gate to the circuit.</p>
+<dl class="simple">
+<dt>qbit1<span class="classifier">int</span></dt><dd><p>qubit to be swapped</p>
+</dd>
+<dt>qbit2<span class="classifier">int</span></dt><dd><p>qubit to be swapped</p>
+</dd>
+</dl>
+<p>None.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Fedra Antoniadou, Despina Demetriadou, Singh Gagandeep, Mihaly Kovacs,  Rishi Sundar, Kyriacos Xanthos, Petros Zantis.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
