@@ -1,29 +1,17 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Feb  4 15:54:14 2021
-
-@author: mikva
+add a description here of the module
 """
 import numpy as np
 import sparse
 
 
 class QuantumRegister:
+    """ Initializes the quantum register of length n. Creates a list of default qubits
+        in state |0> and initializes the wavevector which describes the register.
+
+        :param n: (int) length of register
+    """
     def __init__(self, n):
-        """
-        Initializes the quantum register of length n. Creates a list of default qubits
-        in state |0> and initializes the wavevector which describes the register
-
-        Parameters
-        ----------
-        n : int
-            length of register
-
-        Returns
-        -------
-        None.
-
-        """
         Qbits = []
 
         for i in range(n): 
@@ -43,11 +31,6 @@ class QuantumRegister:
     def initialize(self):
         """
         Sets the statevector according to the current state of qubits
-
-        Returns
-        -------
-        None.
-
         """
         self.Statevec = sparse.Vector(np.array([1], dtype=complex))
         for qbit in self.Qbits[::-1]:
@@ -57,14 +40,7 @@ class QuantumRegister:
         """
         Allows the user to set the state vector to a new vector. Automatically normalises the vector.
         
-        Parameters
-        ----------
-        newVec : list or array
-            The new vector to become the state vector.
-
-        Returns
-        -------
-        None.
+        :param newVec: (list) The new vector to become the state vector
 
         """
         newVec = np.array(newVec, dtype=complex)
@@ -78,17 +54,8 @@ class QuantumRegister:
         although it is preferred to use gates for this step.
         Automatically normalizes the Qbit
 
-        Parameters
-        ----------
-        qbits : array_like
-            qubits to be set
-        vals : array_like, each entry containing two values
-            The values that the qubits should be set to.
-
-        Returns
-        -------
-        None.
-
+        :param qbits: (list) qubts to be set
+        :param vals: (list) The values that the qubits should be set to. Each entry containing two values
         """
         
         for qbit in qbits:
@@ -98,12 +65,6 @@ class QuantumRegister:
     def measure(self):
         """
         Attempts to measure the current statevector in terms of individual qubits
-        Pretty sure it's impossible. Not because it's difficult, but because of entanglement
-        and stupid imaginary numbers.
-
-        Returns
-        -------
-        None.
 
         """
         for qbit in self.Qbits:
@@ -116,23 +77,26 @@ class QuantumRegister:
         for qbit in self.Qbits:
             qbit.vals.Elements[0] = complex(1 - qbit.vals.Elements[1])
             qbit.normalize()
-            #print(qbit)
             
 class Qubit:
+    """Creates a qubit using sparse matrices."""
     def __init__(self):
         self.vals = sparse.Vector(np.array([1.+0.j, 0.+0.j]))
     
     def normalize(self):
-        #print(self.vals.Elements)
+        """Normalizes all the elements."""
         self.vals.Elements = self.vals.Elements / np.sqrt((self.vals.Elements*self.vals.Elements.conj()).sum())
     
     def get0(self):
+        """Gets the |0> state"""
         return self.vals.Elements[0]
     
     def get1(self):
+        """Gets the |1> state"""
         return self.vals.Elements[1]
     
     def __str__(self):
+        """Printing function"""
         toPrint = ''
         toPrint += f'|0> = {self.vals.Elements[0]} \n'
         toPrint += f'|1> = {self.vals.Elements[1]} \n'
@@ -147,5 +111,4 @@ if __name__ == '__main__':
     print(qr.Statevec)
     qr.measure()
     
-    #cr = ClassicalRegister(3)
     

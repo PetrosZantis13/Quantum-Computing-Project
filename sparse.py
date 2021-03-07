@@ -5,6 +5,9 @@ import numpy as np
 def makesparse(matrix):
     """
     Converts dense matrix into sparse matrix in (row, column, value) form
+    
+    :param matrix: (list) Matrix to be converted to Sparse
+    :return: (list) Sparse matrix
     """
     n = matrix[0].size
     elements = []
@@ -19,39 +22,31 @@ def makesparse(matrix):
     
 
 class SparseMatrix(Matrix):
+    """
+    Creates sparse matrix, assumes they are square matrices 
+    
+    :param n: (int) dimensions of matrix
+    :param elements: (list) objects the requisite elements of the matrix
+
+    """
     
     def __init__(self, n, elements):
-        """
-        Initialises the sparse matrix, assumes they are square matrices but I will change this later
-
-        --------
-
-        Parameters:
-        n :           int
-        dimension of matrix
-        elements:     list or np array of MatrixElement() objects
-        the requisite elements of the matrix
-        """
         self.Dimension = n
         self.Elements = np.asarray(elements)
        
     
-    def enumerator(self):
-        for i in self.Elements:
-                yield i
+    # def enumerator(self):
+    #     """simple enumerator for elements"""
+    #     for i in self.Elements:
+    #             yield i
 
     def multiply(self, b):
         """
         Multiplies matrix with some other matrix b, will make this apply to none sparse matrices
         can be called by A*b where A is a sparse matrix
-        ------------
-        Parameters:
-        b   :     SparseMatrix()
 
-        Output
-
-        p   :     SparseMatrix()
-            the product of the two matrices  
+        :param b: SparseMatrix()
+        :return: (list) the product of two matrices
         """
         assert(self.Dimension == b.Dimension)
         p = []
@@ -68,15 +63,9 @@ class SparseMatrix(Matrix):
     def apply(self, v):
         """
         Applies the sparse Matrix to some vector V
-        -------------
-        parameters:    
-        v :      Vector()
-            some vector of the Vector() class
 
-        outputs:
-        u:      Vector()
-            The resultant vector from applying the matrix to v
-
+        :param v: some vector of the Vector() class
+        :return: (list) The resultant vector from applying the matrix to v
         """
         u = np.zeros(self.Dimension, dtype=complex)
         for me in self.Elements:
@@ -87,6 +76,7 @@ class SparseMatrix(Matrix):
         return u
 
     def makedense(self):
+        """makes a dense matrix"""
         M = np.zeros((self.Dimension, self.Dimension), dtype= complex)
         for me in self.Elements:
             M[me.i][me.j] = me.val
@@ -95,16 +85,11 @@ class SparseMatrix(Matrix):
 
     def tensorProduct(self, a):
         """
-        returns the tensor product of two matrices, currently applies to two sparse matrices, will remedy this
-        ------------
-        parameters 
-        a :      SparseMatrix()
-        another sparse matrix to operate on
+        Returns the tensor product of two matrices, 
+        currently applies to two sparse matrices
 
-        output
-
-        b :       SparseMatrix()
-        result of tensor product   
+        :param a: (list) sparse matrix to operate on
+        :return: (list) result of tensor product
 
         """
         
