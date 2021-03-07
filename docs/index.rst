@@ -22,6 +22,8 @@ Trial equation:
    State
    Gate
    Circuit5
+   sparse
+   QuantumRegister
 
 
 
