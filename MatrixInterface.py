@@ -13,11 +13,11 @@ class MatrixElement(object):
 class Matrix(ABC):
     
     def __init__(self, n, elements):
-        self.dimension = n
-        self.elements = elements
+        self.Dimension = n
+        self.Elements = elements
 
     #@abstractmethod
-    def get_value(self, i, j):
+    def get_value(self, pos):
         pass
 
     #@abstractmethod

@@ -7,9 +7,10 @@ Created on Sat Feb  6 15:35:20 2021
 import QuantumRegister
 import numpy as np
 import Simulator
+from InterfaceClass import InterfaceClass
 
-class QuantumCircuit:
-    def __init__(self, size):
+class QuantumCircuit(InterfaceClass):
+    def __init__(self, name, size):
         """
         Initiates the quantum circuit.
 
@@ -22,6 +23,7 @@ class QuantumCircuit:
         -------
         None.
         """
+        super().__init__(name, size)
         self.customgates = {}
         self.register = QuantumRegister.QuantumRegister(size)
         #self.classical_register = QuantumRegister.ClassicalRegister(size)
@@ -30,6 +32,7 @@ class QuantumCircuit:
             self.gates.append(['i'])
         self.gateindex = 0
         self.measurements = []
+        self.final_measurements = None
         
     def setStateVector(self, newVector):
         """
@@ -290,8 +293,8 @@ class QuantumCircuit:
         
         """
         if return_full: 
-            self.register, operations, measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
-            return self.register, operations, measurements
+            self.register, operations, self.final_measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
+            return self.register, operations, self.final_measurements
         else: self.register = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate()
 
     def simulate2(self):
@@ -303,7 +306,8 @@ class QuantumCircuit:
         The final state of the state vector
         
         """
-        return Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate2()
+        self.register, self.final_measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate2()
+        return self.register, self.final_measurements
 
     def addmeasure(self):
         """
@@ -341,6 +345,10 @@ class QuantumCircuit:
         print('With statevector')
         print(self.register.Statevec)
         self.register.measure()
+        
+    def return_measurements(self):
+        self.simulate2()
+        return self.final_measurements
     
 if __name__ == '__main__':
     pass
