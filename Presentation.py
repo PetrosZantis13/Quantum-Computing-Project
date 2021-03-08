@@ -62,7 +62,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     -------
     None.
     """
-    grover_circuit = QuantumCircuit.QuantumCircuit(n_qubits)
+    grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
     repetitions = round(np.sqrt(n_qubits/len(measured_bits))) - 1
     
@@ -92,10 +92,10 @@ def Grover_Circuit(n_qubits, measured_bits):
         diffuser(grover_circuit)
         grover_circuit.addmeasure()
 
-    #a2l.to_ltx(np.array(grover_circuit.gates, dtype=object))
-    print(np.array(grover_circuit.gates, dtype=object)[:,:6])
+    #print(np.array(grover_circuit.gates, dtype=object)[:,:6])
 
     #show results
+    #print(grover_circuit.return_measurements())
     final_statevec, measurements = grover_circuit.simulate2()
     #for m in measurements[1]:
     #   print(m)
@@ -115,6 +115,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
     plt.show()
     
+    print(grover_circuit)
     
 def QFT(circuit):
     """
@@ -209,7 +210,7 @@ def Ber_Vaz(s):
 
     """
     n=len(s)
-    bv_circ = QuantumCircuit.QuantumCircuit(n+1)
+    bv_circ = QuantumCircuit.QuantumCircuit('Bernstsin-Vazirani Algorithm example', n+1)
     
     # Put ancilla in state |->
     bv_circ.addGate('h', [n])
@@ -226,7 +227,7 @@ def Ber_Vaz(s):
     # Apply Hadamard after the oracle
     bv_circ.addGate('h', [i for i in range(n)])
     
-    bv_circ.show()
+    bv_circ.show_results()
     #bv_circ.register.measure()
     
     short_register = QuantumRegister.QuantumRegister(n)
@@ -256,7 +257,7 @@ def qft_example():
     None.
 
     """
-    circuit = QuantumCircuit.QuantumCircuit(3) # Create circuit
+    circuit = QuantumCircuit.QuantumCircuit('QFT example 1', 3) # Create circuit
     circuit.addGate('x', [2,1]) # Set the state vector to a specific superposition
     circuit.addGate('h', [0,2])
     circuit.addBigGate(('cn', 0, 2))
@@ -265,9 +266,9 @@ def qft_example():
     circuit.addmeasure()
     qft_dagger(circuit)
     circuit.addmeasure()
-    results = circuit.simulate(return_full=True)
+    results = circuit.run_circuit(return_full=True)
     
-    print(np.array(circuit.gates)[:, :12])
+    print(np.array(circuit.gates, dtype=object)[:, :12])
     
     for i, measurement in enumerate(results[2][1]):
         print(f'Measurement {i}')
@@ -279,14 +280,14 @@ def qft_example():
         axis[j].set_ylim([-1,1])
         print((results[2][1][j]*np.conj(results[2][1][j])).sum())
     
-    circuit = QuantumCircuit.QuantumCircuit(4)
+    circuit = QuantumCircuit.QuantumCircuit('QFT example 2', 4)
     circuit.addGate('x', [2,1])
     circuit.addmeasure()
     QFT(circuit)
     circuit.addmeasure()
     qft_dagger(circuit)
     circuit.addmeasure()
-    results = circuit.simulate(return_full=True)
+    results = circuit.run_circuit(return_full=True)
     
     for i, measurement in enumerate(results[2][1]):
         print(f'Measurement {i}')

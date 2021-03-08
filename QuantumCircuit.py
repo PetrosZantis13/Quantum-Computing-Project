@@ -7,9 +7,10 @@ Created on Sat Feb  6 15:35:20 2021
 import QuantumRegister
 import numpy as np
 import Simulator
+from Interface import Interface
 
-class QuantumCircuit:
-    def __init__(self, size):
+class QuantumCircuit(Interface):
+    def __init__(self, name, size):
         """
         Initiates the quantum circuit.
 
@@ -22,6 +23,8 @@ class QuantumCircuit:
         -------
         None.
         """
+        super().__init__(name)
+        self.size = size
         self.customgates = {}
         self.register = QuantumRegister.QuantumRegister(size)
         #self.classical_register = QuantumRegister.ClassicalRegister(size)
@@ -30,6 +33,7 @@ class QuantumCircuit:
             self.gates.append(['i'])
         self.gateindex = 0
         self.measurements = []
+        self.final_measurements = None
         
     def setStateVector(self, newVector):
         """
@@ -171,7 +175,6 @@ class QuantumCircuit:
         """
         self.addBigGate(('ccn', control1, control2, qubit))
 
-
     def ncp(self, bits, phi):
         """
         Adds a phase gate controlled by n other qubits
@@ -278,7 +281,7 @@ class QuantumCircuit:
         """
         self.addBigGate(('swap', qbit1, qbit2))
         
-    def simulate(self, return_full=False):
+    def run_circuit(self, return_full=False):
         """
         Applies the circuit to the initialized state vector
 
@@ -290,8 +293,8 @@ class QuantumCircuit:
         
         """
         if return_full: 
-            self.register, operations, measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
-            return self.register, operations, measurements
+            self.register, operations, self.final_measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate(return_full = True)
+            return self.register, operations, self.final_measurements
         else: self.register = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate()
 
     def simulate2(self):
@@ -303,7 +306,8 @@ class QuantumCircuit:
         The final state of the state vector
         
         """
-        return Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate2()
+        self.register, self.final_measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate2()
+        return self.register, self.final_measurements
 
     def addmeasure(self):
         """
@@ -319,7 +323,7 @@ class QuantumCircuit:
             self.gates[i].append('i')
         self.gateindex += 1
 
-    def show(self):
+    def show_results(self):
         """
         Prints out the initial definition of the statevector, along with the gates of the circuit.
         It then simulates the circuit and prints out the new statevector.
@@ -341,6 +345,10 @@ class QuantumCircuit:
         print('With statevector')
         print(self.register.Statevec)
         self.register.measure()
+        
+    def return_measurements(self):
+        self.simulate2()
+        return self.final_measurements
     
 if __name__ == '__main__':
     pass
