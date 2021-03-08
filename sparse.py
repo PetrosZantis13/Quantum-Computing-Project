@@ -21,7 +21,7 @@ def makesparse(matrix):
         
     
 
-class SparseMatrix(Matrix):
+class SparseMatrix(Matrix, object):
     """
     Creates sparse matrix, assumes they are square matrices 
     
@@ -31,8 +31,9 @@ class SparseMatrix(Matrix):
     """
     
     def __init__(self, n, elements):
-        self.Dimension = n
-        self.Elements = np.asarray(elements)
+        super().__init__(n, elements)
+        #self.Dimension = n
+        #self.Elements = np.asarray(elements)
        
     
     # def enumerator(self):
