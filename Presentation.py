@@ -227,7 +227,7 @@ def Ber_Vaz(s):
     # Apply Hadamard after the oracle
     bv_circ.addGate('h', [i for i in range(n)])
     
-    bv_circ.show()
+    bv_circ.show_results()
     #bv_circ.register.measure()
     
     short_register = QuantumRegister.QuantumRegister(n)
@@ -266,7 +266,7 @@ def qft_example():
     circuit.addmeasure()
     qft_dagger(circuit)
     circuit.addmeasure()
-    results = circuit.simulate(return_full=True)
+    results = circuit.run_circuit(return_full=True)
     
     print(np.array(circuit.gates, dtype=object)[:, :12])
     
@@ -287,7 +287,7 @@ def qft_example():
     circuit.addmeasure()
     qft_dagger(circuit)
     circuit.addmeasure()
-    results = circuit.simulate(return_full=True)
+    results = circuit.run_circuit(return_full=True)
     
     for i, measurement in enumerate(results[2][1]):
         print(f'Measurement {i}')

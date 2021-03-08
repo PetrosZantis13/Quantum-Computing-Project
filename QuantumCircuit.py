@@ -7,9 +7,9 @@ Created on Sat Feb  6 15:35:20 2021
 import QuantumRegister
 import numpy as np
 import Simulator
-from InterfaceClass import InterfaceClass
+from Interface import Interface
 
-class QuantumCircuit(InterfaceClass):
+class QuantumCircuit(Interface):
     def __init__(self, name, size):
         """
         Initiates the quantum circuit.
@@ -23,7 +23,8 @@ class QuantumCircuit(InterfaceClass):
         -------
         None.
         """
-        super().__init__(name, size)
+        super().__init__(name)
+        self.size = size
         self.customgates = {}
         self.register = QuantumRegister.QuantumRegister(size)
         #self.classical_register = QuantumRegister.ClassicalRegister(size)
@@ -174,7 +175,6 @@ class QuantumCircuit(InterfaceClass):
         """
         self.addBigGate(('ccn', control1, control2, qubit))
 
-
     def ncp(self, bits, phi):
         """
         Adds a phase gate controlled by n other qubits
@@ -281,7 +281,7 @@ class QuantumCircuit(InterfaceClass):
         """
         self.addBigGate(('swap', qbit1, qbit2))
         
-    def simulate(self, return_full=False):
+    def run_circuit(self, return_full=False):
         """
         Applies the circuit to the initialized state vector
 
@@ -323,7 +323,7 @@ class QuantumCircuit(InterfaceClass):
             self.gates[i].append('i')
         self.gateindex += 1
 
-    def show(self):
+    def show_results(self):
         """
         Prints out the initial definition of the statevector, along with the gates of the circuit.
         It then simulates the circuit and prints out the new statevector.
