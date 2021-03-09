@@ -21,7 +21,7 @@ Trial equation:
    Tensor
    State
    Gate
-   Circuit5
+   Circuit
    sparse
    QuantumRegister
 
