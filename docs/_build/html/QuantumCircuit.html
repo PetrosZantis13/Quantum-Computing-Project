@@ -89,8 +89,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Tensor.html">Tensor module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="State.html">State module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Gate.html">Gate module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Circuit5.html">Circuit5 module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sparse.html">sparse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
 </ul>
 
             
@@ -164,8 +164,8 @@
 <p>&#64;author: mikva</p>
 <dl class="py class">
 <dt id="QuantumCircuit.QuantumCircuit">
-<em class="property">class </em><code class="sig-prename descclassname">QuantumCircuit.</code><code class="sig-name descname">QuantumCircuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="sig-prename descclassname">QuantumCircuit.</code><code class="sig-name descname">QuantumCircuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Interface.Interface</span></code></p>
 <dl class="py method">
 <dt id="QuantumCircuit.QuantumCircuit.addBigGate">
 <code class="sig-name descname">addBigGate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.addBigGate" title="Permalink to this definition">¶</a></dt>
@@ -299,6 +299,22 @@ The gate will be iplemented later on when the circuit is simulated.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.return_measurements">
+<code class="sig-name descname">return_measurements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.return_measurements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.run_circuit">
+<code class="sig-name descname">run_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">return_full</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.run_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies the circuit to the initialized state vector</p>
+<p>The final state of the state vector
+if return_full:</p>
+<blockquote>
+<div><p>return all operations along with the statevector and measurements</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
 <dt id="QuantumCircuit.QuantumCircuit.setStateVector">
 <code class="sig-name descname">setStateVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">newVector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.setStateVector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows the user to define the state vector for the quantum circuit</p>
@@ -310,22 +326,11 @@ The gate will be iplemented later on when the circuit is simulated.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="QuantumCircuit.QuantumCircuit.show">
-<code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.show" title="Permalink to this definition">¶</a></dt>
+<dt id="QuantumCircuit.QuantumCircuit.show_results">
+<code class="sig-name descname">show_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.show_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints out the initial definition of the statevector, along with the gates of the circuit.
 It then simulates the circuit and prints out the new statevector.</p>
 <p>None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="QuantumCircuit.QuantumCircuit.simulate">
-<code class="sig-name descname">simulate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">return_full</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.simulate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies the circuit to the initialized state vector</p>
-<p>The final state of the state vector
-if return_full:</p>
-<blockquote>
-<div><p>return all operations along with the statevector and measurements</p>
-</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
