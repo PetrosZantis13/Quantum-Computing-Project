@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sat Feb  6 15:35:20 2021
-
-@author: mikva
+This modules creates a Circuit for with the specified gates by the User. The User can also create their own gate in this module.
 """
 import QuantumRegister
 import numpy as np
@@ -14,14 +11,8 @@ class QuantumCircuit(Interface):
         """
         Initiates the quantum circuit.
 
-        Parameters
-        ----------
-        reg : QuantumRegister object
-            The quantum register to be made into a circuit.
+        :param reg: (QuantumRegister object) The quantum register to be made into a circuit.
 
-        Returns
-        -------
-        None.
         """
         super().__init__(name)
         self.size = size
@@ -39,15 +30,7 @@ class QuantumCircuit(Interface):
         """
         Allows the user to define the state vector for the quantum circuit
 
-        Parameters
-        ----------
-        newVector : array_like
-            The vector that the user wants as the new state vector
-
-        Returns
-        -------
-        None.
-
+        :param newVector: (list) The vector that the user wants as the new state vector
         """
         assert self.register.Statevec.Elements.size == np.array(newVector).size, 'Wrong dimension for new vector'
         self.register.setStateVec(newVector)
@@ -56,17 +39,9 @@ class QuantumCircuit(Interface):
         """
         Adds an arbitrary gate to the set of gates stored in the circuit
 
-        Parameters
-        ----------
-        gate : char
-            The type of gate to be added. Current options are:'x', 'y', 'z', 'h', 'p', 't'
+        :param gate: (char) The type of gate to be added. Current options are:'x', 'y', 'z', 'h', 'p', 't'
         
-        bits : array_like
-            The position of bits the gate is needed to be added
-            
-        Returns
-        -------
-        None.
+        :param bits: (list) The position of bits the gate is needed to be added
 
         """
         # Check availability
@@ -90,15 +65,7 @@ class QuantumCircuit(Interface):
         Adds the representation of a gate into self.gates.
         The gate will be iplemented later on when the circuit is simulated.
 
-        Parameters
-        ----------
-        gate_info : tuple(str, int, int...)
-            The gate info for the large gate in the form of string(type of gate), 
-            and ints for control bits, then the controlled bit for the last int if needed
-
-        Returns
-        -------
-        None.
+        :param gate_info: (tuple) The gate info for the large gate in the form of string(type of gate), and ints for control bits, then the controlled bit for the last int if needed.
 
         """
         
@@ -124,16 +91,8 @@ class QuantumCircuit(Interface):
         """
         Adds a rotation matrix to the circuit
 
-        Parameters
-        ----------
-        bits : list
-            The qubits that the matrices will be applied to
-        theta : float
-            Rotation angle
-
-        Returns
-        -------
-        None.
+        :param bits: (list) The qubits that the matrices will be applied to
+        :param theta: (float) Rotation angle
 
         """
         self.addGate(('r', theta), bits)
@@ -143,16 +102,8 @@ class QuantumCircuit(Interface):
         Adds the representation of a cnot gate into self.gates.
         The gate will be iplemented later on when the circuit is simulated.
 
-        Parameters
-        ----------
-        qbit1 : int
-            Control Qubit
-        qbit2 : int
-            Controlled Qubit
-
-        Returns
-        -------
-        None.
+        :param qbit1: (int) Control Qubit
+        :param qbit2: (int) Controlled Qubit
 
         """
         self.addBigGate(('cn', qbit1, qbit2))
@@ -162,16 +113,8 @@ class QuantumCircuit(Interface):
         Adds the representation of a ccnot gate into self.gates.
         The gate will be iplemented later on when the circuit is simulated.
 
-        Parameters
-        ----------
-        qbit1 : int
-            Control Qubit
-        qbit2 : int
-            Controlled Qubit
-
-        Returns
-        -------
-        None.
+        :param qbit1: (int) Control Qubit
+        :param qbit2: (int) Controlled Qubit
         """
         self.addBigGate(('ccn', control1, control2, qubit))
 
@@ -179,16 +122,8 @@ class QuantumCircuit(Interface):
         """
         Adds a phase gate controlled by n other qubits
 
-        Parameters
-        ----------
-        bits : List if ints
-            The control qubits
-        phi : float
-            Rotation parameter
-
-        Returns
-        -------
-        None.
+        :param bits: (list) The control qubits
+        :param phi: (float) Rotation parameter
 
         """
         gate_info = ['ncp']
@@ -201,14 +136,7 @@ class QuantumCircuit(Interface):
         """
         Adds the representation of an n controlled z gate to the circuit
 
-        Parameters
-        ----------
-        bits : list
-            The control bits for the gate
-
-        Returns
-        -------
-        None.
+        :param bits: (list) The control bits for the gate
 
         """
         gate_info = ['ncz']
@@ -221,20 +149,10 @@ class QuantumCircuit(Interface):
         so have to be careful when using it. The dimension of the gate must match the dimension
         allowed by the affected qubits.
 
-        Parameters
-        ----------
-        qbit1 : int
-            Position of the qubit with the smaller index.
-        qbit2 : int
-            Position of the qubit with the higher index.
-        gate : SparseMatrix
-            SparseMAtrix representation of the gate to be added to the circuit.
-        name : string
-            The name of the custom gate.
-
-        Returns
-        -------
-        None.
+        :param qbit1: (int) Position of the qubit with the smaller index.
+        :param qbit2: (int) Position of the qubit with the higher index.
+        :param gate: (SparseMatrix) SparseMAtrix representation of the gate to be added to the circuit.
+        :param name: (str) The name of the custom gate.
 
         """
         assert max(qbit1, qbit2) <= len(self.gates), 'Gates not in the circuit'
@@ -247,18 +165,9 @@ class QuantumCircuit(Interface):
         """
         Adds the representation of a controlled phase gate to the circuit.
 
-        Parameters
-        ----------
-        qbit1 : int
-            Control bit 1
-        qbit2 : int
-            Control bit 2
-        phi : float
-            Rotation angle
-
-        Returns
-        -------
-        None.
+        :param qbit1: (int) Control bit 1
+        :param qbit2: (int) Control bit 2
+        :param phi: (float) Rotation angle
 
         """
         self.addBigGate(('cp', qbit1, qbit2, phi))
@@ -267,16 +176,8 @@ class QuantumCircuit(Interface):
         """
         Adds the representation of a swap gate to the circuit.
 
-        Parameters
-        ----------
-        qbit1 : int
-            qubit to be swapped
-        qbit2 : int
-            qubit to be swapped
-
-        Returns
-        -------
-        None.
+        :param qbit1: (int) qubit to be swapped
+        :param qbit2: (int) qubit to be swapped
 
         """
         self.addBigGate(('swap', qbit1, qbit2))
@@ -285,11 +186,7 @@ class QuantumCircuit(Interface):
         """
         Applies the circuit to the initialized state vector
 
-        Returns
-        -------
-        The final state of the state vector
-        if return_full:
-            return all operations along with the statevector and measurements
+        :return: The final state of the state vector. If return_full: returns all operations along with the statevector and measurements
         
         """
         if return_full: 
@@ -301,9 +198,7 @@ class QuantumCircuit(Interface):
         """
         Applies the circuit to the initialized state vector using less memory than simulate()
 
-        Returns
-        -------
-        The final state of the state vector
+        :return: The final state of the state vector
         
         """
         self.register, self.final_measurements = Simulator.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate2()
@@ -312,10 +207,6 @@ class QuantumCircuit(Interface):
     def addmeasure(self):
         """
         Adds a space where a measurement should be made. Mesurements are only made when simulating the circuit.
-
-        Returns
-        -------
-        None.
 
         """
         self.measurements.append(self.gateindex)
@@ -327,10 +218,6 @@ class QuantumCircuit(Interface):
         """
         Prints out the initial definition of the statevector, along with the gates of the circuit.
         It then simulates the circuit and prints out the new statevector.
-
-        Returns
-        -------
-        None.
 
         """
         print('Register defined as:')
@@ -347,6 +234,9 @@ class QuantumCircuit(Interface):
         self.register.measure()
         
     def return_measurements(self):
+        """
+        Returns final measurements after simulation.
+        """
         self.simulate2()
         return self.final_measurements
     

@@ -24,6 +24,9 @@ Trial equation:
    Circuit
    sparse
    QuantumRegister
+   QuantumCircuit
+   Simulator
+   MatrixInterface
 
 
 
