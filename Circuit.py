@@ -1,7 +1,7 @@
-'''
-Quantum Computing Project 
-Author: Petros Zantis
-'''
+"""
+The Circuit Module calls the Circuit class to build any pre-defined circuit available by providing a name
+(e.g. “Grover”, “Teleportation”), and then calls the run_circuit() function on the created Circuit objects to run them.
+"""
 import matplotlib.pyplot as plt
 from Interface import Interface
 from Tensor import *
@@ -13,32 +13,31 @@ plt.rcParams['figure.figsize'] = (12, 6)
 plt.rcParams['font.size'] = 13
 
 class Circuit(Interface):
+    """
+    Defines the circuit of the algorithm. Checks that the  prompts are of the correct formats.
+
+    """ 
     
     def __init__(self, name): 
-        '''
-        The constructor of the Circuit class takes as argument the name
-        of the desired circuit.
-        ''' 
         super().__init__(name)     
     
     def run_circuit(self):        
-        '''
+        """
         A function to run the circuit according to the specified name.
-        '''
+        """
         print(f"\nRunning {self.name} Circuit") 
         
     def show_results(self):        
-        '''
+        """
         A function to show the results obtained according to the circuit
         being run/tested.
-        '''
+        """
         print(f"\nShowing {self.name} Circuit Results")
     
     def size_prompt(self):        
-        '''
+        """
         A function to prompt for the system size, catching any possible errors on the way.     
-        '''    
-        #super().size_prompt()
+        """    
         qbits = input("Type in the system size in qubits: ")
         wrong = True
         while(wrong):
@@ -55,10 +54,9 @@ class Circuit(Interface):
         return qbits 
 
     def qubit_prompt(self):        
-        '''
+        """
         A function to prompt for a qubit. Only accepts 0 or 1.
-        '''     
-        #super().qubit_prompt()
+        """     
         qbit = input("Choose 0 or 1: ")
         wrong = True
         while(wrong):
@@ -75,7 +73,9 @@ class Circuit(Interface):
         return qbit  
     
     def AorM_prompt(self):
-        
+        """
+        A function to prompt for an animation/measurement.
+        """  
         AorM = input("\nPlease type 'a' for Animation or 'm' for Measurements: ")
     
         if(AorM=='a'):            
@@ -91,15 +91,20 @@ class Circuit(Interface):
         return AorM 
 
 class Bell(Circuit):
+    """
+    Creates Bell States by applying the necessary Gates.
+    """ 
     
     def __init__(self): 
-        '''
-        The constructor of the Circuit class takes as argument the name
-        of the desired circuit.
-        ''' 
+
         super().__init__("Bell States")
     
     def run_circuit(self):
+        """
+        Runs the circuit with the given Bell States
+
+        :return: Bell States
+        """
         
         super().run_circuit()
         qbit_zero = Qubit(1,0)
@@ -121,15 +126,19 @@ class Bell(Circuit):
         return Bell_states  
      
 class Grover(Circuit):
+    """
+    Implementation of Grover's algorithm. Runs the circuit with the specified gates and visualizes the result of the algorithm.
+    """ 
     
     def __init__(self): 
-        '''
-        The constructor of the Circuit class takes as argument the name
-        of the desired circuit.
-        ''' 
         super().__init__("Grover") 
         
     def prep_circuit(self):
+        """
+        Preparation of circuit
+
+        :return: qbits of the circuit, desired state to look for and the prompt for animation/measurements
+        """
         
         AorM = self.AorM_prompt()
             
@@ -180,6 +189,11 @@ class Grover(Circuit):
             plt.show()            
         
     def run_circuit(self, *args):
+        """
+        Run of the circuit with the Grover's algorithm
+
+        :return: number of iterations needed to terminate and the success of finding the desired state in Grover's algorithm (1 for success, 0 for failure)
+        """
         
         super().run_circuit()
         
@@ -251,9 +265,11 @@ class Grover(Circuit):
         return iter, success
            
     def plot_probs(self, state, ax):
-        '''
+        """
         A function to plot the probability of each state as a bar chart. 
-        ''' 
+
+        """ 
+
         plt.cla() 
         states, amps = state.probabilities()       
         plt.bar(states, amps)
@@ -266,11 +282,11 @@ class Grover(Circuit):
         plt.pause(0.5)
         
     def show_results(self, qubits, iters):
-        '''
+        """
         A function to run Grover's algorithm with various numbers of qubits
         and plot the resulting iterations, comparing it to the predicted 
         O(sqrtN) and the classical O(N)
-        ''' 
+        """ 
         super().show_results()           
         print(iters)        
         plt.plot(qubits, 2**qubits, label = "O(N)")
@@ -285,15 +301,25 @@ class Grover(Circuit):
         plt.show()
         
 class Teleportation(Circuit):
+    """
+    Begins by initializing Alice’s and Bob’s qubits to the user’s selection. The program then stores the state of the quantum channel, and proceeds to entangle Alice’s 
+    qubit with the unknown one. Next, a Bell measurement takes place which collapses this entangled state to one of four possible Bell states. 
+    According to the result, a correction gate is applied to Bob’s qubit, which is then measured on the computational basis to give either 0 or 1. 
+    """
     
     def __init__(self): 
-        '''
+        """
         The constructor of the Circuit class takes as argument the name
         of the desired circuit.
-        ''' 
+        """ 
         super().__init__("Teleportation")    
         
     def prep_circuit(self):
+        """
+        Preparation of circuit
+
+        :return: Alice's qubit and Bob's qubit
+        """
         
         AorM = self.AorM_prompt()
             
@@ -334,7 +360,12 @@ class Teleportation(Circuit):
             self.show_results(errors_a, errors_b)                      
     
     def run_circuit(self, *args):
-        
+        """
+        Run of the circuit for Teleportation.
+
+        :return: collapsed state as measured by Bob.
+
+        """
         super().run_circuit()
         
         if(not args):
@@ -352,9 +383,8 @@ class Teleportation(Circuit):
         qbit_alice = Qubit(1-a,a)     
         qbit_bob = Qubit(1-b,b)
                     
-        '''
-        Entangle the 2 qubits in one of the 4 Bell states (Quantum Channel)
-        '''
+
+        #Entangle the 2 qubits in one of the 4 Bell states (Quantum Channel)
         qbit_alice.apply_gate(Gate("Hadamard"))            
         control = Tensor([qbit_alice, qbit_bob])
         control.calculate()
@@ -367,9 +397,7 @@ class Teleportation(Circuit):
                 print(f"\nQuantum Channel is in Bell State {AB_index}:")
                 print(entangled_AB.vector)
                 
-        '''
-        Alice's entangles her two qubits and performs a Bell measurement
-        ''' 
+        #Alice's entangles her two qubits and performs a Bell measurement
         qbit_unknown = Qubit(alpha, beta)  #Qubit(0.28,0.96)   
         #print(qbit_unknown.probabilities())
         #qbit_unknown.apply_gate(Gate("Hadamard"))            
@@ -419,9 +447,9 @@ class Teleportation(Circuit):
         return collapsed_Bob
         
     def show_results(self, errors_a, errors_b):
-        '''
-        A function to 
-        ''' 
+        """
+        A function to show results of teleportation
+        """ 
         super().show_results()                   
         plt.plot(errors_a, label = r'$\alpha$')
         plt.plot(errors_b, label = r'$\beta$')
@@ -433,6 +461,9 @@ class Teleportation(Circuit):
         plt.show()
   
 def main():
+    """
+    Runs both Grover and Teleportation Implementations
+    """
     
     b = Bell()
     b.run_circuit() 
