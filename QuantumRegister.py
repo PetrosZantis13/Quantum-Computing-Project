@@ -1,15 +1,18 @@
 """
 add a description here of the module
+
 """
 import numpy as np
 import sparse
 
 
 class QuantumRegister:
-    """ Initializes the quantum register of length n. Creates a list of default qubits
-        in state |0> and initializes the wavevector which describes the register.
+    """ 
+    Initializes the quantum register of length n. Creates a list of default qubits
+    in state 0 and initializes the wavevector which describes the register.
 
-        :param n: (int) length of register
+    :param n: (int) length of register
+
     """
     def __init__(self, n):
         Qbits = []
@@ -65,7 +68,6 @@ class QuantumRegister:
     def measure(self):
         """
         Attempts to measure the current statevector in terms of individual qubits
-
         """
         for qbit in self.Qbits:
             qbit.vals.Elements[1] = 0+0j
@@ -79,7 +81,9 @@ class QuantumRegister:
             qbit.normalize()
             
 class Qubit:
-    """Creates a qubit using sparse matrices."""
+    """
+    Creates a qubit using sparse matrices.
+    """
     def __init__(self):
         self.vals = sparse.Vector(np.array([1.+0.j, 0.+0.j]))
     
@@ -88,11 +92,11 @@ class Qubit:
         self.vals.Elements = self.vals.Elements / np.sqrt((self.vals.Elements*self.vals.Elements.conj()).sum())
     
     def get0(self):
-        """Gets the |0> state"""
+        """Gets the 0 state"""
         return self.vals.Elements[0]
     
     def get1(self):
-        """Gets the |1> state"""
+        """Gets the 1 state"""
         return self.vals.Elements[1]
     
     def __str__(self):

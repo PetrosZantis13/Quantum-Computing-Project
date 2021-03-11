@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Created on Wed Feb 17 14:59:09 2021
-
-@author: mikva
+This module simulates a circuit. It also defines the necessary gates.
 """
 import numpy as np
 import sparse
@@ -26,18 +23,9 @@ class Simulator():
         """
         Checks whether a given integer has a particular bit active
 
-        Parameters
-        ----------
-        n : int
-            Integer to check
-        bit : int
-            The position of the bit to check
-
-        Returns
-        -------
-        boolean
-            True of bit is active, false if not
-
+        :param n: (int) Integer to check
+        :param bit: (int) The position of the bit to check
+        :return: (Boolean) True of bit is active, false if not
         """
         return ((n>>(bit)) & 1) == 1
         
@@ -45,37 +33,19 @@ class Simulator():
         """
         Toggles a specific bit in an integer
 
-        Parameters
-        ----------
-        n : int
-            Integer to toggle
-        bit : int
-            The position of the bit to toggle
-
-        Returns
-        -------
-        int
-            The new integer created by toggling the bit
-
+        :param n: (int) Integer to toggle
+        :param bit: (int) The position of the bit to toggle
+        :return: (int) The new integer created by toggling the bit
         """
         return n ^ (1 << bit)
     
     def cNot(self, gate_info):
         """
         Creates an arbitrary sized controlled not gate between two arbitrary qbits.
-        
-        Parameters
-        ----------
-        qbit1 : int
-            Position in the circuit of the control qubit
-        qbit2 : int
-            Position in the circuit of the controlled qubit
-    
-        Returns
-        -------
-        SparseMatrix
-            The cnot gate entangling the two qubits given.
-            """
+
+        :param gate_info: (tuple(int, int)) Position in the circuit of the control qubit and the controlled qubit
+        :return: (SparseMatrix) The cnot gate entangling the two qubits given.
+        """
         qbit1, qbit2 = gate_info
             
         if qbit1>qbit2:
@@ -98,21 +68,9 @@ class Simulator():
         """
         Creates a sparsematrix representing the controlled-controlled-not (ccnot or Tiffoli) 
         gate for the given qubits. Can be applied to any exisiting qubits.
-        
-        Parameters
-        ----------
-        control1 : int
-            first qubit controlling the gate
-        control2 : int
-            second qubit controlling the gate
-        qbit3 : int
-            The qubit to be controlled by the other two
-    
-        Returns
-        -------
-        SparseMatrix
-            Matrix representation of the gate
-    
+
+        :param gate_info: (tuple(int, int, int)) first, second qubit controlling the gate and the qubit controlled by the other two
+        :return: (SparseMatrix)  Matrix representation of the gate
         """
         control1, control2, qbit3 = gate_info
         # Reset the values to range from 0 to maxval
@@ -138,16 +96,9 @@ class Simulator():
     def cZ(self, gate_info):
         """
         Creates a controlled z gate given 2 qubits
-    
-        Parameters
-        ----------
-        gate_info : tuple(int, int)
-            The two gates to control the z
-    
-        Returns
-        -------
-        SparseMatrix
-            Representation of the cz gate
+
+        :param gate_info: (tuple(int, int)) The two gates to control the z
+        :return: (SparseMatrix) Representation of the cz gate
         """
         qbit1, qbit2 = gate_info
         shift = min(qbit1, qbit2)
@@ -165,17 +116,9 @@ class Simulator():
     def cP(self, gate_info):
         """
         Creates a controlled phase gate for the given qubits
-    
-        Parameters
-        ----------
-        gate_info : tuple(int, int, float)
-            The information supplied to the gate. Control qubits as ints, float as the phase.
-    
-        Returns
-        -------
-        SparseMatrix
-            Representation of the cp gate
-    
+
+        :param gate_info: (tuple(int, int, float)) The information supplied to the gate. Control qubits as ints, float as the phase.
+        :return: (SparseMatrix) Representation of the cp gate
         """
         qbit1, qbit2, phi = gate_info
         
@@ -191,15 +134,8 @@ class Simulator():
         """
         Adds a phase gate controlled by an arbitrary number of bits
     
-        Parameters
-        ----------
-        gate_info : tuple(int, int, int..., float)
-            Control qubits as ints, phase as a float
-    
-        Returns
-        -------
-        SparseMatrix
-            Matrix representatin of the gate
+        :param gate_info: (tuple(int, int, int..., float)) Control qubits as ints, phase as a float.
+        :return: (SparseMatrix) Matrix representation of gate.
         """
         bits = np.array(gate_info[:-1])
         bits = bits - min(bits)
@@ -221,15 +157,8 @@ class Simulator():
         """
         Adds a z gate controlled by an arbitrary number of bits
     
-        Parameters
-        ----------
-        gate_info : tuple(int, int, int...,)
-            Control qubits as ints, arbitrary number
-    
-        Returns
-        -------
-        SparseMatrix
-            Matrix representatin of the gate
+        :param gate_info: (tuple(int, int, int...,)) Control qubits as ints, arbitrary number
+        :return: (SparseMatrix) Matrix representatin of the gate
         """
         bits = np.array(gate_info)
         bits = bits - min(bits)
@@ -249,17 +178,9 @@ class Simulator():
     def Swap(self, gate_info):
         """
         Creates the matrix representing the swap operation between two qubits.
-    
-        Parameters
-        ----------
-        gate_info : tuple(int, int)
-            The two gates to be swapped.
-    
-        Returns
-        -------
-        SparseMatrix
-            Matrix representation of the swap gate.
-    
+
+        :param gate_info: (tuple(int, int)) The two gates to be swapped.
+        :return: (SparseMatrix) Matrix representation of the swap gate.
         """
         qbit1, qbit2 = gate_info
         shift = min(qbit1, qbit2)
@@ -279,17 +200,9 @@ class Simulator():
         """
         Helper function for makeMatrices(). Calls the creators for the larger gates based
         info provided.
-    
-        Parameters
-        ----------
-        gate_info : tuple
-            information concerning the gate
-    
-        Returns
-        -------
-        operation : SparseMatrix
-            MAtrix representation of the operation for the gates given.
-    
+
+        :param gate_info: (tuple) information of multi-qubit gate
+        :return: (SparseMatrix) Matrix representation of the operation for the gates given.
         """
         #print(gate_info)
         if gate_info[0]=='r':
@@ -315,16 +228,12 @@ class Simulator():
         return operation
         
     def makeMatrices(self):
-        # We should make sparse matrix representations of single gates from the beginning.
         """
         Creates the matrices that will be applied to the wavevector
     
-        Returns
-        -------
-        bigmats : numpy array
-            list of np matrices that will be applied to the statevector
-    
+        :return: (array) list of np matrices that will be applied to the statevector
         """
+        # We should make sparse matrix representations of single gates from the beginning.
         gates = np.array(self.gates, dtype = object).T
         #debug
         #print('Gates are:')
@@ -347,29 +256,17 @@ class Simulator():
         """
         Creates an r gate with the given phase
     
-        Parameters
-        ----------
-        theta : float
-            The angle in radians which the qubit should be rotated by.
-    
-        Returns
-        -------
-        SparseMatrix
-            Matrix representation of the r gate.
-    
+        :param theta: (float) The angle in radians which the qubit should be rotated by.
+        :return: (SparseMatrix) Matrix representation of the r gate.
         """
         return sparse.makesparse(np.array([[1, 0], [0, np.exp(1j*theta)]], dtype=complex))
     
     def simulate(self, return_full = False):
         """
         Applies the circuit to the initialized statevector
-    
-        Returns
-        -------
-        The register
-        if return_full:
-            the register, operations and any measurements.
-            
+
+        :param return_full: (Boolean) True if operations and measurements need to be returned.
+        :return: The register, if return_full: the register, operations and any measurements.
         """
         operations = self.makeMatrices()
         for i, operation in enumerate(operations):
@@ -385,11 +282,8 @@ class Simulator():
     def simulate2(self):
         """
         Applies the circuit to the initialized statevector without storing the operations
-    
-        Returns
-        -------
-        The register and any measurements made
-            
+
+        :return: The register and any measurements made
         """
         gates = np.array(self.gates, dtype = object).T
         #debug

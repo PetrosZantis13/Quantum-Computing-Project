@@ -1,7 +1,14 @@
+"""
+Interface for the Matrix representation.
+"""
+
 from abc import ABC, abstractmethod
 import numpy as np
 
 class MatrixElement(object): 
+    """
+    Gets Matrix Element .
+    """
     def __init__(self, i, j, val):
         self.i = i
         self.j = j
@@ -11,6 +18,9 @@ class MatrixElement(object):
         return f'{self.i}, {self.j}, {self.val}'
 
 class Matrix(ABC):
+    """
+    Defines the Matrix.
+    """
     
     def __init__(self, n, elements):
         self.Dimension = n
@@ -40,7 +50,7 @@ class Matrix(ABC):
     def apply(self, v): 
         pass
 
-class Vector(): #copied from mihaly
+class Vector(): 
     def __init__(self, elements):
         self.Dimension = np.array(elements).size
         self.Elements = np.array(elements, dtype=complex)
@@ -48,14 +58,9 @@ class Vector(): #copied from mihaly
     def outer(self, other_vec):
         """
         Returns the outer (kronecker) product of two vectors
-        Parameters
-        ----------
-        other_vec : Vector
-            The other Vector in the multiplication
-        Returns
-        -------
-        Vector
-            The final vector product
+
+        :param other_vec: (array) The other Vector in the multiplication
+        :return: (array) The final vector product
         """
         assert type(other_vec) == Vector, 'Incompatible vector'
         dimension = self.Dimension * other_vec.Dimension

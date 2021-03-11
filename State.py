@@ -96,8 +96,8 @@ class Qubit(State):
     """Subclass of the State class. Qubits are specifically 2 dimensional states. 
     Builds the state vector. 
     
-    :param a: (int) amplitude of basis state |0>
-    :param b: (int) amplitude of basis state |1>
+    :param a: (int) amplitude of basis state 0
+    :param b: (int) amplitude of basis state 1
 
     """ 
     
