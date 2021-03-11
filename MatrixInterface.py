@@ -77,11 +77,6 @@ class Vector():
             toPrint += f'{i} '
         return toPrint
 
-
-
-
-
-
 class explicit(Matrix):
 
     def __init__(self, n, elements):
