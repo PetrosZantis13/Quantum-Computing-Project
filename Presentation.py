@@ -9,8 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import QuantumRegister
 import sparse
-import math
-import array_to_latex as a2l
+
 
 def diffuser(circuit):
     """

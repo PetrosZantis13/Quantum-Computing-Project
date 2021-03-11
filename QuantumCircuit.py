@@ -11,7 +11,9 @@ class QuantumCircuit(Interface):
         """
         Initiates the quantum circuit.
 
-        :param reg: (QuantumRegister object) The quantum register to be made into a circuit.
+        :param name: (string) The name of the Quantum Circuit
+        
+        :param size: (int) The nuber of qubits in the Quantum Circuit
 
         """
         super().__init__(name)
