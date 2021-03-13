@@ -1,6 +1,5 @@
 '''
-Quantum Computing Project 
-Author: Petros Zantis
+Interface for Implementation 2
 '''
 from abc import ABC, abstractmethod
 

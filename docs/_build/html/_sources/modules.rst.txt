@@ -1,9 +1,11 @@
-Quantum_Computing_Project
+Implementation 2
 =========================
 
 .. toctree::
    :maxdepth: 4
 
-   Gate
-   State
    Tensor
+   State
+   Gate
+   Circuit
+   Interface
