@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from MatrixInterface import MatrixElement, Matrix, Vector, SquareMatrix
 import numpy as np
 
