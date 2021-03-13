@@ -5,6 +5,7 @@ import QuantumRegister
 import numpy as np
 import Simulator
 from Interface import Interface
+import LazySim
 
 class QuantumCircuit(Interface):
     def __init__(self, name, size):
@@ -241,6 +242,10 @@ class QuantumCircuit(Interface):
         """
         self.simulate2()
         return self.final_measurements
+    
+    def lazysim(self):
+        self.register, self.final_measurements = LazySim.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate()
+        return self.register, self.final_measurements
     
 if __name__ == '__main__':
     pass
