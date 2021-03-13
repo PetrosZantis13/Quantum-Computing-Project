@@ -40,7 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tensor module" href="Tensor.html" /> 
+    <link rel="next" title="Implementation 1" href="modules2.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,15 +87,8 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Tensor.html">Tensor module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="State.html">State module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Gate.html">Gate module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sparse.html">sparse module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="QuantumCircuit.html">QuantumCircuit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Simulator.html">Simulator module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules2.html">Implementation 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Implementation 2</a></li>
 </ul>
 
             
@@ -165,22 +158,62 @@
             
   <div class="section" id="welcome-to-quantum-computing-project-s-documentation">
 <h1>Welcome to Quantum Computing Project’s documentation!<a class="headerlink" href="#welcome-to-quantum-computing-project-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>This is an implimentation of Grover’s and Shor’s algorithms using Quantum Mechanics.</p>
+<p>This is the documentation for the Quantum Computing Project Course at the University of Edinburgh.
+In this project, we create two different implementations of quantum circuits which we use to explore
+Grover’s Algorithm.</p>
+<p>The two implementations were created in order to test diifferent techniques of creating this
+quantum algorithm and to test across each other for parts that make the algorithm more efficient.
+We decided to include both in our project because they employ different techniques and helped
+us understand the algorithm from two different perspectives.</p>
+<p>The first implementation –NAME–, is allowing the User to build their own circuit on the go,
+create custom circuits and manually code the algorithm needed. It explores the Grover’s
+algorithm both numrically and geometrically as it can plot visually the results on a given
+axis of rotation. It is using a SparseMatrix program that we created in order to make the
+computations as efficient as possible.</p>
+<p>Usage:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--Add</span></kbd></dt>
+<dd><p>usage–</p>
+</dd>
+</dl>
+<p>The second implementation –NAME–, has predefined circuits for the Grover algorithm
+and an example of the use of Quantum Teleportation. It can visually show the probabilities
+of finding a state as an animation and allows the User through prompts to explore Quantum
+Teleportation by defining Alice’s and Bob’s states. It is not using a SparseMatrix Implementation,
+instead it uses the numpy.kchron library and numpy.dot for its computations.</p>
+<p>Usage:</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--Add</span></kbd></dt>
+<dd><p>usage–</p>
+</dd>
+</dl>
+<p>Sample Results:</p>
+<p>–Add results–</p>
+<p>A comparison between the two implementations in their quest of finding the
+required state through a Grover’s algorithm has shown …</p>
 <p>Trial equation:</p>
 <div class="math notranslate nohighlight">
 \[\frac{ \sum_{t=0}^{N}f(t,k) }{N}\]</div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="Tensor.html">Tensor module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="State.html">State module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Gate.html">Gate module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Circuit.html">Circuit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sparse.html">sparse module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="QuantumCircuit.html">QuantumCircuit module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Simulator.html">Simulator module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules2.html">Implementation 1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparse.html">sparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuantumCircuit.html">QuantumCircuit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulator.html">Simulator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Presentation.html">Presentation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Implementation 2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tensor.html">Tensor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="State.html">State module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gate.html">Gate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Circuit.html">Circuit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Interface.html">Interface module</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -199,7 +232,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="Tensor.html" class="btn btn-neutral float-right" title="Tensor module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules2.html" class="btn btn-neutral float-right" title="Implementation 1" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

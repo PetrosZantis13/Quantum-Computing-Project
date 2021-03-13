@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Feb 19 13:47:29 2021
-
-@author: mikva
+This module presents all the necessary computations for the Grover's Algorithm and Quantum Fourier Transform.
 """
 import QuantumCircuit
 import numpy as np
@@ -15,14 +13,7 @@ def diffuser(circuit):
     """
     Creates the diffuser for a given circuit for a Grover's algorithm.
 
-    Parameters
-    ----------
-    circuit : QuantumCircuit
-        The quantum circuit that Grover's algorithm should be applied to.
-
-    Returns
-    -------
-    None.
+    :param circuit: (QuantumCircuit) The quantum circuit that Grover's algorithm should be applied to.
 
     """
     n_qubits = len(circuit.register.Qbits)
@@ -50,16 +41,9 @@ def Grover_Circuit(n_qubits, measured_bits):
     Constructs a circuit representing Grover's algorithm for a given number of qubits and
     bits that we are interested in. Plots measurements after each iteration of the algorithm.
 
-    Parameters
-    ----------
-    n_qubits : int
-        Number of qubits in the circuit.
-    measured_bits : list
-        list of bits that we are interested in and want to increase the amplitude of.
+    :param n_qubits: (int) Number of qubits in the circuit.
+    :param measured_bits: (list) list of bits that we are interested in and want to increase the amplitude of.
 
-    Returns
-    -------
-    None.
     """
     grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
@@ -178,15 +162,8 @@ def QFT(circuit):
     """
     Applies quantum fourier transform to a circuit.
 
-    Parameters
-    ----------
-    circuit : QuantumCircuit
-        The quantum circuit to apply the QFT to.
-
-    Returns
-    -------
-    circuit : QuantumCircuit
-        The same quantum circuit with the QFT applied to it.
+    :param circuit: (QuantumCircuit) The quantum circuit to apply the QFT to.
+    :return:  (QuantumCircuit) The same quantum circuit with the QFT applied to it.
 
     """
     n = len(circuit.register.Qbits)
@@ -195,16 +172,8 @@ def QFT(circuit):
         """
         Calculates the roatation gates and hadamards that must be added to the circuit.
 
-        Parameters
-        ----------
-        circuit : QuantumCircuit
-            The circuit that the gft will be applied to.
-        n : int
-            Number of qubits in the circuit.
-
-        Returns
-        -------
-        None.
+        :param circuit: (QuantumCircuit) The circuit that the gft will be applied to.
+        :param n: (int) Number of qubits in the circuit.
 
         """
         if n==0: return circuit
@@ -215,11 +184,26 @@ def QFT(circuit):
         qft_rotations(circuit, n)
     
     def swap_registers(circuit, n):
+        """
+        Uses SWAP gate on the circuit.
+
+        :param circuit: (QuantumCircuit) The circuit that the gft will be applied to.
+        :param n: (int) Number of qubits in the circuit.
+        :return: (QuantumCircuit) The updated Circuit.
+
+        """
         for qbit in range(n//2):
             circuit.addBigGate(('swap', qbit, n-qbit-1))
         return circuit
     
     def qft(circuit, n):
+        """
+        Performs QFT.
+
+        :param circuit: (QuantumCircuit) The circuit that the gft will be applied to.
+        :param n: (int) Number of qubits in the circuit.
+        :return: (QuantumCircuit) The updated Circuit.
+        """
         qft_rotations(circuit, n)
         swap_registers(circuit, n)
         return circuit
@@ -230,15 +214,8 @@ def qft_dagger(circuit):
     """
     Applies an inverse quantum fourier transform to a given circuit.
 
-    Parameters
-    ----------
-    circuit : QuantumCircuit
-        A quantum circuit that the inverse qft should be applied to.
-
-    Returns
-    -------
-    circuit : QuantumCircuit
-        The same circuit, but with an inverse qft applied to it.
+    :param circuit: (QuantumCircuit) A quantum circuit that the inverse qft should be applied to.
+    :return circuit: (QuantumCircuit) The same circuit, but with an inverse qft applied to it.
 
     """
     n = len(circuit.register.Qbits)
@@ -256,14 +233,7 @@ def Ber_Vaz(s):
     """
     Creates an example of the Bernstein-Vazirani algorithm.
 
-    Parameters
-    ----------
-    s : string
-        String representation of the state that the algorithm should work for.
-
-    Returns
-    -------
-    None.
+    :param s: (str) String representation of the state that the algorithm should work for.
 
     """
     n=len(s)
@@ -308,10 +278,6 @@ def Ber_Vaz(s):
 def qft_example():
     """
     Create an example demonstrating quantum fourier transform.
-
-    Returns
-    -------
-    None.
 
     """
     circuit = QuantumCircuit.QuantumCircuit('QFT example 1', 3) # Create circuit
