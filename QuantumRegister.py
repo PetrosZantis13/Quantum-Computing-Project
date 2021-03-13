@@ -3,7 +3,7 @@ add a description here of the module
 
 """
 import numpy as np
-import sparse
+import Sparse
 
 
 class QuantumRegister:
@@ -35,7 +35,7 @@ class QuantumRegister:
         """
         Sets the statevector according to the current state of qubits
         """
-        self.Statevec = sparse.Vector(np.array([1], dtype=complex))
+        self.Statevec = Sparse.Vector(np.array([1], dtype=complex))
         for qbit in self.Qbits[::-1]:
             self.Statevec = self.Statevec.outer(qbit.vals)
             
@@ -49,7 +49,7 @@ class QuantumRegister:
         newVec = np.array(newVec, dtype=complex)
         assert self.Statevec.Dimension == newVec.size, 'Wrong dimensions for new statevector'
         normal_const = np.sqrt((newVec*newVec.conj()).sum())
-        self.Statevec = sparse.Vector(newVec/normal_const)
+        self.Statevec = Sparse.Vector(newVec/normal_const)
         
     def setQbits(self, qbits, vals):
         """
@@ -62,7 +62,7 @@ class QuantumRegister:
         """
         
         for qbit in qbits:
-            self.Qbits[qbit].vals = sparse.Vector(np.array(vals[qbit]) / np.linalg.norm(vals[qbit]))
+            self.Qbits[qbit].vals = Sparse.Vector(np.array(vals[qbit]) / np.linalg.norm(vals[qbit]))
         self.initialize()
 
     def measure(self):
@@ -85,7 +85,7 @@ class Qubit:
     Creates a qubit using sparse matrices.
     """
     def __init__(self):
-        self.vals = sparse.Vector(np.array([1.+0.j, 0.+0.j]))
+        self.vals = Sparse.Vector(np.array([1.+0.j, 0.+0.j]))
     
     def normalize(self):
         """Normalizes all the elements."""
@@ -109,10 +109,5 @@ class Qubit:
         
 
 if __name__ == '__main__':
-    qr = QuantumRegister(3)
-    qr.setQbits([0], [[0,1]])
-    print(qr.Qbits[0])
-    print(qr.Statevec)
-    qr.measure()
-    
+    pass
     

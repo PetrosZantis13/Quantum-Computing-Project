@@ -26,18 +26,9 @@ class Matrix(ABC):
         self.Dimension = n
         self.Elements = elements
 
-    #@abstractmethod
-    def get_value(self, pos):
-        pass
-
-    #@abstractmethod
-    def set_value(self):
-        pass
-
-    #def enumerator(self):
-    #    for i in range(0, self.dimension):
-    #        for j in range(0, self.dimension):
-    #            yield MatrixElement(i,j, self.get_value(i,j))
+    def __iter__(self):
+        for element in self.Elements:
+            yield element
     
     @abstractmethod
     def multiply(self, m):
@@ -46,14 +37,51 @@ class Matrix(ABC):
     def __mul__(self, a):
         return self.multiply(a)
 
+    def apply(self, v):
+        assert self.Dimension == v.Dimension, f'Incompatible dimensions: {self.Dimension}, {v.Dimension}'
+        u = np.zeros(self.Dimension, dtype=complex)
+        for me in self:
+            u[me.Row] += me.Val*v[me.Col]
+        return Vector(u)
 
-    def apply(self, v): 
+class SquareMatrix(ABC):
+    def __init__(self, dims):
+        self.Dimension = dims
+    
+    def __iter__(self):
+        for r in range(self.Dimension):
+            for c in range(self.Dimension):
+                yield MatrixElement(r,c,self[r,c])
+    
+    @abstractmethod
+    def __getitem__():
         pass
+        
+    @abstractmethod
+    def __setitem__():
+        pass
+    
+    @abstractmethod
+    def multiply():
+        pass
+    
+    def apply(self, v):
+        assert self.Dimension == v.Dimension, f'Incompatible dimensions: {self.Dimension}, {v.Dimension}'
+        u = np.zeros(self.Dimension, dtype=complex)
+        for me in self:
+            u[me.Row] += me.Val*v[me.Col]
+        return Vector(u)
 
 class Vector(): 
     def __init__(self, elements):
         self.Dimension = np.array(elements).size
         self.Elements = np.array(elements, dtype=complex)
+        
+    def __getitem__(self, pos):
+        return self.Elements[pos]
+    
+    def __setitem__(self, pos, val):
+        self.Elements[pos] = val
     
     def outer(self, other_vec):
         """
@@ -72,10 +100,7 @@ class Vector():
         
     
     def __str__(self):
-        toPrint = ''
-        for i in self.Elements:
-            toPrint += f'{i} '
-        return toPrint
+        return str(self.Elements)
 
 class explicit(Matrix):
 
