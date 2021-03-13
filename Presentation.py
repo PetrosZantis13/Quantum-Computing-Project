@@ -47,7 +47,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     """
     grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    repetitions = round(np.sqrt(n_qubits/len(measured_bits))) - 1
+    repetitions = int(np.pi/4*np.sqrt(2**n_qubits)) - 1
     
     grover_circuit.addmeasure()
     # calculate oracle
@@ -103,7 +103,7 @@ def Grover_Circuit(n_qubits, measured_bits):
 def LazyGroverDemo(n_qubits, measured_bits):
     grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    repetitions = round(np.sqrt(np.pi*n_qubits/len(measured_bits))) - 1
+    repetitions = round(np.pi/4*np.sqrt(2**n_qubits)) - 1
     
     grover_circuit.addmeasure()
     # calculate oracle

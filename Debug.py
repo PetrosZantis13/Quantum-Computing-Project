@@ -16,10 +16,10 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     
-    print('Grover Circuit example:')
-    Presentation.Grover_Circuit(4, [3,5])
+    #print('Grover Circuit example:')
+    #Presentation.Grover_Circuit(4, [3,5])
     
-    max_qubits = 6
+    max_qubits = 9
     times = np.zeros((2,max_qubits))
     for i in range(2,max_qubits):
         t1 = time.time()
@@ -66,8 +66,8 @@ if __name__ == '__main__':
     print(times)
     """
     
-    print('Bernstein-Vazirani Algorithm Example:')
-    Presentation.Ber_Vaz('1011')
-    print('QFT example:')
-    Presentation.qft_example()
+    #print('Bernstein-Vazirani Algorithm Example:')
+    #Presentation.Ber_Vaz('1011')
+    #print('QFT example:')
+    #Presentation.qft_example()
     
