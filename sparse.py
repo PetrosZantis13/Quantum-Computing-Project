@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
+
 from MatrixInterface import MatrixElement, Matrix, Vector, SquareMatrix
 import numpy as np
-
+# Test
 def makeSparse(matrix):
     """
     Converts dense matrix into sparse matrix in (row, column, value) form
