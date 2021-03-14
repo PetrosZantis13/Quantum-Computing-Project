@@ -51,7 +51,7 @@ def compareProbabilities():
     measured_bits = 1
     for n_qubits in range(2,6):
         lazy_max_measures.append([])
-        grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
+        grover_circuit = QuantumCircuit('Grover', n_qubits)
         repetitions = int(np.pi/4*np.sqrt(2**n_qubits)) - 1
         grover_circuit.addGate('h', [i for i in range(n_qubits)])
         grover_circuit.addmeasure()
