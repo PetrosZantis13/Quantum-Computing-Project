@@ -125,7 +125,7 @@ def LazyGroverDemo(n_qubits, measured_bits):
     # Repeat if necessary
     
     ""
-    for i in range(repetitions):
+    for i in range(int(repetitions)):
         # Add Oracle
         grover_circuit.addCustom(0, n_qubits-1, oracle, 'oracle')
         #Add diffuser

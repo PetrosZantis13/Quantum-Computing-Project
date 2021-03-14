@@ -238,6 +238,11 @@ class Grover(Circuit):
         if(AorM=='a'): 
             fig, ax = plt.subplots()
             self.plot_probs(state, ax)
+        elif(AorM=='testing'):
+            desired_amps = []
+            states, amps = state.probabilities() 
+            desired_amps.append(amps[d])
+        
         #iter = 0
         #while(np.max(state.probabilities()[1]) < 0.9 ):
         iter = int( (np.pi/4) * np.sqrt(N) )
@@ -246,6 +251,9 @@ class Grover(Circuit):
             state.apply_gate(R_gate)
             if(AorM=='a'): 
                 self.plot_probs(state, ax)
+            elif(AorM=='testing'): 
+                states, amps = state.probabilities() 
+                desired_amps.append(amps[d])
             #iter += 1
         
         collapsed = state.measure()
@@ -261,6 +269,8 @@ class Grover(Circuit):
         
         if(AorM=='a'): 
             plt.close(fig)
+        elif(AorM=='testing'): 
+            return iter, success, desired_amps
             
         return iter, success
            
