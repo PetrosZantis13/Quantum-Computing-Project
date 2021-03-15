@@ -6,7 +6,7 @@ import QuantumCircuit
 import numpy as np
 import matplotlib.pyplot as plt
 import QuantumRegister
-import sparse
+import Sparse
 
 
 def diffuser(circuit):
@@ -47,16 +47,16 @@ def Grover_Circuit(n_qubits, measured_bits):
     """
     grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
-    repetitions = round(np.sqrt(n_qubits/len(measured_bits))) - 1
+    repetitions = int(np.pi/4*np.sqrt(2**n_qubits)) - 1
     
     grover_circuit.addmeasure()
     # calculate oracle
     elements = []
     for i in range(2**n_qubits):
         if i in measured_bits:
-            elements.append(sparse.MatrixElement(i,i,-1))
-        else: elements.append(sparse.MatrixElement(i,i,1))
-    oracle_gate = sparse.SparseMatrix(2**n_qubits, elements) # Creates a sparseMatrix representation of the oracle
+            elements.append(Sparse.MatrixElement(i,i,-1))
+        else: elements.append(Sparse.MatrixElement(i,i,1))
+    oracle_gate = Sparse.SparseMatrix(2**n_qubits, elements) # Creates a sparseMatrix representation of the oracle
     #print(oracle_gate.makedense())
     
     #Add Oracle
@@ -82,7 +82,7 @@ def Grover_Circuit(n_qubits, measured_bits):
     final_statevec, measurements = grover_circuit.simulate2()
     #for m in measurements[1]:
     #   print(m)
-    
+    """
     # plots the results in a snazzy way
     figure, axis = plt.subplots(1, len(measurements[1]))
     for j, measurement in enumerate(measurements[1]):
@@ -99,6 +99,64 @@ def Grover_Circuit(n_qubits, measured_bits):
     plt.show()
     
     print(grover_circuit)
+    """
+def LazyGroverDemo(n_qubits, measured_bits):
+    grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
+    grover_circuit.addGate('h', [i for i in range(n_qubits)])
+    repetitions = round(np.pi/4*np.sqrt(2**n_qubits)) - 1
+    
+    grover_circuit.addmeasure()
+    # calculate oracle
+    oracle = Sparse.ColMatrix(2**n_qubits)
+    for i in range(2**n_qubits):
+        if i in measured_bits:
+            oracle[i,i] = -1
+        else: oracle[i,i] = 1
+    #print('oracle is:')
+    #print(oracle)
+    #Add Oracle
+    grover_circuit.addCustom(0, n_qubits-1, oracle, 'oracle')
+    
+    #grover_circuit.addmeasure()
+    #Add diffuser
+    diffuser(grover_circuit)
+
+    grover_circuit.addmeasure()
+    # Repeat if necessary
+    
+    ""
+    for i in range(int(repetitions)):
+        # Add Oracle
+        grover_circuit.addCustom(0, n_qubits-1, oracle, 'oracle')
+        #Add diffuser
+        diffuser(grover_circuit)
+        grover_circuit.addmeasure()
+    ""
+    #print(np.array(grover_circuit.gates, dtype=object)[:,:6])
+
+    #show results
+    #print(grover_circuit.return_measurements())
+    final_statevec, measurements = grover_circuit.lazysim()
+    #for m in measurements[1]:
+    #   print(m)
+    """
+    # plots the results in a snazzy way
+    figure, axis = plt.subplots(1, len(measurements[1]))
+    for j, measurement in enumerate(measurements[1]):
+        axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
+        axis[j].set_ylim([0,1])
+        axis[j].set_xlabel("State |N>", fontsize = '13')
+        if j>0:
+            axis[j].set_yticklabels("")
+        #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
+    axis[0].set_ylabel("Probability", fontsize = '13')
+    
+    #figure.set_ylabel("Probability of Measuring State")
+    figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
+    plt.show()
+    
+    print(grover_circuit)
+    """
     
 def QFT(circuit):
     """

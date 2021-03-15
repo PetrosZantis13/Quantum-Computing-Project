@@ -19,13 +19,20 @@ class Circuit(Interface):
     """ 
     
     def __init__(self, name): 
-        super().__init__(name)     
+        super().__init__(name)   
     
     def run_circuit(self):        
         """
         A function to run the circuit according to the specified name.
         """
         print(f"\nRunning {self.name} Circuit") 
+        
+        if(self.name == 'Grover'):
+            Grover().run_circuit()
+        elif(self.name == 'Bell States'):
+            Bell().run_circuit()
+        elif(self.name == 'Teleportation'):
+            Teleportation().run_circuit()
         
     def show_results(self):        
         """
@@ -106,7 +113,6 @@ class Bell(Circuit):
         :return: Bell States
         """
         
-        super().run_circuit()
         qbit_zero = Qubit(1,0)
         qbit_one = Qubit(0,1)
         inputs = [qbit_zero, qbit_one]
@@ -171,8 +177,8 @@ class Grover(Circuit):
              
             self.show_results(qbits, iters)    
             
-            qbits = np.arange(2,11,1)
-            reps = 500    
+            qbits = np.arange(2,10,1)
+            reps = 500
             successes = []
             for qs in qbits:
                 count = 0
@@ -185,7 +191,9 @@ class Grover(Circuit):
             plt.plot(qbits, successes)
             plt.xlabel("Number of qubits")
             plt.ylabel("Percentage accuracy")
-            plt.ylim(50,100)
+            plt.ylim(90,102)
+            plt.yticks(np.arange(90,102,2))
+            plt.xticks(qbits)
             plt.show()            
         
     def run_circuit(self, *args):
@@ -194,8 +202,6 @@ class Grover(Circuit):
 
         :return: number of iterations needed to terminate and the success of finding the desired state in Grover's algorithm (1 for success, 0 for failure)
         """
-        
-        super().run_circuit()
         
         if(not args):
             unpacked = self.prep_circuit()
@@ -238,6 +244,11 @@ class Grover(Circuit):
         if(AorM=='a'): 
             fig, ax = plt.subplots()
             self.plot_probs(state, ax)
+        elif(AorM=='testing'):
+            desired_amps = []
+            states, amps = state.probabilities() 
+            desired_amps.append(amps[d])
+        
         #iter = 0
         #while(np.max(state.probabilities()[1]) < 0.9 ):
         iter = int( (np.pi/4) * np.sqrt(N) )
@@ -246,10 +257,13 @@ class Grover(Circuit):
             state.apply_gate(R_gate)
             if(AorM=='a'): 
                 self.plot_probs(state, ax)
+            elif(AorM=='testing'): 
+                states, amps = state.probabilities() 
+                desired_amps.append(amps[d])
             #iter += 1
         
         collapsed = state.measure()
-        print(f"The desired state was {d}, and the quantum state collapsed to {collapsed}.")
+        print(f"\nThe desired state was {d}, and the quantum state collapsed to {collapsed}.")
         if (d == collapsed):
             print("Succesful search!")
             success =1 
@@ -261,6 +275,8 @@ class Grover(Circuit):
         
         if(AorM=='a'): 
             plt.close(fig)
+        elif(AorM=='testing'): 
+            return iter, success, desired_amps
             
         return iter, success
            
@@ -330,13 +346,15 @@ class Teleportation(Circuit):
             print("Bob's qubit:")
             b = self.qubit_prompt()
             runs = 1
-            return a, b, 0.8, 0.6
+            return a, b, 0, 1
         
         elif(AorM=='m'):
             a=b=zeros=ones=0  # test other scenarios
             alpha = 0.8
             beta = 0.6
-            runs = 500
+            runs = 800
+            alphas = []
+            betas = []
             errors_a =[] 
             errors_b =[] 
         
@@ -348,8 +366,10 @@ class Teleportation(Circuit):
                 elif(Bob==1):
                     ones+=1
             
-                a_temp = np.sqrt(zeros/runs)
-                b_temp = np.sqrt(ones/runs)
+                a_temp = np.sqrt(zeros/run)
+                alphas.append(a_temp)
+                b_temp = np.sqrt(ones/run)
+                betas.append(b_temp)
                 print(f"\nBob's teleported state (at {run} runs):")
                 print(f"{a_temp:.4f} |0> + {b_temp:.4f} |1>")
                 error_a = np.abs( (alpha - a_temp) /alpha)
@@ -357,7 +377,7 @@ class Teleportation(Circuit):
                 errors_a.append(error_a)
                 errors_b.append(error_b)  
             
-            self.show_results(errors_a, errors_b)                      
+            self.show_results(errors_a, errors_b, alphas, betas, alpha, beta)                      
     
     def run_circuit(self, *args):
         """
@@ -366,7 +386,6 @@ class Teleportation(Circuit):
         :return: collapsed state as measured by Bob.
 
         """
-        super().run_circuit()
         
         if(not args):
             unpacked = self.prep_circuit()
@@ -383,7 +402,6 @@ class Teleportation(Circuit):
         qbit_alice = Qubit(1-a,a)     
         qbit_bob = Qubit(1-b,b)
                     
-
         #Entangle the 2 qubits in one of the 4 Bell states (Quantum Channel)
         qbit_alice.apply_gate(Gate("Hadamard"))            
         control = Tensor([qbit_alice, qbit_bob])
@@ -446,17 +464,27 @@ class Teleportation(Circuit):
         print(f"\nFinally, Bob measures his qubit in state |{collapsed_Bob}>.")
         return collapsed_Bob
         
-    def show_results(self, errors_a, errors_b):
+    def show_results(self, errors_a, errors_b, alphas, betas, alpha, beta):
         """
         A function to show results of teleportation
         """ 
-        super().show_results()                   
+        super().show_results() 
+
+        plt.plot(alphas, label = r'$\alpha$')
+        plt.plot(betas, label = r'$\beta$')
+        plt.xticks()  # runs
+        plt.xlabel("Number of runs")
+        plt.ylabel("Amplitude")
+        plt.title(f"Teleportation of state {alpha} |0> + {beta} |1>")
+        plt.legend()
+        plt.show()     
+          
         plt.plot(errors_a, label = r'$\alpha$')
         plt.plot(errors_b, label = r'$\beta$')
         plt.xticks()  # runs
         plt.xlabel("Number of runs")
         plt.ylabel("Relative error")
-        plt.title("Teleportation")
+        plt.title("Relative error of amplitudes over number of runs")
         plt.legend()
         plt.show()
   
@@ -464,7 +492,7 @@ def main():
     """
     Runs both Grover and Teleportation Implementations
     """
-    
+       
     b = Bell()
     b.run_circuit() 
     g = Grover()
