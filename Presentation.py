@@ -36,7 +36,7 @@ def diffuser(circuit):
         circuit.addGate('h', [qbit])
     
 
-def Grover_Circuit(n_qubits, measured_bits):
+def Grover_Circuit(n_qubits, measured_bits, plot_results=True):
     """
     Constructs a circuit representing Grover's algorithm for a given number of qubits and
     bits that we are interested in. Plots measurements after each iteration of the algorithm.
@@ -82,25 +82,27 @@ def Grover_Circuit(n_qubits, measured_bits):
     final_statevec, measurements = grover_circuit.simulate2()
     #for m in measurements[1]:
     #   print(m)
-    """
-    # plots the results in a snazzy way
-    figure, axis = plt.subplots(1, len(measurements[1]))
-    for j, measurement in enumerate(measurements[1]):
-        axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
-        axis[j].set_ylim([0,1])
-        axis[j].set_xlabel("State |N>", fontsize = '13')
-        if j>0:
-            axis[j].set_yticklabels("")
-        #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
-    axis[0].set_ylabel("Probability", fontsize = '13')
     
-    #figure.set_ylabel("Probability of Measuring State")
-    figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
-    plt.show()
-    
-    print(grover_circuit)
-    """
-def LazyGroverDemo(n_qubits, measured_bits):
+    if plot_results:
+        # plots the results in a snazzy way
+        figure, axis = plt.subplots(1, len(measurements[1]))
+        for j, measurement in enumerate(measurements[1]):
+            axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
+            axis[j].set_ylim([0,1])
+            axis[j].set_xlabel("State |N>", fontsize = '13')
+            if j>0:
+                axis[j].set_yticklabels("")
+            #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
+        axis[0].set_ylabel("Probability", fontsize = '13')
+        
+        #figure.set_ylabel("Probability of Measuring State")
+        figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
+        plt.show()
+        
+        print(grover_circuit)
+
+
+def LazyGroverDemo(n_qubits, measured_bits, plot_results=True):
     grover_circuit = QuantumCircuit.QuantumCircuit('Grover', n_qubits)
     grover_circuit.addGate('h', [i for i in range(n_qubits)])
     repetitions = round(np.pi/4*np.sqrt(2**n_qubits)) - 1
@@ -139,24 +141,24 @@ def LazyGroverDemo(n_qubits, measured_bits):
     final_statevec, measurements = grover_circuit.lazysim()
     #for m in measurements[1]:
     #   print(m)
-    """
-    # plots the results in a snazzy way
-    figure, axis = plt.subplots(1, len(measurements[1]))
-    for j, measurement in enumerate(measurements[1]):
-        axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
-        axis[j].set_ylim([0,1])
-        axis[j].set_xlabel("State |N>", fontsize = '13')
-        if j>0:
-            axis[j].set_yticklabels("")
-        #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
-    axis[0].set_ylabel("Probability", fontsize = '13')
     
-    #figure.set_ylabel("Probability of Measuring State")
-    figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
-    plt.show()
-    
-    print(grover_circuit)
-    """
+    if plot_results:
+        # plots the results in a snazzy way
+        figure, axis = plt.subplots(1, len(measurements[1]))
+        for j, measurement in enumerate(measurements[1]):
+            axis[j].bar([i for i in range(measurement.size)], measurement*np.conj(measurement))
+            axis[j].set_ylim([0,1])
+            axis[j].set_xlabel("State |N>", fontsize = '13')
+            if j>0:
+                axis[j].set_yticklabels("")
+            #print((results[2][1][j]*np.conj(results[2][1][j])).sum())
+        axis[0].set_ylabel("Probability", fontsize = '13')
+        
+        #figure.set_ylabel("Probability of Measuring State")
+        figure.suptitle("Probability of measuring state N",fontweight='bold', fontsize='15')
+        plt.show()
+        
+        print(grover_circuit)
     
 def QFT(circuit):
     """
