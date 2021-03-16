@@ -19,14 +19,14 @@ numrically and geometrically as it can plot visually the results on a
 given axis of rotation. It is using a Sparse and Lazy Matrices to make
 computations as efficient as possible.
 
-The second implementation, **Pre-Build Cricuits**, has predefined
+The second implementation, **Pre-Built Cricuits**, has predefined
 circuits for the Grover algorithm and an example of the use of Quantum
 Teleportation. It can visually show the probabilities of finding a state
 as an animation and allows the User through prompts to explore Quantum
 Teleportation by defining Alice’s and Bob’s states. It is not using a
 SparseMatrix Implementation, instead it uses the numpy.kron library and
 numpy.dot for its computations. We include a UML diagram for the
-**Pre-Build Cricuits**:
+**Pre-Built Cricuits**:
 
 ![](Figures/UML_diagram.png)
 
@@ -45,7 +45,7 @@ The User can run the Demo by the following command:
 
 ## Documentation
 
-For Documentation we used the [Sphinx](https://example.com) Auto-Documentation generator. One can access the documentation by the following command:
+For Documentation we used the [Sphinx](https://www.sphinx-doc.org/en/master/) Python Documentation Generator. One can access the documentation by the following command:
 
 **UNIX:**
 `open docs/_build/html/index.html`
@@ -55,7 +55,7 @@ For Documentation we used the [Sphinx](https://example.com) Auto-Documentation g
 
 ![](Figures/Complexity.png)
 
-![](Figures/Accuracy.pn)
+![](Figures/Accuracy.png)
 
 ![](Figures/sparse_lazy.png)
 
