@@ -231,7 +231,6 @@ class Grover(Circuit):
         Uf_gate = Gate("Uf")
         Uf_gate.build_gate(Uf_matrix)
         print(f"\nThe Oracle operator is:\n{Uf_gate.operator}")
-        #print(Uf_gate.qbitdim)  
         
         diffusion = Tensor([state,state])
         diffusion.calculate()
@@ -239,7 +238,6 @@ class Grover(Circuit):
         R_gate = Gate("R")
         R_gate.build_gate(R_matrix)
         print(f"\nThe Diffusion operator is:\n{R_gate.operator}")
-        #print(R_gate.qbitdim)
         
         if(AorM=='a'): 
             fig, ax = plt.subplots()
@@ -249,8 +247,6 @@ class Grover(Circuit):
             states, amps = state.probabilities() 
             desired_amps.append(amps[d])
         
-        #iter = 0
-        #while(np.max(state.probabilities()[1]) < 0.9 ):
         iter = int( (np.pi/4) * np.sqrt(N) )
         for i in range(iter):
             state.apply_gate(Uf_gate)
@@ -260,7 +256,6 @@ class Grover(Circuit):
             elif(AorM=='testing'): 
                 states, amps = state.probabilities() 
                 desired_amps.append(amps[d])
-            #iter += 1
         
         collapsed = state.measure()
         print(f"\nThe desired state was {d}, and the quantum state collapsed to {collapsed}.")
@@ -394,7 +389,7 @@ class Teleportation(Circuit):
             else:
                 return
         else:
-            a, b, alpha, beta = args  #CONTINUE FIXING THIS TOMORROW
+            a, b, alpha, beta = args 
         
         Bell_circuit = Bell()
         Bell_states = Bell_circuit.run_circuit()
@@ -417,17 +412,13 @@ class Teleportation(Circuit):
                 
         #Alice's entangles her two qubits and performs a Bell measurement
         qbit_unknown = Qubit(alpha, beta)  #Qubit(0.28,0.96)   
-        #print(qbit_unknown.probabilities())
-        #qbit_unknown.apply_gate(Gate("Hadamard"))            
         control = Tensor([qbit_unknown, qbit_alice])
         control.calculate()
         entangled_AC = State(control.product)
         entangled_AC.apply_gate(Gate("CNOT"))
         print(f"\nAlice entangles the unknown state with her qubit to:")
         print(entangled_AC.vector)
-        #print(entangled_AC.probabilities())
         print(f"\nTransformed to Bell Bases:")
-        #entangled_AC.apply_gate(Gate("CNOT"))
         reverse = Tensor([Gate('I'), Gate('H')])
         reverse.calculate()
         tr_gate = Gate("Transform")
@@ -435,7 +426,6 @@ class Teleportation(Circuit):
         entangled_AC.apply_gate(tr_gate)
         
         print(entangled_AC.vector)
-        #PETRO HERE TRANSFORM THIS TO BELL BASIS BEFORE MEASUREMENT
         print(f"\nAlice measures her entangled state:")
         AC_index = entangled_AC.measure()            
         print(f"\nAlice's measurement gave out Bell State {AC_index}:")

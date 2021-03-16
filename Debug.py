@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sun Feb  7 17:44:25 2021
 
@@ -12,7 +11,6 @@ import Sparse
 import time
 import matplotlib.pyplot as plt
         
-#Despo one love
 
 if __name__ == '__main__':
     

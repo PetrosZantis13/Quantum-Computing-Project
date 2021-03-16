@@ -1,7 +1,7 @@
-sparse module
+Sparse module
 =============
 
-.. automodule:: sparse
+.. automodule:: Sparse
    :members:
    :undoc-members:
    :show-inheritance:

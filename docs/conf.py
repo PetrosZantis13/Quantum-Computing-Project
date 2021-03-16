@@ -18,8 +18,9 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'Quantum Computing Project'
-copyright = '2021, Fedra Antoniadou, Despina Demetriadou, Singh Gagandeep, Mihaly Kovacs,  Rishi Sundar, Kyriacos Xanthos, Petros Zantis'
-author = 'Fedra Antoniadou, Despina Demetriadou, Singh Gagandeep, Mihaly Kovacs,  Rishi Sundar, Kyriacos Xanthos, Petros Zantis'
+copyright = '2021, Petros Zantis, Mihaly Kovacs, Kyriacos Xanthos, Rishi Sundar'
+author = 'Petros Zantis, Mihaly Kovacs, Kyriacos Xanthos, Rishi Sundar'
+
 
 
 # -- General configuration ---------------------------------------------------

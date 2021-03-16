@@ -6,6 +6,14 @@ import Sparse
 
 class Simulator():
     def __init__(self, gates, register, custom, measurements):
+        """
+        Initialiser for the simulator.
+
+        :param gates: (list of lists) The gates representing the Quantum Circuit.
+        :param register: (QuantumRegister) The quantum register representing the Quantum Circuit.
+        :param custom: (dict) Dictionary of user defined custom gates.
+        :param measurements: (list) The list of all places a measurement must be taken.
+        """
         self.gates = gates
         self.register = register
         self.singlegates = {'x' : np.array([[0,1], [1,0]]),
@@ -204,7 +212,6 @@ class Simulator():
         :param gate_info: (tuple) information of multi-qubit gate
         :return: (SparseMatrix) Matrix representation of the operation for the gates given.
         """
-        #print(gate_info)
         if gate_info[0]=='r':
             operation = self.__Rt(complex(gate_info[1]))
         elif gate_info[0]=='cn':
@@ -232,11 +239,7 @@ class Simulator():
     
         :return: (array) list of np matrices that will be applied to the statevector
         """
-        # We should make Sparse matrix representations of single gates from the beginning.
         gates = np.array(self.gates, dtype = object).T
-        #debug
-        #print('Gates are:')
-        #print(gates)
             
         bigmats = []
         for i, slot in enumerate(gates):
@@ -269,8 +272,6 @@ class Simulator():
         """
         operations = self.makeMatrices()
         for i, operation in enumerate(operations):
-            #print(i)
-            #print(operation)
             self.register.Statevec = operation.apply(self.register.Statevec)
             if i in self.measurements[0]:
                 self.measurements[1].append(self.register.Statevec.Elements)
@@ -285,9 +286,6 @@ class Simulator():
         :return: The register and any measurements made
         """
         gates = np.array(self.gates, dtype = object).T
-        #debug
-        #print('Gates are:')
-        #print(gates)
         
         for i, slot in enumerate(gates):
             bigmat = Sparse.SparseMatrix(1, [Sparse.MatrixElement(0,0,1)])

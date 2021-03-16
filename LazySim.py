@@ -1,11 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Mar 11 15:39:04 2021
-
-@author: mikva
-"""
-"""
-This module simulates a circuit. It also defines the necessary gates.
+This module simulates a circuit with all of the Lazy Matrix implementations 
 """
 import numpy as np
 import Sparse
@@ -81,17 +75,14 @@ class Simulator():
         :return self.measurements: (2xn list of lists) Any measurements taken during the simulation
         """
         self.gates = np.array(self.gates, dtype=object).T
-        #print(self.gates)
         for i, row in enumerate(self.gates):
             for j, g in enumerate(row):
                 if type(g)==tuple:
                     self.__addBigGate(g, j)
                 elif g == 's' or g == 'i': continue
                 else:
-                    #print(j)
                     gate = Sparse.Gate(self.size, Sparse.toColMat(self.singlegates[g]), [j])
                     self.register.Statevec = gate.apply(self.register.Statevec)
-                    #print(self.register)
             if i in self.measurements[0]:
                 self.measurements[1].append(self.register.Statevec.Elements)
         return self.register, self.measurements
@@ -160,7 +151,6 @@ class Simulator():
         length = max(gate_info)-min(gate_info) + 1
         ncz = Sparse.ColMatrix(2**(length))
         for i in range(2**(length)):
-            #print(i)
             ncz[i,i] = 1
         ncz[2**length-1, 2**length-1] = -1
         gate = Sparse.Gate(self.size, ncz, list(gate_info))
@@ -202,15 +192,11 @@ class Simulator():
         :param gate_info: (tuple(int,..., int, float)) The qubits the rotation applies to, Float for the rotation angle.
         """
         length = max(gate_info)-min(gate_info) + 1
-        #print(length)
         ncp = Sparse.ColMatrix(2**(length))
         for i in range(2**(length)):
-            #print(i)
             ncp[i,i] = 1
         ncp[2**length-1, 2**length-1] = np.exp(gate_info[-1])
         gate = Sparse.Gate(self.size, ncp, list(gate_info)[:-1])
-        #print(type(gate))
-        #print(gate)
         self.register.Statevec = gate.apply(self.register.Statevec.Elements)
     
     def __custom(self, gate_info):

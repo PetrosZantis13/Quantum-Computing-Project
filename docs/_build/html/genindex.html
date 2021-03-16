@@ -33,7 +33,6 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -86,8 +85,10 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules2.html">Implementation 1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Implementation 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Interface.html">Interface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules2.html">Circuit Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Pre-Build Cricuits</a></li>
 </ul>
 
             
@@ -157,13 +158,15 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -172,9 +175,40 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
 </div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Simulator.html#Simulator.Simulator.__addLargeGate">__addLargeGate() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__bitactive">__bitactive() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__ccNot">__ccNot() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__cNot">__cNot() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__cP">__cP() (Simulator.Simulator method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Simulator.html#Simulator.Simulator.__cZ">__cZ() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__NCP">__NCP() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__NCZ">__NCZ() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__Rt">__Rt() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__Swap">__Swap() (Simulator.Simulator method)</a>
+</li>
+      <li><a href="Simulator.html#Simulator.Simulator.__toggle">__toggle() (Simulator.Simulator method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -186,14 +220,18 @@
 </li>
       <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.addmeasure">addmeasure() (QuantumCircuit.QuantumCircuit method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Circuit.html#Circuit.Circuit.AorM_prompt">AorM_prompt() (Circuit.Circuit method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="MatrixInterface.html#MatrixInterface.Matrix.apply">apply() (MatrixInterface.Matrix method)</a>
 
       <ul>
-        <li><a href="sparse.html#sparse.SparseMatrix.apply">(sparse.SparseMatrix method)</a>
+        <li><a href="MatrixInterface.html#MatrixInterface.SquareMatrix.apply">(MatrixInterface.SquareMatrix method)</a>
+</li>
+        <li><a href="Sparse.html#Sparse.Gate.apply">(Sparse.Gate method)</a>
+</li>
+        <li><a href="Sparse.html#Sparse.SparseMatrix.apply">(Sparse.SparseMatrix method)</a>
 </li>
       </ul></li>
       <li><a href="State.html#State.State.apply_gate">apply_gate() (State.State method)</a>
@@ -208,11 +246,15 @@
 </li>
       <li><a href="Circuit.html#Circuit.Bell">Bell (class in Circuit)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Presentation.html#Presentation.Ber_Vaz">Ber_Vaz() (in module Presentation)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="UserDemo.html#UserDemo.BorD_prompt">BorD_prompt() (in module UserDemo)</a>
+</li>
       <li><a href="Gate.html#Gate.Gate.build_gate">build_gate() (Gate.Gate method)</a>
+</li>
+      <li><a href="UserDemo.html#UserDemo.builder_prompt">builder_prompt() (in module UserDemo)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -231,11 +273,19 @@
         <li><a href="Circuit.html#module-Circuit">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Circuit.html#Circuit.Circuit">Circuit (class in Circuit)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="UserDemo.html#UserDemo.circuit_prompt">circuit_prompt() (in module UserDemo)</a>
+</li>
       <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.cnot">cnot() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+      <li><a href="Sparse.html#Sparse.ColMatrix">ColMatrix (class in Sparse)</a>
+</li>
+      <li><a href="Sparse.html#Sparse.ColumnElement">ColumnElement (class in Sparse)</a>
+</li>
+      <li><a href="UserDemo.html#UserDemo.compareProbabilities">compareProbabilities() (in module UserDemo)</a>
 </li>
       <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.cp">cp() (QuantumCircuit.QuantumCircuit method)</a>
 </li>
@@ -266,6 +316,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Sparse.html#Sparse.LazyMatrix.Evaluate">Evaluate() (Sparse.LazyMatrix method)</a>
+</li>
       <li><a href="MatrixInterface.html#MatrixInterface.explicit">explicit (class in MatrixInterface)</a>
 </li>
   </ul></td>
@@ -282,14 +334,16 @@
 </li>
       </ul></li>
       <li><a href="Gate.html#Gate.Gate">Gate (class in Gate)</a>
+
+      <ul>
+        <li><a href="Sparse.html#Sparse.Gate">(class in Sparse)</a>
 </li>
-      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.get0">get0() (QuantumRegister.Qubit method)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.get1">get1() (QuantumRegister.Qubit method)</a>
+      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.get0">get0() (QuantumRegister.Qubit method)</a>
 </li>
-      <li><a href="MatrixInterface.html#MatrixInterface.Matrix.get_value">get_value() (MatrixInterface.Matrix method)</a>
+      <li><a href="QuantumRegister.html#QuantumRegister.Qubit.get1">get1() (QuantumRegister.Qubit method)</a>
 </li>
       <li><a href="Circuit.html#Circuit.Grover">Grover (class in Circuit)</a>
 </li>
@@ -317,16 +371,37 @@
   </ul></td>
 </tr></table>
 
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Presentation.html#Presentation.LazyGroverDemo">LazyGroverDemo() (in module Presentation)</a>
+</li>
+      <li><a href="Sparse.html#Sparse.LazyMatrix">LazyMatrix (class in Sparse)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    LazySim
+
+      <ul>
+        <li><a href="LazySim.html#module-LazySim">module</a>
+</li>
+      </ul></li>
+      <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.lazysim">lazysim() (QuantumCircuit.QuantumCircuit method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Circuit.html#Circuit.main">main() (in module Circuit)</a>
 </li>
-      <li><a href="sparse.html#sparse.SparseMatrix.makedense">makedense() (sparse.SparseMatrix method)</a>
+      <li><a href="Sparse.html#Sparse.SparseMatrix.makedense">makedense() (Sparse.SparseMatrix method)</a>
 </li>
       <li><a href="Simulator.html#Simulator.Simulator.makeMatrices">makeMatrices() (Simulator.Simulator method)</a>
 </li>
-      <li><a href="sparse.html#sparse.makesparse">makesparse() (in module sparse)</a>
+      <li><a href="Sparse.html#Sparse.makeSparse">makeSparse() (in module Sparse)</a>
 </li>
       <li><a href="MatrixInterface.html#MatrixInterface.Matrix">Matrix (class in MatrixInterface)</a>
 </li>
@@ -357,6 +432,8 @@
 </li>
         <li><a href="Interface.html#module-Interface">Interface</a>
 </li>
+        <li><a href="LazySim.html#module-LazySim">LazySim</a>
+</li>
         <li><a href="MatrixInterface.html#module-MatrixInterface">MatrixInterface</a>
 </li>
         <li><a href="Presentation.html#module-Presentation">Presentation</a>
@@ -367,11 +444,13 @@
 </li>
         <li><a href="Simulator.html#module-Simulator">Simulator</a>
 </li>
-        <li><a href="sparse.html#module-sparse">sparse</a>
+        <li><a href="Sparse.html#module-Sparse">Sparse</a>
 </li>
         <li><a href="State.html#module-State">State</a>
 </li>
         <li><a href="Tensor.html#module-Tensor">Tensor</a>
+</li>
+        <li><a href="UserDemo.html#module-UserDemo">UserDemo</a>
 </li>
       </ul></li>
   </ul></td>
@@ -381,7 +460,13 @@
       <ul>
         <li><a href="MatrixInterface.html#MatrixInterface.Matrix.multiply">(MatrixInterface.Matrix method)</a>
 </li>
-        <li><a href="sparse.html#sparse.SparseMatrix.multiply">(sparse.SparseMatrix method)</a>
+        <li><a href="MatrixInterface.html#MatrixInterface.SquareMatrix.multiply">(MatrixInterface.SquareMatrix method)</a>
+</li>
+        <li><a href="Sparse.html#Sparse.ColMatrix.multiply">(Sparse.ColMatrix method)</a>
+</li>
+        <li><a href="Sparse.html#Sparse.LazyMatrix.multiply">(Sparse.LazyMatrix method)</a>
+</li>
+        <li><a href="Sparse.html#Sparse.SparseMatrix.multiply">(Sparse.SparseMatrix method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -501,8 +586,6 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="MatrixInterface.html#MatrixInterface.Matrix.set_value">set_value() (MatrixInterface.Matrix method)</a>
-</li>
       <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister.setQbits">setQbits() (QuantumRegister.QuantumRegister method)</a>
 </li>
       <li><a href="QuantumRegister.html#QuantumRegister.QuantumRegister.setStateVec">setStateVec() (QuantumRegister.QuantumRegister method)</a>
@@ -521,8 +604,12 @@
         <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.show_results">(QuantumCircuit.QuantumCircuit method)</a>
 </li>
       </ul></li>
-      <li><a href="Simulator.html#Simulator.Simulator.simulate">simulate() (Simulator.Simulator method)</a>
+      <li><a href="LazySim.html#LazySim.Simulator.simulate">simulate() (LazySim.Simulator method)</a>
+
+      <ul>
+        <li><a href="Simulator.html#Simulator.Simulator.simulate">(Simulator.Simulator method)</a>
 </li>
+      </ul></li>
       <li><a href="QuantumCircuit.html#QuantumCircuit.QuantumCircuit.simulate2">simulate2() (QuantumCircuit.QuantumCircuit method)</a>
 
       <ul>
@@ -538,18 +625,24 @@
         <li><a href="Simulator.html#module-Simulator">module</a>
 </li>
       </ul></li>
-      <li><a href="Simulator.html#Simulator.Simulator">Simulator (class in Simulator)</a>
+      <li><a href="LazySim.html#LazySim.Simulator">Simulator (class in LazySim)</a>
+
+      <ul>
+        <li><a href="Simulator.html#Simulator.Simulator">(class in Simulator)</a>
 </li>
+      </ul></li>
       <li><a href="Circuit.html#Circuit.Circuit.size_prompt">size_prompt() (Circuit.Circuit method)</a>
 </li>
       <li>
-    sparse
+    Sparse
 
       <ul>
-        <li><a href="sparse.html#module-sparse">module</a>
+        <li><a href="Sparse.html#module-Sparse">module</a>
 </li>
       </ul></li>
-      <li><a href="sparse.html#sparse.SparseMatrix">SparseMatrix (class in sparse)</a>
+      <li><a href="Sparse.html#Sparse.SparseMatrix">SparseMatrix (class in Sparse)</a>
+</li>
+      <li><a href="MatrixInterface.html#MatrixInterface.SquareMatrix">SquareMatrix (class in MatrixInterface)</a>
 </li>
       <li>
     State
@@ -577,16 +670,41 @@
         <li><a href="Tensor.html#module-Tensor">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Tensor.html#Tensor.Tensor">Tensor (class in Tensor)</a>
 </li>
-      <li><a href="sparse.html#sparse.SparseMatrix.tensorProduct">tensorProduct() (sparse.SparseMatrix method)</a>
+      <li><a href="Sparse.html#Sparse.ColMatrix.tensorProduct">tensorProduct() (Sparse.ColMatrix method)</a>
+
+      <ul>
+        <li><a href="Sparse.html#Sparse.SparseMatrix.tensorProduct">(Sparse.SparseMatrix method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="UserDemo.html#UserDemo.tensorTest">tensorTest() (in module UserDemo)</a>
+</li>
+      <li><a href="UserDemo.html#UserDemo.timeBenchmarks">timeBenchmarks() (in module UserDemo)</a>
 </li>
       <li><a href="Tensor.html#Tensor.Tensor.to_gate">to_gate() (Tensor.Tensor method)</a>
 </li>
       <li><a href="Tensor.html#Tensor.Tensor.to_state">to_state() (Tensor.Tensor method)</a>
 </li>
+      <li><a href="Sparse.html#Sparse.toColMat">toColMat() (in module Sparse)</a>
+</li>
+      <li><a href="Sparse.html#Sparse.ColMatrix.toDense">toDense() (Sparse.ColMatrix method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    UserDemo
+
+      <ul>
+        <li><a href="UserDemo.html#module-UserDemo">module</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -609,7 +727,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Fedra Antoniadou, Despina Demetriadou, Singh Gagandeep, Mihaly Kovacs,  Rishi Sundar, Kyriacos Xanthos, Petros Zantis.
+        &#169; Copyright 2021, Petros Zantis, Mihaly Kovacs, Kyriacos Xanthos, Rishi Sundar.
 
     </p>
   </div>

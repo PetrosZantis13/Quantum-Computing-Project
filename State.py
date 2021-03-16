@@ -1,13 +1,12 @@
-'''
+"""
 The State module is used to create objects representing quantum states. 
-'''
+"""
 import numpy as np
 
 class BasisStates():
     """ creates the pure basis states with the given dimension.
 
     :param dimension: (int) dimensions of vector space
-
     """
     
     def __init__(self, dimension) :
@@ -33,22 +32,21 @@ class State():
         self.vector = matrix 
         
     def apply_gate(self, gate):
-        '''
+        """
         Applies the gate given as argument to the quantum state
         After asserting that the dimensions of the state and gate match, 
         calculates the dot product of the gate’s operator and the state’s vector,
         and saves the result as the new updated state vector.
 
         :param gate:  (array) gate of the circuit
-
-        '''  
+        """  
         # ensure that the dimensions match
         assert(len(self.vector) == 2**(gate.qbitdim))   
         new_vector = gate.operator.dot(self.vector)
         self.vector = new_vector
     
     def probabilities(self):
-        '''
+        """
         Calculates the amplitude of each basis state in an entangled state
         Goes through the amplitudes of each basis, multiplies it by its 
         conjugate, and outputs a list of the basis states and their 
@@ -56,7 +54,7 @@ class State():
 
         :return: (list) basis states and their probabilities inside the state vector
         
-        '''        
+        """        
         basis_states = []
         amps = []
         for basis, amplitude in enumerate(self.vector):
@@ -70,14 +68,14 @@ class State():
         return basis_states, amps
     
     def measure(self):
-        '''
+        """
         Measures the quantum state and collapses it to one of its basis states.
         Collapses the wavefunction to one of its basis states by using the probabilities
         from the the method of the probabilities function and the numpy 
         random library.
 
         :return: (int) index of collapsed state
-        '''        
+        """        
         basis_states, amps = self.probabilities()
         r = np.random.random()     
         
