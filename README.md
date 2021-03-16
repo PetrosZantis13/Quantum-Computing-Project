@@ -28,9 +28,7 @@ SparseMatrix Implementation, instead it uses the numpy.kron library and
 numpy.dot for its computations. We include a UML diagram for the
 **Pre-Build Cricuits**:
 
-<figure>
-<img src="../Figures/UML_diagram.png" class="align-center" />
-</figure>
+![](Figures/UML_diagram.png)
 
 ## Usage
 
@@ -53,27 +51,14 @@ For Documentation we used the [Sphinx](https://example.com) Auto-Documentation g
 `open docs/_build/html/index.html`
 
 
-
-
-
 ## Sample Results
 
-<figure>
-<img src="../Figures/Complexity.png" class="align-center" />
-</figure>
+![](Figures/Complexity.png)
 
-<figure>
-<img src="../Figures/Accuracy.png" class="align-center" />
-</figure>
+![](Figures/Accuracy.pn)
 
-<figure>
-<img src="../Figures/sparse_lazy.png" class="align-center" />
-</figure>
+![](Figures/sparse_lazy.png)
 
-<figure>
-<img src="../Figures/Teleport1.png" class="align-center" />
-</figure>
+![](Figures/Teleport1.png)
 
-<figure>
-<img src="../Figures/Teleport2.png" class="align-center" />
-</figure>
+![](Figures/Teleport2.png)
