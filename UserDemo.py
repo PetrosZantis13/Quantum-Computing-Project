@@ -14,18 +14,19 @@ import Sparse
 
 def timeBenchmarks():
     
-    qbits = np.arange(2,9,1)   # mihaly's limit is 8 qubits, mine is 12
+    max_qbits = 8  # the limit of sparse matrices
+    qbits = np.arange(2,max_qbits +1,1)
     times = np.zeros((3,len(qbits)))
     
     for q in qbits:
         
         t1 = time.time()           
-        Presentation.Grover_Circuit(q, [3])
+        Presentation.Grover_Circuit(q, [3], plot_results=False)
         t2 = time.time()
         times[0,q-2] = t2-t1
           
         t1 = time.time()
-        Presentation.LazyGroverDemo(q, [3])
+        Presentation.LazyGroverDemo(q, [3], plot_results=False)
         t2 = time.time()
         times[1,q-2] = t2-t1
         
@@ -47,29 +48,74 @@ def timeBenchmarks():
     
 def tensorTest():
     
-    loops = 17
-    print(f"\nChecking the time it takes for each of the two implementations\nto do a tensor product of {loops} items:")
+    qbits = np.arange(2,13,1)
+    times = np.zeros((3,len(qbits)))
     
-    v1 = Sparse.Vector(np.array([1,0]))
-    result = Sparse.Vector(np.array([1,0]))
-    t1 = time.time()
-    for i in range(loops):
-        result = result.outer(v1)
-    t2 = time.time()
-    print(f"\nResult 1 :\n {result} ")
-    print(f"Time taken : {t2-t1} ")
-    
-    t1 = time.time()
-    qbit_zero = Qubit(1,0)
-    reg = []
-    for i in range(loops):
-        reg.append(qbit_zero)
-    
-    register = Tensor(reg)
-    state = register.to_state()
-    t2 = time.time()
-    print(f"\nResult 2 :\n {state.vector.T} ")
-    print(f"Time taken : {t2-t1} ")
+    had = Sparse.ColMatrix(2)
+    had[0,0] = 1/np.sqrt(2)
+    had[0,1] = 1/np.sqrt(2)
+    had[1,0] = 1/np.sqrt(2)
+    had[1,1] = -1/np.sqrt(2)
+     
+    for q in qbits:
+        print(f"\nChecking the time it takes for each of the two implementations\nto do a tensor product of {q} items:")
+        
+        qbit_zero = Qubit(1,0)
+        reg = []    
+        for i in range(q):
+            reg.append(qbit_zero)
+        state = Tensor(reg)
+        state = state.to_state()
+        test_vector = np.copy(state.vector)
+        
+        #test_vector = np.ones(2**q)/np.sqrt(2**q)
+        t1 = time.time()
+        for i in range(q):
+            gate = Sparse.Gate(2**q, had, [i])            
+            test_vector = gate.apply(test_vector)  # apply the hadamards to register?
+        t2 = time.time()
+        print(f"\nResult 1 :\n {test_vector} ")
+        print(f"Time taken : {t2-t1} ")
+        times[0,q-2] = t2-t1
+        
+        t1 = time.time()
+        reg = []
+        h_gate = Gate("Hadamard") 
+        for i in range(q):
+            reg.append(h_gate)
+        register = Tensor(reg)
+        big_gate = register.to_gate("Biggie")   # basically what creates the Memory error
+        state.apply_gate(big_gate)
+        
+        t2 = time.time()
+        print(f"\nResult 2 :\n {state.vector.T} ")
+        print(f"Time taken : {t2-t1} ")
+        times[1,q-2] = t2-t1
+        
+        t1 = time.time()
+        qbit_zero = Qubit(1,0)
+        reg = []
+        h_gate = Gate("Hadamard")
+        qbit_zero.apply_gate(h_gate)     
+        for i in range(q):
+            reg.append(qbit_zero)   # doing it this way is much faster and gives the same result
+        register = Tensor(reg)
+        state = register.to_state()        
+        t2 = time.time()
+        print(f"\nResult 3 :\n {state.vector.T} ")
+        print(f"Time taken : {t2-t1} ")
+        times[2,q-2] = t2-t1
+        
+    plt.plot(qbits, times[0], label='sparse (change it to lazy)')
+    plt.plot(qbits, times[1], label='numpy')
+    plt.plot(qbits, times[2], label='numpy 2')
+    plt.title("Runtime of Tensor product over Number of Qubits in the system")
+    plt.xlabel("Number of Qubits")
+    plt.ylabel("Runtime (s)")
+    plt.yscale("log")
+    plt.xticks(qbits)
+    plt.legend()
+    plt.show()
 
 def compareProbabilities():
     
@@ -161,7 +207,7 @@ def builder_prompt():
 
 def circuit_prompt():
     """
-    A function to prompt for circuit-builder or pre-built circuits.
+    A function to prompt for specific pre-built circuits.
     """  
     circ = input("\nPlease type 'b' for Bell States circuit, 'g' for Grover circuit,\nor 't' for Teleportation circuit:")
     while(circ!='b' and circ!='g' and circ!='t'):           
@@ -175,7 +221,39 @@ def circuit_prompt():
     elif circ=='t':
         circ = "Teleportation"
         
-    return circ 
+    return circ
+
+def custom_builder_prompt():
+    """
+    Function to determine which circuit to build for the user.
+    """
+    circ = input("\nWhich circuit would you like to build?\nType 'grover' for Grover's circuit or 'BV' for a Bernstein-Vazirani circuit.\n")
+    if circ=='grover':
+        return circ
+    if circ=='BV':
+        return circ
+    else:
+        print('Invalid entry')
+        return custom_builder_prompt()
+
+def actual_builder(algorithm):
+    """
+    Function which builds the circuit as prompted by the user.
+    """
+    if algorithm=='grover':
+        size = int(input("\nPlease enter the size of the desired circuit\n"))
+        state = int(input("\nPlease enter the desired state\n"))
+        if state<2**size:
+            Presentation.LazyGroverDemo(size, [state])
+        else: 
+            print("\nSomething went wrong. \nThe desired state might be out of bounds")
+            actual_builder('grover')
+
+    elif algorithm=='BV':
+        mystery_string = str(input("\nPlease enter a mystery bitstring (i.e. a bunch of 1s and 0s)"))
+        Presentation.Ber_Vaz(mystery_string)
+        print("Your mystery string was:", mystery_string)
+        print("Does it match the qubits in the register?")    
     
 if __name__ == '__main__':
     
@@ -201,6 +279,7 @@ if __name__ == '__main__':
                 else:
                     build = circuit_prompt()
         else:
-            print("Mihaly code your circuit builder here, as simple as you can")
+            toBuild = custom_builder_prompt()
+            actual_builder(toBuild)
 
     
