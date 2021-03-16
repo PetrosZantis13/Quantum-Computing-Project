@@ -1,7 +1,11 @@
+"""
+This module includes all of the implementation for creating Sparse and Lazy Matrices.
+"""
 
 from MatrixInterface import MatrixElement, Matrix, Vector, SquareMatrix
 import numpy as np
-# Test
+
+
 def makeSparse(matrix):
     """
     Converts dense matrix into sparse matrix in (row, column, value) form
@@ -75,7 +79,9 @@ class SparseMatrix(Matrix, object):
         return u
 
     def makedense(self):
-        """makes a dense matrix"""
+        """
+        makes a dense matrix
+        """
         M = np.zeros((self.Dimension, self.Dimension), dtype= complex)
         for me in self.Elements:
             M[me.i][me.j] = me.val
@@ -160,12 +166,9 @@ class ColMatrix(SquareMatrix):
         
     def __str__(self):
         toPrint = ''
-        #i = 0
         for c, column in enumerate(self.Columns):
-            #print(column)
             for element in column:
                 
-                #i+=1
                 toPrint += f'{element.Row}, {c}, {element.Val} \n'
         return toPrint
         
@@ -186,8 +189,6 @@ class ColMatrix(SquareMatrix):
             for element in column:
                 for col2, othercolumn in enumerate(otherMatrix.Columns):
                     for otherElement in othercolumn:
-                        #print(row1, row2, element.Col, otherElement.Col)
-                        #print(row1*otherMatrix.Dimension+row2, element.Col*otherMatrix.Dimension + otherElement.Col)
                         newMatrix[element.Row*otherMatrix.Dimension+otherElement.Row, col1*otherMatrix.Dimension + col2] = element.Val*otherElement.Val
         return newMatrix
         
@@ -208,7 +209,7 @@ class ColMatrix(SquareMatrix):
         Multiplies self with another matrix
 
         :param m: (ColMatrix) other matriix on the right hand side of the multiplication
-        :return p: (ColMatrix) Product of the multiplication
+        :return: (ColMatrix) Product of the multiplication
         """
         p = ColMatrix(self.Dimension)
         for me in m:
@@ -235,12 +236,10 @@ class LazyMatrix(SquareMatrix):
         This operation is useless in our case and doesn't actually work, so ... yeah
 
         :param m: (LazyMatrix) matrix to multiply by (perhaps implemented in the future)
-        :return None:
+        :return:
         """
         assert self.Dimension == m.Dimension, 'Incompatible dimensions'
-        print('this operation is useless in our case')
-        return None
-        return LazyMatrix(self.Dimension, lambda v: self.apply(m.apply(v)))
+        pass
     
     def __getitem__(self, pos):
         if len(self.Cache)==0:
@@ -249,7 +248,6 @@ class LazyMatrix(SquareMatrix):
         
     def __setitem__(self, pos, val):
         print('cannot set elemtent of lazymatrix')
-        #return None
     
     def Evaluate(self):
         """
@@ -305,7 +303,7 @@ class Gate(LazyMatrix):
         
     def __gather(self, i):
         """
-        Magic method that I do not completely understand
+        Magic method 
 
         :param i: (int) The row number of the gate
         :return j: (int)
@@ -317,7 +315,7 @@ class Gate(LazyMatrix):
     
     def __scatter(self, j):
         """
-        Magic method that I do not completely understand
+        Magic method 
 
         :param i: (int)
         :return j: (int)
@@ -333,7 +331,7 @@ def toColMat(mat):
     Creates a ColMatrix representation from an numpy array
 
     :param mat: (numpy.ndarray) Array to be converted
-    :return toReturn: (ColMatrix) Column matrix representation of mat
+    :return: (ColMatrix) Column matrix representation of mat
     """
     mat = np.array(mat, dtype=complex)
     toReturn = ColMatrix(mat[0].size)

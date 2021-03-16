@@ -1,9 +1,9 @@
-'''
+"""
 The Gate module is used to create objects representing quantum gates. 
 It then builds the matrix representation of the operator accordingly and 
 saves this as an attribute, along with a value representing the qubit-dimension 
 of the gate, for example 1 for single-qubit or 2 for double-qubit gates. 
-'''
+"""
 import numpy as np
 
 class Gate(object):

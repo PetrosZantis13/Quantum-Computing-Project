@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sun Feb  7 17:44:25 2021
 
@@ -65,7 +64,6 @@ def numpy_vs_lazy():
     plt.xlim((min_qubits, max_qubits-1))
     ax1.legend()
     plt.show()
-
 
 if __name__ == '__main__':
     

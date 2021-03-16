@@ -33,7 +33,6 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -88,16 +87,18 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules2.html">Implementation 1</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="sparse.html">sparse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Interface.html">Interface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules2.html">Circuit Builder</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Sparse.html">Sparse module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuantumCircuit.html">QuantumCircuit module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Simulator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Presentation.html">Presentation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LazySim.html">LazySim module</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Implementation 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Pre-Build Cricuits</a></li>
 </ul>
 
             
@@ -146,7 +147,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="modules2.html">Implementation 1</a> &raquo;</li>
+          <li><a href="modules2.html">Circuit Builder</a> &raquo;</li>
         
       <li>Simulator module</li>
     
@@ -174,6 +175,168 @@
 <dt id="Simulator.Simulator">
 <em class="property">class </em><code class="sig-prename descclassname">Simulator.</code><code class="sig-name descname">Simulator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gates</span></em>, <em class="sig-param"><span class="n">register</span></em>, <em class="sig-param"><span class="n">custom</span></em>, <em class="sig-param"><span class="n">measurements</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="Simulator.Simulator.__NCP">
+<code class="sig-name descname">__NCP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__NCP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a phase gate controlled by an arbitrary number of bits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int, int…, float)) Control qubits as ints, phase as a float.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Matrix representation of gate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__NCZ">
+<code class="sig-name descname">__NCZ</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__NCZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a z gate controlled by an arbitrary number of bits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int, int…,)) Control qubits as ints, arbitrary number</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Matrix representatin of the gate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__Rt">
+<code class="sig-name descname">__Rt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">theta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__Rt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an r gate with the given phase</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>theta</strong> – (float) The angle in radians which the qubit should be rotated by.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Matrix representation of the r gate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__Swap">
+<code class="sig-name descname">__Swap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__Swap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the matrix representing the swap operation between two qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int)) The two gates to be swapped.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Matrix representation of the swap gate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__addLargeGate">
+<code class="sig-name descname">__addLargeGate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__addLargeGate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function for makeMatrices(). Calls the creators for the larger gates based
+info provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple) information of multi-qubit gate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Matrix representation of the operation for the gates given.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__bitactive">
+<code class="sig-name descname">__bitactive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">bit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__bitactive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether a given integer has a particular bit active</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – (int) Integer to check</p></li>
+<li><p><strong>bit</strong> – (int) The position of the bit to check</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(Boolean) True of bit is active, false if not</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__cNot">
+<code class="sig-name descname">__cNot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__cNot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an arbitrary sized controlled not gate between two arbitrary qbits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int)) Position in the circuit of the control qubit and the controlled qubit</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) The cnot gate entangling the two qubits given.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__cP">
+<code class="sig-name descname">__cP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__cP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a controlled phase gate for the given qubits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int, float)) The information supplied to the gate. Control qubits as ints, float as the phase.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Representation of the cp gate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__cZ">
+<code class="sig-name descname">__cZ</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__cZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a controlled z gate given 2 qubits</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int)) The two gates to control the z</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix) Representation of the cz gate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__ccNot">
+<code class="sig-name descname">__ccNot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gate_info</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__ccNot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Sparsematrix representing the controlled-controlled-not (ccnot or Tiffoli) 
+gate for the given qubits. Can be applied to any exisiting qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_info</strong> – (tuple(int, int, int)) first, second qubit controlling the gate and the qubit controlled by the other two</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(SparseMatrix)  Matrix representation of the gate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="Simulator.Simulator.__toggle">
+<code class="sig-name descname">__toggle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">bit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.__toggle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggles a specific bit in an integer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> – (int) Integer to toggle</p></li>
+<li><p><strong>bit</strong> – (int) The position of the bit to toggle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(int) The new integer created by toggling the bit</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt id="Simulator.Simulator.makeMatrices">
 <code class="sig-name descname">makeMatrices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Simulator.Simulator.makeMatrices" title="Permalink to this definition">¶</a></dt>
@@ -228,7 +391,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Fedra Antoniadou, Despina Demetriadou, Singh Gagandeep, Mihaly Kovacs,  Rishi Sundar, Kyriacos Xanthos, Petros Zantis.
+        &#169; Copyright 2021, Petros Zantis, Mihaly Kovacs, Kyriacos Xanthos, Rishi Sundar.
 
     </p>
   </div>

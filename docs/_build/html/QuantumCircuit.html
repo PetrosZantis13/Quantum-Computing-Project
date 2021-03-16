@@ -33,7 +33,6 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -88,16 +87,18 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules2.html">Implementation 1</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="sparse.html">sparse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Interface.html">Interface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules2.html">Circuit Builder</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Sparse.html">Sparse module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">QuantumCircuit module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Simulator.html">Simulator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Presentation.html">Presentation module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LazySim.html">LazySim module</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Implementation 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Pre-Build Cricuits</a></li>
 </ul>
 
             
@@ -146,7 +147,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="modules2.html">Implementation 1</a> &raquo;</li>
+          <li><a href="modules2.html">Circuit Builder</a> &raquo;</li>
         
       <li>QuantumCircuit module</li>
     
@@ -270,6 +271,12 @@ The gate will be iplemented later on when the circuit is simulated.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="QuantumCircuit.QuantumCircuit.lazysim">
+<code class="sig-name descname">lazysim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.lazysim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses Lazy Matrix Implementation for the Simulator.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="QuantumCircuit.QuantumCircuit.ncp">
 <code class="sig-name descname">ncp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bits</span></em>, <em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="headerlink" href="#QuantumCircuit.QuantumCircuit.ncp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a phase gate controlled by n other qubits</p>
@@ -386,7 +393,7 @@ It then simulates the circuit and prints out the new statevector.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Fedra Antoniadou, Despina Demetriadou, Singh Gagandeep, Mihaly Kovacs,  Rishi Sundar, Kyriacos Xanthos, Petros Zantis.
+        &#169; Copyright 2021, Petros Zantis, Mihaly Kovacs, Kyriacos Xanthos, Rishi Sundar.
 
     </p>
   </div>

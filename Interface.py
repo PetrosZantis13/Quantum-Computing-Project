@@ -1,6 +1,6 @@
-'''
-Interface for Implementation 2
-'''
+"""
+Interface for the Quantum Circuit. Both implementations use this common interface for running their circuts and showing their results.
+"""
 from abc import ABC, abstractmethod
 
 class Interface(ABC):
@@ -16,16 +16,3 @@ class Interface(ABC):
     @abstractmethod
     def show_results(self):
         pass
-    
-    '''
-    Mihaly you can ignore this, I just had these prompts
-    so that the user can select the size of the system etc
-    
-    @abstractmethod
-    def size_prompt(self):
-        pass
- 
-    @abstractmethod
-    def qubit_prompt(self):
-        pass
-    '''

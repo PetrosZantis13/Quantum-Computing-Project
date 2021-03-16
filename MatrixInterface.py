@@ -7,7 +7,7 @@ import numpy as np
 
 class MatrixElement(object): 
     """
-    Gets Matrix Element .
+    Gets Matrix Element.
     """
     def __init__(self, i, j, val):
         self.i = i

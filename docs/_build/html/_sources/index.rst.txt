@@ -15,43 +15,66 @@ quantum algorithm and to test across each other for parts that make the algorith
 We decided to include both in our project because they employ different techniques and helped 
 us understand the algorithm from two different perspectives.
 
-The first implementation --NAME--, is allowing the User to build their own circuit on the go, 
+The Implementations
+---------------------------
+
+The first implementation **Circuit Builder**, is allowing the User to build their own circuit on the go, 
 create custom circuits and manually code the algorithm needed. It explores the Grover’s 
 algorithm both numrically and geometrically as it can plot visually the results on a given 
-axis of rotation. It is using a SparseMatrix program that we created in order to make the 
-computations as efficient as possible. 
+axis of rotation. It is using a Sparse and Lazy Matrices to make computations as efficient as possible.
 
-Usage:
-
---Add  usage--
-
-The second implementation --NAME--, has predefined circuits for the Grover algorithm 
+The second implementation **Pre-Build Cricuits**, has predefined circuits for the Grover algorithm 
 and an example of the use of Quantum Teleportation. It can visually show the probabilities 
 of finding a state as an animation and allows the User through prompts to explore Quantum 
 Teleportation by defining Alice’s and Bob’s states. It is not using a SparseMatrix Implementation, 
-instead it uses the numpy.kchron library and numpy.dot for its computations.
+instead it uses the numpy.kron library and numpy.dot for its computations. We include a UML diagram 
+for the **Pre-Build Cricuits**:
 
-Usage:
+.. figure:: ../Figures/UML_diagram.png
+   :alt: trial
+   :scale: 30 %
+   :align: center
 
---Add  usage--
+Usage
+-------------------------
 
-Sample Results:
+usage here
 
---Add results--
+Sample Results
+---------------------------
 
-A comparison between the two implementations in their quest of finding the 
-required state through a Grover’s algorithm has shown …
+.. figure:: ../Figures/Complexity.png
+   :alt: trial
+   :scale: 65 %
+   :align: center
 
-Trial equation:
+.. figure:: ../Figures/Accuracy.png
+   :alt: trial
+   :scale: 65 %
+   :align: center
 
-.. math::
+.. figure:: ../Figures/sparse_lazy.png
+   :alt: trial
+   :scale: 65 %
+   :align: center
 
-   \frac{ \sum_{t=0}^{N}f(t,k) }{N}
+.. figure:: ../Figures/Teleport1.png
+   :alt: trial
+   :scale: 65 %
+   :align: center
+
+.. figure:: ../Figures/Teleport2.png
+   :alt: trial
+   :scale: 65 %
+   :align: center
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   Interface
+   MatrixInterface
    modules2
    modules
 

@@ -1,6 +1,5 @@
 """
-add a description here of the module
-
+This module creates the Quantum Register and the Qubits. 
 """
 import numpy as np
 import Sparse
@@ -44,7 +43,6 @@ class QuantumRegister:
         Allows the user to set the state vector to a new vector. Automatically normalises the vector.
         
         :param newVec: (list) The new vector to become the state vector
-
         """
         newVec = np.array(newVec, dtype=complex)
         assert self.Statevec.Dimension == newVec.size, 'Wrong dimensions for new statevector'

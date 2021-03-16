@@ -15,13 +15,11 @@ class QuantumCircuit(Interface):
         :param name: (string) The name of the Quantum Circuit
         
         :param size: (int) The nuber of qubits in the Quantum Circuit
-
         """
         super().__init__(name)
         self.size = size
         self.customgates = {}
         self.register = QuantumRegister.QuantumRegister(size)
-        #self.classical_register = QuantumRegister.ClassicalRegister(size)
         self.gates = []
         for i in range(self.register.Qbits.size):
             self.gates.append(['i'])
@@ -244,6 +242,9 @@ class QuantumCircuit(Interface):
         return self.final_measurements
     
     def lazysim(self):
+        """
+        Uses Lazy Matrix Implementation for the Simulator.
+        """
         self.register, self.final_measurements = LazySim.Simulator(self.gates, self.register, self.customgates, self.measurements).simulate()
         return self.register, self.final_measurements
     

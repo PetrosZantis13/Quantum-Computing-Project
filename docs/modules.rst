@@ -1,4 +1,4 @@
-Implementation 2
+Pre-Build Cricuits
 =========================
 
 .. toctree::
@@ -8,4 +8,3 @@ Implementation 2
    State
    Gate
    Circuit
-   Interface

@@ -1,12 +1,12 @@
-Implementation 1
+Circuit Builder
 =========================
 
 .. toctree::
    :maxdepth: 4
-
-   sparse
+   
+   Sparse
    QuantumRegister
    QuantumCircuit
    Simulator
    Presentation
-   MatrixInterface
+   LazySim
