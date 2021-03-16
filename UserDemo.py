@@ -21,12 +21,12 @@ def timeBenchmarks():
     for q in qbits:
         
         t1 = time.time()           
-        Presentation.Grover_Circuit(q, [3])
+        Presentation.Grover_Circuit(q, [3], plot_results=False)
         t2 = time.time()
         times[0,q-2] = t2-t1
           
         t1 = time.time()
-        Presentation.LazyGroverDemo(q, [3])
+        Presentation.LazyGroverDemo(q, [3], plot_results=False)
         t2 = time.time()
         times[1,q-2] = t2-t1
         
