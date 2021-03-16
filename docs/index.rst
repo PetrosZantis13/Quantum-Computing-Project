@@ -38,7 +38,14 @@ for the **Pre-Build Cricuits**:
 Usage
 -------------------------
 
-usage here
+The UserDemo module runs all of our predefined circuits and checks of the validity of our algorithms. 
+It allows the User through prompts to navigate through our programs and gives the option to run benchmark
+tests. This includes benchmarks of how our two implementations compare in runtime
+for grover, aswell as checks of the LazyMatrices, SparseMatrices and Numpy arrays.
+
+The User can run the Demo by the following command:
+
+`python UserDemo.py`
 
 Sample Results
 ---------------------------
@@ -55,7 +62,7 @@ Sample Results
 
 .. figure:: ../Figures/sparse_lazy.png
    :alt: trial
-   :scale: 65 %
+   :scale: 35 %
    :align: center
 
 .. figure:: ../Figures/Teleport1.png
@@ -77,6 +84,7 @@ Sample Results
    MatrixInterface
    modules2
    modules
+   UserDemo
 
 
 

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sat Mar 13 17:30:35 2021
-
-@author: mikva
+This module serves as a demonstration for the multiple tasks our implementation constists of. It includes Benchmarks between using SparseMatrices, LazyMatrices and 
+numpy arrays. It allows the user through prompts to navigate through our programs. 
 """
 from QuantumCircuit import *
 import Presentation
@@ -13,6 +11,10 @@ import time
 import Sparse
 
 def timeBenchmarks():
+    """
+    Runs Benchmarks for Grover's algorithm for both the Circuit-Builder implementation and the Pre-defined Circuit implementation.
+    It also plots a graph for comparison.
+    """
     
     max_qbits = 8  # the limit of sparse matrices
     qbits = np.arange(2,max_qbits +1,1)
@@ -36,9 +38,9 @@ def timeBenchmarks():
         t2 = time.time()
         times[2,q-2] = t2-t1
         
-    plt.plot(qbits, times[0], label='sparse')
-    plt.plot(qbits, times[1], label='lazy')
-    plt.plot(qbits, times[2], label='numpy')
+    plt.plot(qbits, times[0], label='Sparse')
+    plt.plot(qbits, times[1], label='Lazy')
+    plt.plot(qbits, times[2], label='Numpy')
     plt.title("Runtime of Grover's Algorithm over Number of Qubits in the system")
     plt.xlabel("Number of Qubits")
     plt.ylabel("Runtime (s)")
@@ -47,8 +49,14 @@ def timeBenchmarks():
     plt.show()
     
 def tensorTest():
-    
-    qbits = np.arange(2,13,1)
+    """
+    Checks the runtime of computing the Tensorproduct in three different ways. First using our own Lazy Matrix Implementation, second
+    using Numpy Tensor Product of Gates and third using Numpy Tensor Product of individual qubits.
+    """
+
+    # Change this depending on memory on computer used to run this.
+    max_qubits = 14
+    qbits = np.arange(2,max_qubits + 1,1)
     times = np.zeros((3,len(qbits)))
     
     had = Sparse.ColMatrix(2)
@@ -68,7 +76,6 @@ def tensorTest():
         state = state.to_state()
         test_vector = np.copy(state.vector)
         
-        #test_vector = np.ones(2**q)/np.sqrt(2**q)
         t1 = time.time()
         for i in range(q):
             gate = Sparse.Gate(2**q, had, [i])            
@@ -106,9 +113,9 @@ def tensorTest():
         print(f"Time taken : {t2-t1} ")
         times[2,q-2] = t2-t1
         
-    plt.plot(qbits, times[0], label='sparse (change it to lazy)')
-    plt.plot(qbits, times[1], label='numpy')
-    plt.plot(qbits, times[2], label='numpy 2')
+    plt.plot(qbits, times[0], label='Lazy')
+    plt.plot(qbits, times[1], label='Numpy (Tensor Product of Gates)')
+    plt.plot(qbits, times[2], label='Numpy (Tensor Product of Qubits)')
     plt.title("Runtime of Tensor product over Number of Qubits in the system")
     plt.xlabel("Number of Qubits")
     plt.ylabel("Runtime (s)")
@@ -118,7 +125,9 @@ def tensorTest():
     plt.show()
 
 def compareProbabilities():
-    
+    """
+    Compares the two implementations to make sure that they give the same states for Grover's algorithm search.
+    """
     lazy_max_measures = []
     numpy_max_measures = []
     # 2-9 qubits
@@ -227,8 +236,8 @@ def custom_builder_prompt():
     """
     Function to determine which circuit to build for the user.
     """
-    circ = input("\nWhich circuit would you like to build?\nType 'grover' for Grover's circuit or 'BV' for a Bernstein-Vazirani circuit.\n")
-    if circ=='grover':
+    circ = input("\nWhich circuit would you like to build?\nType 'g' for Grover's circuit or 'BV' for a Bernstein-Vazirani circuit.\n")
+    if circ=='g':
         return circ
     if circ=='BV':
         return circ
@@ -240,7 +249,7 @@ def actual_builder(algorithm):
     """
     Function which builds the circuit as prompted by the user.
     """
-    if algorithm=='grover':
+    if algorithm=='g':
         size = int(input("\nPlease enter the size of the desired circuit\n"))
         state = int(input("\nPlease enter the desired state\n"))
         if state<2**size:
@@ -268,9 +277,10 @@ if __name__ == '__main__':
     
     elif(BorD=='demo'):
         build = builder_prompt()
-        if(build!= 'builder'):
-            stop = False
-            while(not stop):
+        stop = False
+        while(not stop):
+
+            if(build!= 'builder'):
                 circ = Circuit(build)
                 circ.run_circuit()
                 esc = input("\nPress any key for another circuit or 's' to stop... ")
@@ -278,8 +288,14 @@ if __name__ == '__main__':
                     stop = True
                 else:
                     build = circuit_prompt()
-        else:
-            toBuild = custom_builder_prompt()
-            actual_builder(toBuild)
+            else:
+                toBuild = custom_builder_prompt()
+                actual_builder(toBuild)
+                esc = input("\nPress any key for another circuit or 's' to stop... ")
+                if esc=="s":
+                    stop = True
+
+
+                    
 
     

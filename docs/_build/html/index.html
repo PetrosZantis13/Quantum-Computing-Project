@@ -90,6 +90,7 @@
 <li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules2.html">Circuit Builder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Pre-Build Cricuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserDemo.html">UserDemo module</a></li>
 </ul>
 
             
@@ -168,11 +169,11 @@ We decided to include both in our project because they employ different techniqu
 us understand the algorithm from two different perspectives.</p>
 <div class="section" id="the-implementations">
 <h2>The Implementations<a class="headerlink" href="#the-implementations" title="Permalink to this headline">¶</a></h2>
-<p>The first implementation <strong>Circuit Builder</strong>, is allowing the User to build their own circuit on the go,
+<p>The first implementation, <strong>Circuit Builder</strong>, is allowing the User to build their own circuit on the go,
 create custom circuits and manually code the algorithm needed. It explores the Grover’s
 algorithm both numrically and geometrically as it can plot visually the results on a given
 axis of rotation. It is using a Sparse and Lazy Matrices to make computations as efficient as possible.</p>
-<p>The second implementation <strong>Pre-Build Cricuits</strong>, has predefined circuits for the Grover algorithm
+<p>The second implementation, <strong>Pre-Build Cricuits</strong>, has predefined circuits for the Grover algorithm
 and an example of the use of Quantum Teleportation. It can visually show the probabilities
 of finding a state as an animation and allows the User through prompts to explore Quantum
 Teleportation by defining Alice’s and Bob’s states. It is not using a SparseMatrix Implementation,
@@ -184,7 +185,12 @@ for the <strong>Pre-Build Cricuits</strong>:</p>
 </div>
 <div class="section" id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>usage here</p>
+<p>The UserDemo module runs all of our predefined circuits and checks of the validity of our algorithms.
+It allows the User through prompts to navigate through our programs and gives the option to run benchmark
+tests. This includes benchmarks of how our two implementations compare in runtime
+for grover, aswell as checks of the LazyMatrices, SparseMatrices and Numpy arrays.</p>
+<p>The User can run the Demo by the following command:</p>
+<p><cite>python UserDemo.py</cite></p>
 </div>
 <div class="section" id="sample-results">
 <h2>Sample Results<a class="headerlink" href="#sample-results" title="Permalink to this headline">¶</a></h2>
@@ -195,7 +201,7 @@ for the <strong>Pre-Build Cricuits</strong>:</p>
 <a class="reference internal image-reference" href="_images/Accuracy.png"><img alt="trial" src="_images/Accuracy.png" style="width: 780.0px; height: 390.0px;" /></a>
 </div>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/sparse_lazy.png"><img alt="trial" src="_images/sparse_lazy.png" style="width: 780.0px; height: 390.0px;" /></a>
+<a class="reference internal image-reference" href="_images/sparse_lazy.png"><img alt="trial" src="_images/sparse_lazy.png" style="width: 840.0px; height: 420.0px;" /></a>
 </div>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/Teleport1.png"><img alt="trial" src="_images/Teleport1.png" style="width: 780.0px; height: 390.0px;" /></a>
@@ -224,6 +230,7 @@ for the <strong>Pre-Build Cricuits</strong>:</p>
 <li class="toctree-l2"><a class="reference internal" href="Circuit.html">Circuit module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="UserDemo.html">UserDemo module</a></li>
 </ul>
 </div>
 </div>
