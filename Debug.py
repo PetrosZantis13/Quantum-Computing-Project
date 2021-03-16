@@ -70,7 +70,7 @@ def numpy_vs_lazy():
 if __name__ == '__main__':
     
     #print('Grover Circuit example:')
-    Presentation.Grover_Circuit(2, [3])
+    #Presentation.Grover_Circuit(2, [3])
     
     """
     max_qubits = 9
@@ -120,9 +120,8 @@ if __name__ == '__main__':
     plt.ylabel("Runtime (s)")
     print(times)
     """
-    
     #print('Bernstein-Vazirani Algorithm Example:')
-    #Presentation.Ber_Vaz('1011')
+    Presentation.Ber_Vaz('1011')
     #print('QFT example:')
     #Presentation.qft_example()
     

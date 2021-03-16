@@ -176,7 +176,39 @@ def circuit_prompt():
         circ = "Teleportation"
         
     return circ 
+
+def circuit_builder_prompt():
+    """
+    Function to determine which circuit to build for the user.
+    """
+    circ = input("\nWhich circuit would you like to build?\nType 'grover' for Grover's circuit or 'BV' for a Bernstein-Vazirani circuit.\n")
+    if circ=='grover':
+        return circ
+    if circ=='BV':
+        return circ
+    else:
+        print('Invalid entry')
+        return circuit_builder_prompt()
+
+def actual_builder(algorithm):
+    """
+    Function which builds the circuit as prompted by the user.
+    """
+    if algorithm=='grover':
+        size = int(input("\nPlease enter the size of the desired circuit\n"))
+        state = int(input("\nPlease enter the desired state\n"))
+        if state<2**size:
+            Presentation.LazyGroverDemo(size, [state])
+        else: 
+            print("\nSomething went wrong. \nThe desired state might be out of bounds")
+            actual_builder('grover')
     
+    elif algorithm=='BV':
+        mystery_string = str(input("\nPlease enter a mystery bitstring (i.e. a bunch of 1s and 0s)"))
+        Presentation.Ber_Vaz(mystery_string)
+        print("Your mystery string was:", mystery_string)
+        print("Does it match the qubits in the register?")
+
 if __name__ == '__main__':
     
     BorD = BorD_prompt()
@@ -201,6 +233,8 @@ if __name__ == '__main__':
                 else:
                     build = circuit_prompt()
         else:
-            print("Mihaly code your circuit builder here, as simple as you can")
+            toBuild = circuit_builder_prompt()
+            actual_builder(toBuild)
+            #print("Mihaly code your circuit builder here, as simple as you can")
 
     
