@@ -1,4 +1,4 @@
-Pre-Build Cricuits
+Pre-Built Cricuits
 =========================
 
 .. toctree::
