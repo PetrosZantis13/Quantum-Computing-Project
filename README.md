@@ -45,7 +45,11 @@ The User can run the Demo by the following command:
 
 ## Documentation
 
-For Documentation we used the [Sphinx](https://www.sphinx-doc.org/en/master/) Python Documentation Generator. One can access the documentation by the following command:
+For Documentation we used the [Sphinx](https://www.sphinx-doc.org/en/master/) Python Documentation Generator. 
+
+The documentation can be found on this repository's [webpage](https://kyrxanthos.github.io/Quantum_Computing_Project/index.html).
+
+Alternatively, one can access the documentation by the following command:
 
 **UNIX:**
 `open docs/_build/html/index.html`
