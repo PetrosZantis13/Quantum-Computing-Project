@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Welcome to Quantum Computing Project’s documentation! &mdash; Quantum Computing Project  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interface module" href="Interface.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Quantum Computing Project
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Interface.html">Interface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules2.html">Circuit Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Pre-Built Cricuits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserDemo.html">UserDemo module</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Quantum Computing Project</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Welcome to Quantum Computing Project’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-quantum-computing-project-s-documentation">
+<h1>Welcome to Quantum Computing Project’s documentation!<a class="headerlink" href="#welcome-to-quantum-computing-project-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This is the documentation for the Quantum Computing Project Course at the University of Edinburgh.
+In this project, we create two different implementations of quantum circuits which we use to explore
+Grover’s Algorithm.</p>
+<p>The two implementations were created in order to test diifferent techniques of creating this
+quantum algorithm and to test across each other for parts that make the algorithm more efficient.
+We decided to include both in our project because they employ different techniques and helped
+us understand the algorithm from two different perspectives.</p>
+<div class="section" id="the-implementations">
+<h2>The Implementations<a class="headerlink" href="#the-implementations" title="Permalink to this headline">¶</a></h2>
+<p>The first implementation, <strong>Circuit Builder</strong>, is allowing the User to build their own circuit on the go,
+create custom circuits and manually code the algorithm needed. It explores the Grover’s
+algorithm both numrically and geometrically as it can plot visually the results on a given
+axis of rotation. It is using a Sparse and Lazy Matrices to make computations as efficient as possible.</p>
+<p>The second implementation, <strong>Pre-Built Cricuits</strong>, has predefined circuits for the Grover algorithm
+and an example of the use of Quantum Teleportation. It can visually show the probabilities
+of finding a state as an animation and allows the User through prompts to explore Quantum
+Teleportation by defining Alice’s and Bob’s states. It is not using a SparseMatrix Implementation,
+instead it uses the numpy.kron library and numpy.dot for its computations. We include a UML diagram
+for the <strong>Pre-Built Cricuits</strong>:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/UML_diagram.png"><img alt="trial" src="_images/UML_diagram.png" style="width: 593.4px; height: 350.09999999999997px;" /></a>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The UserDemo module runs all of our predefined circuits and checks of the validity of our algorithms.
+It allows the User through prompts to navigate through our programs and gives the option to run benchmark
+tests. This includes benchmarks of how our two implementations compare in runtime
+for grover, aswell as checks of the LazyMatrices, SparseMatrices and Numpy arrays.</p>
+<p>The User can run the Demo by the following command:</p>
+<p><cite>python UserDemo.py</cite></p>
+</div>
+<div class="section" id="sample-results">
+<h2>Sample Results<a class="headerlink" href="#sample-results" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/Complexity.png"><img alt="trial" src="_images/Complexity.png" style="width: 780.0px; height: 390.0px;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/Accuracy.png"><img alt="trial" src="_images/Accuracy.png" style="width: 780.0px; height: 390.0px;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/sparse_lazy.png"><img alt="trial" src="_images/sparse_lazy.png" style="width: 840.0px; height: 420.0px;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/Teleport1.png"><img alt="trial" src="_images/Teleport1.png" style="width: 780.0px; height: 390.0px;" /></a>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/Teleport2.png"><img alt="trial" src="_images/Teleport2.png" style="width: 780.0px; height: 390.0px;" /></a>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Interface.html">Interface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MatrixInterface.html">MatrixInterface module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules2.html">Circuit Builder</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Sparse.html">Sparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuantumRegister.html">QuantumRegister module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuantumCircuit.html">QuantumCircuit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Simulator.html">Simulator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Presentation.html">Presentation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="LazySim.html">LazySim module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Pre-Built Cricuits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tensor.html">Tensor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="State.html">State module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Gate.html">Gate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Circuit.html">Circuit module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="UserDemo.html">UserDemo module</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Interface.html" class="btn btn-neutral float-right" title="Interface module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Petros Zantis, Mihaly Kovacs, Kyriacos Xanthos, Rishi Sundar.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
